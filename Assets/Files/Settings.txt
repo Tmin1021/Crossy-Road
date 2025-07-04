@@ -1,0 +1,5 @@
+Sound: 0.33 Music: 0.61
+Player 1
+MoveLeft: A MoveRight: D MoveUp: W MoveDown: S
+Player 2
+MoveLeft: Left MoveRight: Right MoveUp: Up MoveDown: Down
