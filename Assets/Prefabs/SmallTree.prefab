@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4703106886495881511}
   - component: {fileID: 6403909507527852663}
-  - component: {fileID: -8603087216014167696}
-  m_Layer: 0
+  - component: {fileID: 2717603110833692519}
+  m_Layer: 6
   m_Name: SmallTree
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &-8603087216014167696
+--- !u!61 &2717603110833692519
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,7 +117,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.23198569, y: 0.07914823}
+  m_Offset: {x: -0.2354542, y: -0.087479115}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -128,5 +128,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9360287, y: 1.1017035}
+  m_Size: {x: 0.9290917, y: 0.7571497}
   m_EdgeRadius: 0

@@ -6,7 +6,7 @@ public class VehicleMover : MonoBehaviour
 {
     public float speed = 5.0f;
     public Vector3 direction = new Vector3(1, 0, 0); // default right
-    private float offScreenX = 12.0f; 
+    private float offScreenX = 12.0f;
     void Update()
     {
         transform.position += direction * speed * Time.deltaTime;

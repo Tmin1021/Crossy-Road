@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7872979659143702489}
   - component: {fileID: 1137397516305384559}
-  - component: {fileID: -7762095354010172597}
-  m_Layer: 0
+  - component: {fileID: 3778693154320000273}
+  m_Layer: 6
   m_Name: Rock
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &-7762095354010172597
+--- !u!61 &3778693154320000273
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,7 +117,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.08903721, y: 0}
+  m_Offset: {x: -0.096075356, y: -0.110366106}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -128,5 +128,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.91192573, y: 1.19}
+  m_Size: {x: 0.89784944, y: 0.8924079}
   m_EdgeRadius: 0

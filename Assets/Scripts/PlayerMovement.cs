@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveDistance = 1f;
     private bool isMoving = false;
     private Animator animator;
+    public LayerMask obstacleLayer;
 
     void Start()
     {
@@ -54,6 +55,14 @@ public class PlayerMovement : MonoBehaviour
         float elapsed = 0f;
         float duration = 0.1f;
 
+        Collider2D hit = Physics2D.OverlapCircle(endPos, 0.05f, obstacleLayer);
+        if (hit != null)
+        {
+            Debug.Log("Blocked by obstacle: " + hit.gameObject.name);
+            isMoving = false;
+            yield break; // Stop the coroutine early
+        }
+
         while (elapsed < duration)
         {
             transform.position = Vector3.Lerp(startPos, endPos, elapsed / duration);
@@ -80,12 +89,18 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Player hit by vehicle!");
         }
     }
-    
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("River"))
         {
             Debug.Log("Player fallen into the river!");
+        }
+        if (other.CompareTag("Vehicle"))
+        {
+            // animator.SetTrigger("Die");
+            // gameObject.GetComponent<PlayerMovement>().enabled = false;
+            Debug.Log("Hit by vehicle");
         }
     }
 
