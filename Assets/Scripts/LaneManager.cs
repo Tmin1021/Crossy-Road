@@ -62,7 +62,7 @@ public class NewBehaviourScript : MonoBehaviour
     private void DestroyOldestLane()
     {
         GameObject oldestLane = activeLanes[0];
-        if (activeLanes.Count > 12)
+        if (activeLanes.Count > 13)
         {
             activeLanes.RemoveAt(0);
             Destroy(oldestLane);

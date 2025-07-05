@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(endPos, 0.05f, obstacleLayer);
         if (hit != null)
         {
-            Debug.Log("Blocked by obstacle: " + hit.gameObject.name);
+            // Debug.Log("Blocked by obstacle: " + hit.gameObject.name);
             isMoving = false;
             yield break; // Stop the coroutine early
         }
