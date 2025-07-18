@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isMoving = false;
     private Animator animator;
     public LayerMask obstacleLayer;
+    private Vector3 logVelocity = Vector3.zero;
+    private bool onLog = false;
 
     void Start()
     {
@@ -40,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
         if (transform.position.y < cameraBottomY)
         {
             Debug.Log("Player has fallen off the screen!");
+        }
+
+        if (onLog)
+        {
+            transform.position += logVelocity * Time.deltaTime;
         }
     }
 
@@ -90,18 +97,59 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("River"))
+        if (collision.CompareTag("River"))
         {
-            Debug.Log("Player fallen into the river!");
+            Collider2D lilyPad = Physics2D.OverlapCircle(transform.position, 0.1f, LayerMask.GetMask("LilyPad"));
+
+            if (lilyPad != null)
+            {
+                Debug.Log("Player landed on a lily pad. Safe!");
+            }
+            else
+            {
+                // animator.SetTrigger("Die");
+                // gameObject.GetComponent<PlayerMovement>().enabled = false;
+                Debug.Log("Player fell into the river and died!");
+            }
         }
-        if (other.CompareTag("Vehicle"))
+        // if (collision.CompareTag("LilyPad"))
+        // {
+        //     Debug.Log("Player landed on a lily pad. Safe!");
+        // }
+        if (collision.CompareTag("Vehicle"))
         {
-            // animator.SetTrigger("Die");
-            // gameObject.GetComponent<PlayerMovement>().enabled = false;
-            Debug.Log("Hit by vehicle");
+            resetTriggers();
+            animator.SetTrigger("Die");
+            gameObject.GetComponent<PlayerMovement>().enabled = false;
+            // Debug.Log("Hit by vehicle");
+        }
+        if (collision.CompareTag("Log"))
+        {
+            VehicleMover logMover = collision.GetComponent<VehicleMover>();
+            if (logMover != null)
+            {
+                logVelocity = logMover.direction * logMover.speed;
+                onLog = true;
+            }
+
+            Debug.Log("Player on a log");
         }
     }
 
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Log"))
+        {
+            onLog = false;
+            logVelocity = Vector3.zero;
+            float oldX = transform.position.x;
+            transform.position = new Vector3(
+                Mathf.Round(oldX),
+                transform.position.y,
+                transform.position.z
+            );
+        }
+    }
 }

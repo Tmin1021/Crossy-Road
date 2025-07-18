@@ -4,9 +4,9 @@ using UnityEngine;
 public class VehicleSpawner : MonoBehaviour
 {
     public GameObject[] vehiclePrefabs;
-    public float spawnInterval = 2f;
-    public bool spawnRight = true;
-    // public float vehicleSpeed = 2f;
+    private float spawnInterval;
+    public bool spawnRight = false;
+    private float vehicleSpeed;
     private float timer;
     public bool ifRailWay = false;
     private bool hasTrainSpawned = false; // futher update for traffic light
@@ -19,6 +19,13 @@ public class VehicleSpawner : MonoBehaviour
         {
             baseOrder = laneRenderer.sortingOrder;
         }
+    }
+
+    void Start()
+    {
+        spawnInterval = Random.Range(0f, 2f) + 2f;
+        vehicleSpeed = Random.Range(0f, 2f) + 2f;
+        spawnRight = Random.Range(0, 2) == 0;
     }
 
     void Update()
@@ -50,12 +57,12 @@ public class VehicleSpawner : MonoBehaviour
         Vector3 direction;
         if (spawnRight)
         {
-            spawnPos = new Vector3(-12f, transform.position.y + 0.1f, 0f); // left edge
+            spawnPos = new Vector3(-12f, transform.position.y + 0.1f, 0f);
             direction = Vector3.right;
         }
         else
         {
-            spawnPos = new Vector3(12f, transform.position.y + 0.1f, 0f); // right edge
+            spawnPos = new Vector3(12f, transform.position.y + 0.1f, 0f);
             direction = Vector3.left;
         }
 
@@ -63,12 +70,12 @@ public class VehicleSpawner : MonoBehaviour
         vehicle.transform.SetParent(transform);
 
         // Update later -> Direction 
-        // VehicleMover mover = vehicle.GetComponent<VehicleMover>();
-        // if (mover != null)
-        // {
-        //     // mover.speed = vehicleSpeed;
-        //     mover.direction = direction;
-        // }
+        VehicleMover mover = vehicle.GetComponent<VehicleMover>();
+        if (mover != null)
+        {
+            mover.speed = vehicleSpeed;
+            mover.direction = direction;
+        }
 
         UpdateVehicleSorting(vehicle);
     }
