@@ -8,13 +8,17 @@ public class TreeSpawner : MonoBehaviour
     public int numberOfTrees = 5;
     private int baseOrder = 0;
     public bool isRiver = false;
+    public bool startLanes = false;
     void Start()
     {
-        if (!isRiver)
+        if (!startLanes)
         {
-            SpawnTrees();
+            if (!isRiver)
+            {
+                SpawnTrees();
+            }
+            else SpawnLilies();
         }
-        else SpawnLilies();
     }
 
     void Update()

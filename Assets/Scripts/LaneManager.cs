@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -17,7 +18,14 @@ public class NewBehaviourScript : MonoBehaviour
         lastSpawnY = player.position.y - 2 * laneWidth;
         for (int i = 0; i < numberOfLanes; i++)
         {
-            SpawnLane();
+            if (i < 3)
+            {
+                SpawnGrassLane();
+            }
+            else
+            {
+                SpawnLane();
+            }
         }
         UpdateLaneSorting();
     }
@@ -35,13 +43,41 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
+    private void SpawnGrassLane()
+    {
+        int randomIndex = Random.Range(0, 2);
+        GameObject lanePrefab = lanePrefabs[randomIndex];
+        if (activeLanes.Count > 0)
+        {
+            if (activeLanes[activeLanes.Count - 1].name != "GrassLane(Clone)"
+                && activeLanes[activeLanes.Count - 1].name != "GrassLaneLight(Clone)"
+                && randomIndex == 1)
+            {
+                lanePrefab = lanePrefabs[0];
+            }
+            else if (randomIndex == 0 && (activeLanes[activeLanes.Count - 1].name == "GrassLaneLight(Clone)" || activeLanes[activeLanes.Count - 1].name == "GrassLane(Clone)"))
+            {
+                lanePrefab = lanePrefabs[1];
+            }
+        }
+        Vector3 spawnPosition = new Vector3(0, lastSpawnY + laneWidth, 0);
+        GameObject newLane = Instantiate(lanePrefab, spawnPosition, Quaternion.identity);
+        newLane.transform.SetParent(transform);
+        activeLanes.Add(newLane);
+        lastSpawnY += laneWidth;
+        TreeSpawner treeSpawner = newLane.GetComponent<TreeSpawner>();
+        treeSpawner.startLanes = true;
+    }
+
     private void SpawnLane()
     {
         int randomIndex = Random.Range(0, lanePrefabs.Length);
         GameObject lanePrefab = lanePrefabs[randomIndex];
         if (activeLanes.Count > 0)
         {
-            if (activeLanes[activeLanes.Count - 1].name != "GrassLane(Clone)" && activeLanes[activeLanes.Count - 1].name != "GrassLaneLight(Clone)" && randomIndex == 1)
+            if (activeLanes[activeLanes.Count - 1].name != "GrassLane(Clone)"
+                && activeLanes[activeLanes.Count - 1].name != "GrassLaneLight(Clone)"
+                && randomIndex == 1)
             {
                 lanePrefab = lanePrefabs[0];
             }

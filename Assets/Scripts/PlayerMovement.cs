@@ -78,6 +78,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = endPos;
+        float oldX = transform.position.x;
+        transform.position = new Vector3(
+            Mathf.Round(oldX),
+            transform.position.y,
+            transform.position.z
+        );
         isMoving = false;
     }
 
@@ -144,12 +150,6 @@ public class PlayerMovement : MonoBehaviour
         {
             onLog = false;
             logVelocity = Vector3.zero;
-            float oldX = transform.position.x;
-            transform.position = new Vector3(
-                Mathf.Round(oldX),
-                transform.position.y,
-                transform.position.z
-            );
         }
     }
 }
