@@ -38,7 +38,7 @@ public class TreeSpawner : MonoBehaviour
         while (spawned < numberOfTrees && attempts < maxAttempts)
         {
             int randomIndex = Random.Range(0, treePrefabs.Length);
-            float rawX = Mathf.Round(Random.Range(-12f, 12f));
+            float rawX = Mathf.Round(Random.Range(-11f, 11f));
             float treeY = transform.position.y;
             float treeX = rawX;
 
@@ -96,7 +96,7 @@ public class TreeSpawner : MonoBehaviour
     void SpawnLilies()
     {
         HashSet<Vector2Int> usedPositions = new HashSet<Vector2Int>();
-
+        numberOfTrees = 8;
         int attempts = 0; // prevent infinite loops
         int maxAttempts = numberOfTrees * 10;
 

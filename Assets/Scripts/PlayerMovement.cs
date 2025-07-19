@@ -126,10 +126,10 @@ public class PlayerMovement : MonoBehaviour
         // }
         if (collision.CompareTag("Vehicle"))
         {
-            resetTriggers();
-            animator.SetTrigger("Die");
-            gameObject.GetComponent<PlayerMovement>().enabled = false;
-            // Debug.Log("Hit by vehicle");
+            // resetTriggers();
+            // animator.SetTrigger("Die");
+            // gameObject.GetComponent<PlayerMovement>().enabled = false;
+            Debug.Log("Hit by vehicle");
         }
         if (collision.CompareTag("Log"))
         {
