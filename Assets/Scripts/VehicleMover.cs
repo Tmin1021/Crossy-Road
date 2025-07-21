@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class VehicleMover : MonoBehaviour
 {
-    public float speed = 5.0f;
+    public float speed = 2.0f;
     public Vector3 direction;
-    private float offScreenX = 12.0f;
     void Start()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -17,11 +16,26 @@ public class VehicleMover : MonoBehaviour
     }
     void Update()
     {
-        transform.position += direction * speed * Time.deltaTime;
+        LightSpawner lightSpawner = GetComponentInParent<LightSpawner>();
+        bool canMove = true;
 
-        if ((direction.x > 0 && transform.position.x > offScreenX) || (direction.x < 0 && transform.position.x < -offScreenX))
+        if (lightSpawner != null)
         {
-            // Debug.Log("Vehicle out of bounds, destroying: " + gameObject.name);
+            Debug.Log("Checking traffic light state");
+            TrafficLightController light = lightSpawner.lightSpawned.GetComponent<TrafficLightController>();
+            if (light != null && !light.IsGreen)
+            {
+                canMove = false;
+            }
+        }
+
+        if (canMove)
+        {
+            transform.position += direction * speed * Time.deltaTime;
+        }
+
+        if ((direction.x > 0 && transform.position.x > 12f) || (direction.x < 0 && transform.position.x < -12f))
+        {
             Destroy(gameObject);
         }
     }

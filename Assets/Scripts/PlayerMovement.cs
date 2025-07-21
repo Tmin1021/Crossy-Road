@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask obstacleLayer;
     private Vector3 logVelocity = Vector3.zero;
     private bool onLog = false;
-
+    public KeyCode upKey, downKey, leftKey, rightKey;
+    // s
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -19,23 +20,30 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isMoving)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(upKey))
             {
                 StartCoroutine(Move(Vector3.up, "Up"));
+                // laneManager.SpawnLane();
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(downKey))
             {
                 StartCoroutine(Move(Vector3.down, "Down"));
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(leftKey))
             {
                 StartCoroutine(Move(Vector3.left, "Left"));
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(rightKey))
             {
                 StartCoroutine(Move(Vector3.right, "Right"));
             }
         }
+
+        // if (transform.position.y >= 7 && currentLane < 7)
+        // {
+        //     currentLane = 7;
+        //     cameraAutoScroll.StartCameraScroll(); 
+        // }
 
         float cameraBottomY = Camera.main.transform.position.y - Camera.main.orthographicSize;
 
@@ -78,9 +86,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = endPos;
-        float oldX = transform.position.x;
         transform.position = new Vector3(
-            Mathf.Round(oldX),
+            Mathf.Round(transform.position.x),
             transform.position.y,
             transform.position.z
         );
@@ -115,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                // resetTriggers();
                 // animator.SetTrigger("Die");
                 // gameObject.GetComponent<PlayerMovement>().enabled = false;
                 Debug.Log("Player fell into the river and died!");

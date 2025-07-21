@@ -1,18 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraAutoScroll : MonoBehaviour
 {
     public float scrollSpeed = 0.5f; 
-    void Start()
-    {
-        
-    }
+    // private bool isScrolling = false;
 
-    // Update is called once per frame
+    // Start the camera scroll when called
+    // public void StartCameraScroll()
+    // {
+    //     isScrolling = true;
+    // }
+
     void Update()
     {
+        //if (isScrolling)
+        //{
         transform.position += Vector3.up * scrollSpeed * Time.deltaTime;
+        //}
     }
 }

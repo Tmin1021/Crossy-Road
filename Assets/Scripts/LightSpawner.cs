@@ -4,10 +4,18 @@ using UnityEngine;
 public class LightSpawner : MonoBehaviour
 {
     public GameObject lightPrefab;
-    private GameObject lightSpawned;
+    public GameObject lightSpawned;
+
+    [Range(0f, 1f)]
+    public float lightChance = 0.5f;
 
     void Start()
     {
+        // if (Random.value > lightChance)
+        // {
+        //     return;
+        // }
+
         Vector3 spawnPos = new Vector3(0f, transform.position.y, 0f);
         lightSpawned = Instantiate(lightPrefab, spawnPos, Quaternion.identity);
         lightSpawned.transform.SetParent(transform);
@@ -36,7 +44,7 @@ public class LightSpawner : MonoBehaviour
             if (lightRenderer != null)
             {
                 lightRenderer.sortingOrder = baseOrder + 9;
-                Debug.Log("Lightttt");
+                // Debug.Log("Lightttt");
             }
         }
     }

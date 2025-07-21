@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class LaneManager : MonoBehaviour
 {
     public GameObject[] lanePrefabs;
     public int numberOfLanes = 15;
@@ -69,7 +69,7 @@ public class NewBehaviourScript : MonoBehaviour
         treeSpawner.startLanes = true;
     }
 
-    private void SpawnLane()
+    public void SpawnLane()
     {
         int randomIndex = Random.Range(0, lanePrefabs.Length);
         GameObject lanePrefab = lanePrefabs[randomIndex];
