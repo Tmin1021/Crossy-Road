@@ -7,7 +7,7 @@ using UnityEngine;
 public class NewBehaviourScript : MonoBehaviour
 {
     public GameObject[] lanePrefabs;
-    public int numberOfLanes = 10;
+    public int numberOfLanes = 15;
     public float laneWidth = 1.0f;
     // public float laneLength = 20.0f;
     private List<GameObject> activeLanes = new List<GameObject>();

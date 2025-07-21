@@ -9,17 +9,7 @@ public class VehicleSpawner : MonoBehaviour
     private float vehicleSpeed;
     private float timer;
     public bool ifRailWay = false;
-    private bool hasTrainSpawned = false; // futher update for traffic light
-    private int baseOrder = 0;
-
-    void Awake()
-    {
-        SpriteRenderer laneRenderer = GetComponentInParent<SpriteRenderer>();
-        if (laneRenderer != null)
-        {
-            baseOrder = laneRenderer.sortingOrder;
-        }
-    }
+    private bool hasTrainSpawned = false; // futher update for traffic ligh
 
     void Start()
     {
@@ -82,6 +72,8 @@ public class VehicleSpawner : MonoBehaviour
 
     private void UpdateVehicleSorting(GameObject vehicle)
     {
+        int baseOrder = 0;
+
         SpriteRenderer laneRenderer = GetComponentInParent<SpriteRenderer>();
         if (laneRenderer != null)
         {
@@ -91,7 +83,7 @@ public class VehicleSpawner : MonoBehaviour
         SpriteRenderer sr = vehicle.GetComponent<SpriteRenderer>();
         if (sr != null)
         {
-            sr.sortingOrder = baseOrder + 12; // 12 maybe false in the future when interval set to random
+            sr.sortingOrder = baseOrder + 10; // 12 maybe false in the future when interval set to random
         }
     }
 }

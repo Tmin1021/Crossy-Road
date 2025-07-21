@@ -74,7 +74,6 @@ public class TreeSpawner : MonoBehaviour
         }
     }
 
-
     private void UpdateTreeSorting()
     {
         SpriteRenderer laneRenderer = GetComponentInParent<SpriteRenderer>();
