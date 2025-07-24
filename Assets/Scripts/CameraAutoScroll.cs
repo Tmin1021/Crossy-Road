@@ -3,20 +3,25 @@ using UnityEngine;
 
 public class CameraAutoScroll : MonoBehaviour
 {
-    public float scrollSpeed = 0.5f; 
-    // private bool isScrolling = false;
-
-    // Start the camera scroll when called
-    // public void StartCameraScroll()
-    // {
-    //     isScrolling = true;
-    // }
+    public float scrollSpeed = 0.5f;   
+    public float difficultyIncreaseRate = 0f;  
+    private float elapsedTime = 0f;    
 
     void Update()
     {
-        //if (isScrolling)
-        //{
+        // elapsedTime += Time.deltaTime;
+
+        // if (elapsedTime >= 1f)
+        // {
+        //     scrollSpeed += difficultyIncreaseRate;  
+        //     elapsedTime = 0f;  
+        // }
+
         transform.position += Vector3.up * scrollSpeed * Time.deltaTime;
-        //}
+    }
+
+    public void MoveUpOneLane()
+    {
+        transform.position += Vector3.up;
     }
 }

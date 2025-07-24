@@ -11,12 +11,16 @@ public class PlayerMovement : MonoBehaviour
     private bool onLog = false;
     public KeyCode upKey, downKey, leftKey, rightKey;
     public ScoreManager scoreManager;
+    public LaneManager laneManager;
+    public CameraAutoScroll cameraAutoScroll;
     private float lastLaneY;
     // s
     void Start()
     {
         animator = GetComponent<Animator>();
         scoreManager = FindObjectOfType<ScoreManager>();
+        cameraAutoScroll = FindObjectOfType<CameraAutoScroll>();
+        laneManager = FindObjectOfType<LaneManager>();
         lastLaneY = transform.position.y;
     }
 
@@ -104,7 +108,12 @@ public class PlayerMovement : MonoBehaviour
             scoreManager.IncreaseScore(1);
             lastLaneY = transform.position.y;
         }
-        
+
+        if (direction == Vector3.up && transform.position.y >= laneManager.lastSpawnY - 3)
+        {
+            laneManager.SpawnLane();
+            cameraAutoScroll.MoveUpOneLane();
+        }
         isMoving = false;
     }
 
