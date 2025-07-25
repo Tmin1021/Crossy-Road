@@ -540,6 +540,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: light0
       objectReference: {fileID: 0}
+    - target: {fileID: 5673285960492071909, guid: 70d973b7aaba53c4fbadb033efdb34a0, type: 3}
+      propertyPath: m_TagString
+      value: RailLight
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -556,6 +560,10 @@ PrefabInstance:
     - target: {fileID: 5915133091144882318, guid: a45921a008954b84a96cf5a11f9b67fc, type: 3}
       propertyPath: m_Name
       value: light_red
+      objectReference: {fileID: 0}
+    - target: {fileID: 5915133091144882318, guid: a45921a008954b84a96cf5a11f9b67fc, type: 3}
+      propertyPath: m_TagString
+      value: RailLight
       objectReference: {fileID: 0}
     - target: {fileID: 7809379550865909335, guid: a45921a008954b84a96cf5a11f9b67fc, type: 3}
       propertyPath: m_LocalPosition.x
