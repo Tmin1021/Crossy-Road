@@ -30,7 +30,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         // Change to orange sprite and play hover sound when mouse enters
-        Debug.LogError("Hover");
+        //Debug.LogError("Hover");
         buttonImage.sprite = highlightedSprite;
         if (hoverSound != null && audioSource != null)
         {
@@ -50,7 +50,7 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (clickSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(clickSound);
-            Debug.Log("Button clicked and click sound played");
+            //Debug.Log("Button clicked and click sound played");
         }
         else
         {

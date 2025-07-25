@@ -1885,6 +1885,7 @@ GameObject:
   - component: {fileID: 1713064247}
   - component: {fileID: 1713064246}
   - component: {fileID: 1713064245}
+  - component: {fileID: 1713064248}
   m_Layer: 5
   m_Name: Setting
   m_TagString: Untagged
@@ -1958,6 +1959,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1713064247}
         m_TargetAssemblyTypeName: ButtonHighlight, Assembly-CSharp
         m_MethodName: OnButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: 1713064248}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2213,6 +2226,19 @@ MonoBehaviour:
   highlightedSprite: {fileID: 21300000, guid: 53ef440cd7fb83a4e9b1e137eecd5b91, type: 3}
   hoverSound: {fileID: 8300000, guid: a13e3468086273f4c94c92572560f2ac, type: 3}
   clickSound: {fileID: 8300000, guid: 9b83ace8d3a55644580f9857d9e85f06, type: 3}
+--- !u!114 &1713064248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713064240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b241c74da9422247ae12f97c1c2443e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneToLoad: Setting
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
