@@ -11,7 +11,7 @@ public class LaneManager : MonoBehaviour
     public float laneWidth = 1.0f;
     // public float laneLength = 20.0f;
     private List<GameObject> activeLanes = new List<GameObject>();
-    private float lastSpawnY;
+    public float lastSpawnY;
     public Transform player;
     void Start()
     {

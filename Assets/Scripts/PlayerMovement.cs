@@ -10,10 +10,18 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 logVelocity = Vector3.zero;
     private bool onLog = false;
     public KeyCode upKey, downKey, leftKey, rightKey;
+    public ScoreManager scoreManager;
+    public LaneManager laneManager;
+    public CameraAutoScroll cameraAutoScroll;
+    private float lastLaneY;
     // s
     void Start()
     {
         animator = GetComponent<Animator>();
+        scoreManager = FindObjectOfType<ScoreManager>();
+        cameraAutoScroll = FindObjectOfType<CameraAutoScroll>();
+        laneManager = FindObjectOfType<LaneManager>();
+        lastLaneY = transform.position.y;
     }
 
     void Update()
@@ -49,6 +57,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (transform.position.y < cameraBottomY)
         {
+            // resetTriggers();
+            // animator.SetTrigger("Die");
+            // gameObject.GetComponent<PlayerMovement>().enabled = false;
             Debug.Log("Player has fallen off the screen!");
         }
 
@@ -91,6 +102,18 @@ public class PlayerMovement : MonoBehaviour
             transform.position.y,
             transform.position.z
         );
+
+        if (direction == Vector3.up && transform.position.y > lastLaneY)
+        {
+            scoreManager.IncreaseScore(1);
+            lastLaneY = transform.position.y;
+        }
+
+        if (direction == Vector3.up && transform.position.y >= laneManager.lastSpawnY - 3)
+        {
+            laneManager.SpawnLane();
+            cameraAutoScroll.MoveUpOneLane();
+        }
         isMoving = false;
     }
 
