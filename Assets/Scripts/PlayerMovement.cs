@@ -9,8 +9,14 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask obstacleLayer;
     private Vector3 logVelocity = Vector3.zero;
     private bool onLog = false;
-    public KeyCode upKey, downKey, leftKey, rightKey;
-    // s
+    [Header("Player Controls")]
+    public KeyCode upKey = KeyCode.W;
+    public KeyCode downKey = KeyCode.S;
+    public KeyCode leftKey = KeyCode.A;
+    public KeyCode rightKey = KeyCode.D;
+    [Header("Player ID")]
+    public int playerID = 1;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -23,7 +29,6 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(upKey))
             {
                 StartCoroutine(Move(Vector3.up, "Up"));
-                // laneManager.SpawnLane();
             }
             else if (Input.GetKeyDown(downKey))
             {

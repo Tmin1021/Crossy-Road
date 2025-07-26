@@ -121,6 +121,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   state: 0
-  redDuration: 5
-  yellowDuration: 2
-  greenDuration: 5

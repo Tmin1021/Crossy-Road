@@ -8,6 +8,8 @@ TagManager:
   - Vehicle
   - Obstacle
   - LilyPad
+  - Log
+  - RailLight
   layers:
   - Default
   - TransparentFX

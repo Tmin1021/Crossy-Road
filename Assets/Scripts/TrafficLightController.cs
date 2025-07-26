@@ -14,18 +14,18 @@ public class TrafficLightController : MonoBehaviour
 
     void Start()
     {
-        if (!CompareTag("RailLight"))
-        {
-            redDuration = 3f;
-            yellowDuration = 2f;
-            greenDuration = Random.Range(4f, 6f);
-        }
-        else
-        {
+        // if (!CompareTag(""))
+        // {
+        //     redDuration = 3f;
+        //     yellowDuration = 2f;
+        //     greenDuration = Random.Range(4f, 6f);
+        // }
+        // else
+        // {
             redDuration = Random.Range(4f, 6f);
             yellowDuration = 0f;
             greenDuration = 4f;
-        }
+        // }
         
 
         if (animator == null)

@@ -12,8 +12,42 @@ public class LaneManager : MonoBehaviour
     // public float laneLength = 20.0f;
     private List<GameObject> activeLanes = new List<GameObject>();
     private float lastSpawnY;
-    public Transform player;
+    private Transform player;
+    
     void Start()
+    {
+        // Find the spawned player(s) - use Player1 as reference for lane spawning
+        StartCoroutine(FindPlayer());
+    }
+    
+    IEnumerator FindPlayer()
+    {
+        // Wait a frame to let MultiplayerManager spawn the players
+        yield return null;
+        
+        GameObject playerObj = GameObject.Find("Player1");
+        if (playerObj == null)
+        {
+            // Fallback: find any object with PlayerMovement component
+            PlayerMovement pm = FindObjectOfType<PlayerMovement>();
+            if (pm != null)
+            {
+                playerObj = pm.gameObject;
+            }
+        }
+        
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            InitializeLanes();
+        }
+        else
+        {
+            Debug.LogError("No player found! Make sure MultiplayerManager spawns players.");
+        }
+    }
+    
+    void InitializeLanes()
     {
         lastSpawnY = player.position.y - 2 * laneWidth;
         for (int i = 0; i < numberOfLanes; i++)
@@ -32,6 +66,8 @@ public class LaneManager : MonoBehaviour
     
     void Update()
     {
+        if (player == null) return; // Wait until player is found
+        
         float cameraTopY = Camera.main.transform.position.y + Camera.main.orthographicSize;
 
         // When player moves forward, spawn more
