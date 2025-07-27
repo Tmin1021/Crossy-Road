@@ -10,7 +10,6 @@ public class CharacterManager : MonoBehaviour
     private int selectedCharIdx = 0;
     void Start()
     {
-        // Initialize by showing the first character
         renderCharacterByIdx(selectedCharIdx);
     }
 

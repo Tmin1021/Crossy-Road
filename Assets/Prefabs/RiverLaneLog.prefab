@@ -129,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 19.2, y: 1.1}
+  m_Size: {x: 19, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &3111069828305137705
 MonoBehaviour:
@@ -146,6 +146,5 @@ MonoBehaviour:
   vehiclePrefabs:
   - {fileID: 1087933525972305827, guid: 9c6bb8557b6fd0a42b74b390b5e9918c, type: 3}
   - {fileID: 1791108039982981658, guid: 8c0fa6d688c3137408e645366d048a29, type: 3}
-  spawnInterval: 2
   spawnRight: 1
   ifRailWay: 0

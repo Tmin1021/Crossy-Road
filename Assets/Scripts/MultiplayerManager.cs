@@ -9,12 +9,10 @@ public class MultiplayerManager : MonoBehaviour
     
     [Header("Character Data")]
     public CharacterCollection characterCollection;
+    public CharacterAnimationCollection characterAnimationCollection;
 
     void Start()
-    {
-        Debug.Log("MultiplayerManager Start() - Reading saved preferences");
-        
-        // Read saved game mode and character selection
+    {        
         int gameMode = PlayerPrefs.GetInt("SelectedGameMode", 1);
         bool isTwoPlayer = PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1;
         
@@ -116,27 +114,47 @@ public class MultiplayerManager : MonoBehaviour
             SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
             if (spriteRenderer != null && character.characterSprite != null)
             {
-                // Apply the sprite first
+                // First, set the basic character sprite to ensure player is visible
                 spriteRenderer.sprite = character.characterSprite;
-                Debug.Log($"Applied sprite {character.characterSprite.name} to {player.name}");
+                Debug.Log($"Set basic character sprite: {character.characterSprite.name}");
                 
-                // Keep the animator enabled for walking animations
-                // Note: If the animations override the sprite, you'll need to modify the animation files
+                // Then add the CharacterAnimationController for character-specific animations
+                if (characterAnimationCollection != null)
+                {
+                    // Remove any old PlayerAnimationController to avoid conflicts
+                    PlayerAnimationController oldAnimController = player.GetComponent<PlayerAnimationController>();
+                    if (oldAnimController != null)
+                    {
+                        DestroyImmediate(oldAnimController);
+                        Debug.Log($"Removed old PlayerAnimationController from {player.name}");
+                    }
+                    
+                    CharacterAnimationController animController = player.GetComponent<CharacterAnimationController>();
+                    if (animController == null)
+                    {
+                        animController = player.AddComponent<CharacterAnimationController>();
+                    }
+                    
+                    animController.animationCollection = characterAnimationCollection;
+                    animController.SetCharacterAnimationSet(characterIndex);
+                }
+                else
+                {
+                    Debug.LogWarning("CharacterAnimationCollection not assigned - using basic sprite only");
+                }
+                
                 Animator playerAnimator = player.GetComponent<Animator>();
                 if (playerAnimator != null)
                 {
-                    Debug.Log($"Keeping animator enabled for walking animations on {player.name}");
+                    playerAnimator.runtimeAnimatorController = null;
+                    Debug.Log($"Removed default animator controller from {player.name}");
                 }
-                
-                Debug.Log($"Final sprite on renderer: {spriteRenderer.sprite?.name}");
             }
             else
             {
                 Debug.LogWarning($"SpriteRenderer: {spriteRenderer != null}, Character sprite: {character.characterSprite != null}");
             }
             
-            // Note: If animations still override sprites, you'll need to modify the animation controller
-            // to not have sprites embedded in the animation states
         }
         else
         {
@@ -150,7 +168,6 @@ public class MultiplayerManager : MonoBehaviour
         yield return new WaitForEndOfFrame(); // Wait an extra frame
         ApplyCharacterToPlayer(player, characterIndex);
         
-        // Apply the character again after a short delay to override any animation controller
         yield return new WaitForSeconds(0.1f);
         ApplyCharacterToPlayer(player, characterIndex);
     }

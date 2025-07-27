@@ -271,7 +271,6 @@ MonoBehaviour:
   - {fileID: 5015261365798476069, guid: 895c9a61bd840d949a6ab4ec78d49f58, type: 3}
   numberOfLanes: 10
   laneWidth: 1
-  player: {fileID: 0}
 --- !u!4 &1647749941
 Transform:
   m_ObjectHideFlags: 0
@@ -320,6 +319,7 @@ MonoBehaviour:
   player1Start: {x: -2, y: -4, z: 0}
   player2Start: {x: 2, y: -4, z: 0}
   characterCollection: {fileID: 11400000, guid: 2bb3a2e671b7f934cb265a1398ef9443, type: 2}
+  characterAnimationCollection: {fileID: 11400000, guid: 2a91009dd20dc21419a01675aafedb59, type: 2}
 --- !u!4 &1663967096
 Transform:
   m_ObjectHideFlags: 0

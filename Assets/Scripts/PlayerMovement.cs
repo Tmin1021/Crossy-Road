@@ -4,8 +4,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveDistance = 1f;
-    private bool isMoving = false;
+    private bool _isMoving = false;
+    public bool isMoving { get { return _isMoving; } }
     private Animator animator;
+    private CharacterAnimationController characterAnimController;
     public LayerMask obstacleLayer;
     private Vector3 logVelocity = Vector3.zero;
     private bool onLog = false;
@@ -20,11 +22,18 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        characterAnimController = GetComponent<CharacterAnimationController>();
     }
 
     void Update()
     {
-        if (!isMoving)
+        // If we don't have the CharacterAnimationController yet, try to find it
+        if (characterAnimController == null)
+        {
+            characterAnimController = GetComponent<CharacterAnimationController>();
+        }
+        
+        if (!_isMoving)
         {
             if (Input.GetKeyDown(upKey))
             {
@@ -52,11 +61,6 @@ public class PlayerMovement : MonoBehaviour
 
         float cameraBottomY = Camera.main.transform.position.y - Camera.main.orthographicSize;
 
-        if (transform.position.y < cameraBottomY)
-        {
-            Debug.Log("Player has fallen off the screen!");
-        }
-
         if (onLog)
         {
             transform.position += logVelocity * Time.deltaTime;
@@ -65,11 +69,18 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Move(Vector3 direction, string trigger)
     {
-        isMoving = true;
+        _isMoving = true;
 
-        resetTriggers();
-
-        animator.SetTrigger(trigger);
+        if (characterAnimController != null)
+        {
+            characterAnimController.OnPlayerMove(trigger);
+        }
+        else if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            resetTriggers();
+            animator.SetTrigger(trigger);
+        }
+        
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + direction * moveDistance;
         float elapsed = 0f;
@@ -78,9 +89,8 @@ public class PlayerMovement : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(endPos, 0.05f, obstacleLayer);
         if (hit != null)
         {
-            // Debug.Log("Blocked by obstacle: " + hit.gameObject.name);
-            isMoving = false;
-            yield break; // Stop the coroutine early
+            _isMoving = false;
+            yield break; 
         }
 
         while (elapsed < duration)
@@ -96,22 +106,68 @@ public class PlayerMovement : MonoBehaviour
             transform.position.y,
             transform.position.z
         );
-        isMoving = false;
+        _isMoving = false;
     }
 
     void resetTriggers()
     {
-        animator.ResetTrigger("Up");
-        animator.ResetTrigger("Down");
-        animator.ResetTrigger("Left");
-        animator.ResetTrigger("Right");
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            animator.ResetTrigger("Up");
+            animator.ResetTrigger("Down");
+            animator.ResetTrigger("Left");
+            animator.ResetTrigger("Right");
+        }
+    }
+
+    void CheckWaterSafety()
+    {
+        float detectionRadius = 0.5f;
+        Collider2D[] allColliders = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+        bool isOnSafePlatform = false;
+        
+        foreach (Collider2D col in allColliders)
+        {
+            int layerNumber = col.gameObject.layer;
+            string layerName = LayerMask.LayerToName(layerNumber);
+            
+            if (col.CompareTag("LilyPad") || col.CompareTag("Log"))
+            {
+                isOnSafePlatform = true;
+                break; 
+            }
+            else if (layerName == "Lily" || layerName == "SmallLog")
+            {
+                isOnSafePlatform = true;
+                break; 
+            }
+        }
+        
+        if (!isOnSafePlatform)
+        {
+            Debug.Log("DEATH CAUSE: DROWNING - Player stepped into river water without safe platform!");
+            if (characterAnimController != null)
+            {
+                characterAnimController.OnPlayerDie();
+            }
+            if (animator != null && animator.runtimeAnimatorController != null)
+            {
+                resetTriggers();
+                animator.SetTrigger("Die");
+            }
+            gameObject.GetComponent<PlayerMovement>().enabled = false;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Vehicle"))
         {
-            Debug.Log("Player hit by vehicle!");
+            Debug.Log($"DEATH CAUSE: VEHICLE COLLISION - Player hit by {collision.gameObject.name}!");
+            if (characterAnimController != null)
+            {
+                characterAnimController.OnPlayerDie();
+            }
         }
     }
 
@@ -119,30 +175,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("River"))
         {
-            Collider2D lilyPad = Physics2D.OverlapCircle(transform.position, 0.1f, LayerMask.GetMask("LilyPad"));
-
-            if (lilyPad != null)
-            {
-                Debug.Log("Player landed on a lily pad. Safe!");
-            }
-            else
-            {
-                // resetTriggers();
-                // animator.SetTrigger("Die");
-                // gameObject.GetComponent<PlayerMovement>().enabled = false;
-                Debug.Log("Player fell into the river and died!");
-            }
+            CheckWaterSafety();
         }
-        // if (collision.CompareTag("LilyPad"))
-        // {
-        //     Debug.Log("Player landed on a lily pad. Safe!");
-        // }
         if (collision.CompareTag("Vehicle"))
         {
-            // resetTriggers();
-            // animator.SetTrigger("Die");
-            // gameObject.GetComponent<PlayerMovement>().enabled = false;
-            Debug.Log("Hit by vehicle");
+            Debug.Log($"DEATH CAUSE: VEHICLE TRIGGER - Player hit by {collision.gameObject.name} (trigger)!");
+            if (characterAnimController != null)
+            {
+                characterAnimController.OnPlayerDie();
+            }
+            if (animator != null && animator.runtimeAnimatorController != null)
+            {
+                resetTriggers();
+                animator.SetTrigger("Die");
+            }
+            gameObject.GetComponent<PlayerMovement>().enabled = false;
         }
         if (collision.CompareTag("Log"))
         {
@@ -152,8 +199,18 @@ public class PlayerMovement : MonoBehaviour
                 logVelocity = logMover.direction * logMover.speed;
                 onLog = true;
             }
+            CheckWaterSafety();
+        }
+    }
 
-            Debug.Log("Player on a log");
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("River"))
+        {
+            if (Time.frameCount % 10 == 0)
+            {
+                CheckWaterSafety();
+            }
         }
     }
 
