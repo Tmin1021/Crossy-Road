@@ -18,7 +18,7 @@ public class TrafficLightController : MonoBehaviour
         {
             redDuration = 3f;
             yellowDuration = 2f;
-            greenDuration = Random.Range(4f, 6f);
+            greenDuration = 4f;
         }
         else
         {
@@ -26,7 +26,7 @@ public class TrafficLightController : MonoBehaviour
             yellowDuration = 0f;
             greenDuration = 4f;
         }
-        
+
 
         if (animator == null)
         {
@@ -34,6 +34,13 @@ public class TrafficLightController : MonoBehaviour
         }
 
         StartCoroutine(CycleTrafficLights());
+
+        UpdateLightSortingOrder();
+    }
+
+    void Update()
+    {
+        UpdateLightSortingOrder();   
     }
 
     IEnumerator CycleTrafficLights()
@@ -53,4 +60,15 @@ public class TrafficLightController : MonoBehaviour
             yield return new WaitForSeconds(greenDuration);
         }
     }
+
+    void UpdateLightSortingOrder()
+    {
+        GameObject parent = transform.parent.gameObject;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        if (parent != null)
+        {
+            sr.sortingOrder = parent.GetComponent<SpriteRenderer>().sortingOrder + 2;
+        }
+    } 
 }

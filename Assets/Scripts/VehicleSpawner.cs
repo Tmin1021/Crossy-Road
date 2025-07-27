@@ -33,7 +33,7 @@ public class VehicleSpawner : MonoBehaviour
         else
         {
             spawnInterval = 3f;
-            vehicleSpeed = 100f; 
+            vehicleSpeed = 100f;
             spawnRight = Random.Range(0, 2) == 0;
         }  
     }
@@ -42,7 +42,7 @@ public class VehicleSpawner : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (!isRiver)
+        if (!isRiver && ifRailWay)
         {
             LightSpawner lightSpawner = GetComponent<LightSpawner>();
             if (lightSpawner != null && lightSpawner.lightSpawned != null)
@@ -107,25 +107,6 @@ public class VehicleSpawner : MonoBehaviour
         {
             // mover.speed = vehicleSpeed;
             mover.direction = direction;
-        }
-
-        UpdateVehicleSorting(vehicle);
-    }
-
-    private void UpdateVehicleSorting(GameObject vehicle)
-    {
-        int baseOrder = 0;
-
-        SpriteRenderer laneRenderer = GetComponentInParent<SpriteRenderer>();
-        if (laneRenderer != null)
-        {
-            baseOrder = laneRenderer.sortingOrder;
-        }
-
-        SpriteRenderer sr = vehicle.GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            sr.sortingOrder = baseOrder + 10; // 12 maybe false in the future when interval set to random
         }
     }
 }

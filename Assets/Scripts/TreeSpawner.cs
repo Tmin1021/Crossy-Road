@@ -21,17 +21,12 @@ public class TreeSpawner : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        UpdateTreeSorting();
-    }
-
     private void SpawnTrees()
     {
         HashSet<Vector2Int> usedPositions = new HashSet<Vector2Int>();
 
         int attempts = 0; // prevent infinite loops
-        int maxAttempts = numberOfTrees * 10;
+        int maxAttempts = 20;
 
         int spawned = 0;
 
@@ -41,6 +36,10 @@ public class TreeSpawner : MonoBehaviour
             float rawX = Mathf.Round(Random.Range(-11f, 11f));
             float treeY = transform.position.y;
             float treeX = rawX;
+            if ((randomIndex == 1 || randomIndex == 2) && rawX == 1f)
+            {
+                randomIndex = 0;
+            }
 
             switch (randomIndex)
             {
@@ -65,30 +64,6 @@ public class TreeSpawner : MonoBehaviour
             Vector3 spawnPos = new Vector3(treeX, treeY, 0f);
             GameObject tree = Instantiate(treePrefabs[randomIndex], spawnPos, Quaternion.identity);
             tree.transform.SetParent(transform);
-
-            SpriteRenderer laneRenderer = GetComponentInParent<SpriteRenderer>();
-            if (laneRenderer != null) baseOrder = laneRenderer.sortingOrder;
-
-            SpriteRenderer sr = tree.GetComponent<SpriteRenderer>();
-            if (sr != null) sr.sortingOrder = baseOrder + 12;
-        }
-    }
-
-    private void UpdateTreeSorting()
-    {
-        SpriteRenderer laneRenderer = GetComponentInParent<SpriteRenderer>();
-        if (laneRenderer != null)
-        {
-            baseOrder = laneRenderer.sortingOrder;
-        }
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            Transform child = transform.GetChild(i);
-            SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
-            if (sr != null)
-            {
-                sr.sortingOrder = baseOrder + 12;
-            }
         }
     }
 
@@ -97,7 +72,7 @@ public class TreeSpawner : MonoBehaviour
         HashSet<Vector2Int> usedPositions = new HashSet<Vector2Int>();
         numberOfTrees = 8;
         int attempts = 0; // prevent infinite loops
-        int maxAttempts = numberOfTrees * 10;
+        int maxAttempts = 20;
 
         int spawned = 0;
 
@@ -122,12 +97,6 @@ public class TreeSpawner : MonoBehaviour
             Vector3 spawnPos = new Vector3(treeX, treeY, 0f);
             GameObject lily = Instantiate(treePrefabs[0], spawnPos, Quaternion.identity);
             lily.transform.SetParent(transform);
-
-            SpriteRenderer laneRenderer = GetComponentInParent<SpriteRenderer>();
-            if (laneRenderer != null) baseOrder = laneRenderer.sortingOrder;
-
-            SpriteRenderer sr = lily.GetComponent<SpriteRenderer>();
-            if (sr != null) sr.sortingOrder = baseOrder + 12;
         }
     }
 }

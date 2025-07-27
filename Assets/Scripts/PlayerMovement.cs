@@ -113,6 +113,7 @@ public class PlayerMovement : MonoBehaviour
         {
             laneManager.SpawnLane();
             cameraAutoScroll.MoveUpOneLane();
+            laneManager.DestroyOldestLane();
         }
         isMoving = false;
     }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4703106886495881511}
   - component: {fileID: 6403909507527852663}
   - component: {fileID: 2717603110833692519}
+  - component: {fileID: 789780691255002608}
   m_Layer: 6
   m_Name: SmallTree
   m_TagString: Obstacle
@@ -130,3 +131,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9290917, y: 0.7571497}
   m_EdgeRadius: 0
+--- !u!114 &789780691255002608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6913368462177963999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089df8df91452724e82760f963e5c8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

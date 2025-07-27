@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2640670085332325183}
   - component: {fileID: -1021797845352890848}
   - component: {fileID: 8351670364356741002}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Van
   m_TagString: Vehicle
   m_Icon: {fileID: 0}

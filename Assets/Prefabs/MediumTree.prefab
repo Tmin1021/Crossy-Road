@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4034342659945789486}
   - component: {fileID: 642835486522970136}
   - component: {fileID: 2905869309115688214}
+  - component: {fileID: -8565526990431444940}
   m_Layer: 6
   m_Name: MediumTree
   m_TagString: Obstacle
@@ -130,3 +131,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1338336, y: 0.77453995}
   m_EdgeRadius: 0
+--- !u!114 &-8565526990431444940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8991729626420911584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089df8df91452724e82760f963e5c8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

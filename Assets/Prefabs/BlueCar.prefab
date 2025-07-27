@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2985910343216313108}
   - component: {fileID: 1999346479677849417}
   - component: {fileID: 7030231605026704751}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlueCar
   m_TagString: Vehicle
   m_Icon: {fileID: 0}

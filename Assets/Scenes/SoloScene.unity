@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollSpeed: 0.5
-  difficultyIncreaseRate: 0.05
+  difficultyIncreaseRate: 0.000005
 --- !u!1 &872784914
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +618,7 @@ MonoBehaviour:
   laneWidth: 1
   lastSpawnY: 0
   player: {fileID: 1811562185}
+  numberOfGrassLanes: 7
 --- !u!4 &1647749941
 Transform:
   m_ObjectHideFlags: 0
@@ -694,7 +695,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1000
+  m_SortingOrder: 32767
   m_Sprite: {fileID: 21300000, guid: 2cbab38e5e22ec84fa35d113c63c1522, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1132,8 +1133,6 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1811562185}
   - {fileID: 1647749941}
-  - {fileID: 791560415597913395}
-  - {fileID: 2077036580590602432}
   - {fileID: 1947075821}
   - {fileID: 7250351183351920959}
   - {fileID: 947479522}

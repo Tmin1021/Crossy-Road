@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2704144142257280315}
   - component: {fileID: 2513671298404224716}
   - component: {fileID: 1258575774694329452}
+  - component: {fileID: -3564186321308279881}
   m_Layer: 6
   m_Name: BigTree
   m_TagString: Obstacle
@@ -130,3 +131,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.3559451, y: 0.75105906}
   m_EdgeRadius: 0
+--- !u!114 &-3564186321308279881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835221306554553735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089df8df91452724e82760f963e5c8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

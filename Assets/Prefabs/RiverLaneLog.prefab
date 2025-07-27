@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.12128, y: -4.4533, z: 1.6536}
-  m_LocalScale: {x: 1, y: 1, z: 1.1424727}
+  m_LocalScale: {x: 1, y: 0.88, z: 1.1424727}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -146,6 +146,5 @@ MonoBehaviour:
   vehiclePrefabs:
   - {fileID: 1087933525972305827, guid: 9c6bb8557b6fd0a42b74b390b5e9918c, type: 3}
   - {fileID: 1791108039982981658, guid: 8c0fa6d688c3137408e645366d048a29, type: 3}
-  spawnInterval: 2
   spawnRight: 1
   ifRailWay: 0

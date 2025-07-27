@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4128864850094034491}
   - component: {fileID: 8401169215268654968}
   - component: {fileID: 845942330057672823}
+  - component: {fileID: 530422094047976043}
   m_Layer: 0
   m_Name: RedLight
   m_TagString: Untagged
@@ -121,6 +122,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   state: 0
-  redDuration: 5
-  yellowDuration: 2
-  greenDuration: 5
+--- !u!114 &530422094047976043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5915133091144882318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc8fe75e22e7584895bb9719ae89b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

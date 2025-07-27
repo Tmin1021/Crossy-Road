@@ -9,13 +9,13 @@ public class CameraAutoScroll : MonoBehaviour
 
     void Update()
     {
-        // elapsedTime += Time.deltaTime;
+        elapsedTime += Time.deltaTime;
 
-        // if (elapsedTime >= 1f)
-        // {
-        //     scrollSpeed += difficultyIncreaseRate;  
-        //     elapsedTime = 0f;  
-        // }
+        if (elapsedTime >= 1f)
+        {
+            scrollSpeed += difficultyIncreaseRate;  
+            elapsedTime = 0f;  
+        }
 
         transform.position += Vector3.up * scrollSpeed * Time.deltaTime;
     }

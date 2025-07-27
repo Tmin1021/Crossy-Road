@@ -13,12 +13,13 @@ public class LaneManager : MonoBehaviour
     private List<GameObject> activeLanes = new List<GameObject>();
     public float lastSpawnY;
     public Transform player;
+    public int numberOfGrassLanes = 7;
     void Start()
     {
         lastSpawnY = player.position.y - 2 * laneWidth;
         for (int i = 0; i < numberOfLanes; i++)
         {
-            if (i < 3)
+            if (i < numberOfGrassLanes)
             {
                 SpawnGrassLane();
             }
@@ -95,7 +96,7 @@ public class LaneManager : MonoBehaviour
         lastSpawnY += laneWidth;
     }
 
-    private void DestroyOldestLane()
+    public void DestroyOldestLane()
     {
         GameObject oldestLane = activeLanes[0];
         if (activeLanes.Count > 13)
