@@ -23,11 +23,49 @@ public class PlayerMovement : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         characterAnimController = GetComponent<CharacterAnimationController>();
+        LoadKeyBindings();
+    }
+    
+    void LoadKeyBindings()
+    {
+        if (playerID == 1)
+        {
+            if (PlayerPrefs.HasKey("Player1Left"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player1Left"), out leftKey);
+            if (PlayerPrefs.HasKey("Player1Right"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player1Right"), out rightKey);
+            if (PlayerPrefs.HasKey("Player1Up"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player1Up"), out upKey);
+            if (PlayerPrefs.HasKey("Player1Down"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player1Down"), out downKey);
+        }
+        else if (playerID == 2)
+        {
+            if (PlayerPrefs.HasKey("Player2Left"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player2Left"), out leftKey);
+            if (PlayerPrefs.HasKey("Player2Right"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player2Right"), out rightKey);
+            if (PlayerPrefs.HasKey("Player2Up"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player2Up"), out upKey);
+            if (PlayerPrefs.HasKey("Player2Down"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player2Down"), out downKey);
+        }
+        
+        Debug.Log($"Player {playerID} loaded keys: Up={upKey}, Down={downKey}, Left={leftKey}, Right={rightKey}");
+    }
+    
+    public string GetPlayerDisplayName()
+    {
+        return gameObject.name; 
+    }
+    
+    public int GetPlayerNumber()
+    {
+        return playerID;
     }
 
     void Update()
     {
-        // If we don't have the CharacterAnimationController yet, try to find it
         if (characterAnimController == null)
         {
             characterAnimController = GetComponent<CharacterAnimationController>();
@@ -106,6 +144,12 @@ public class PlayerMovement : MonoBehaviour
             transform.position.y,
             transform.position.z
         );
+        
+        if (direction == Vector3.up && ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.OnPlayerMoveForward(playerID);
+        }
+        
         _isMoving = false;
     }
 

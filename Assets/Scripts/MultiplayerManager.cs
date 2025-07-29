@@ -18,6 +18,18 @@ public class MultiplayerManager : MonoBehaviour
         
         Debug.Log($"Game Mode: {gameMode}P, Two Player: {isTwoPlayer}");
         
+        if (GameModeManager.Instance == null)
+        {
+            GameObject gameModeManagerObj = new GameObject("GameModeManager");
+            gameModeManagerObj.AddComponent<GameModeManager>();
+        }
+        
+        if (ScoreManager.Instance == null)
+        {
+            GameObject scoreManagerObj = new GameObject("ScoreManager");
+            scoreManagerObj.AddComponent<ScoreManager>();
+        }
+        
         if (isTwoPlayer || gameMode == 2)
         {
             SpawnTwoPlayers();
@@ -36,13 +48,11 @@ public class MultiplayerManager : MonoBehaviour
             return;
         }
         
-        // Get selected character
         int characterIndex = PlayerPrefs.GetInt("Player1Character", 0);
         
         GameObject player1 = Instantiate(playerPrefab, player1Start, Quaternion.identity);
         player1.name = "Player1";
         
-        // Set up movement controls
         PlayerMovement pm1 = player1.GetComponent<PlayerMovement>();
         pm1.upKey = KeyCode.W;
         pm1.downKey = KeyCode.S;
@@ -50,7 +60,7 @@ public class MultiplayerManager : MonoBehaviour
         pm1.rightKey = KeyCode.D;
         pm1.playerID = 1;
         
-        // Apply selected character
+        player1.AddComponent<PlayerNameDisplay>();
         StartCoroutine(ApplyCharacterDelayed(player1, characterIndex));
         
         Debug.Log($"Spawned Player 1 with character index: {characterIndex}");
@@ -64,11 +74,9 @@ public class MultiplayerManager : MonoBehaviour
             return;
         }
         
-        // Get selected characters
         int player1CharIndex = PlayerPrefs.GetInt("Player1Character", 0);
         int player2CharIndex = PlayerPrefs.GetInt("Player2Character", 0);
         
-        // Spawn Player 1
         GameObject player1 = Instantiate(playerPrefab, player1Start, Quaternion.identity);
         player1.name = "Player1";
         PlayerMovement pm1 = player1.GetComponent<PlayerMovement>();
@@ -77,9 +85,9 @@ public class MultiplayerManager : MonoBehaviour
         pm1.leftKey = KeyCode.A;
         pm1.rightKey = KeyCode.D;
         pm1.playerID = 1;
+        player1.AddComponent<PlayerNameDisplay>();
         ApplyCharacterToPlayer(player1, player1CharIndex);
 
-        // Spawn Player 2
         GameObject player2 = Instantiate(playerPrefab, player2Start, Quaternion.identity);
         player2.name = "Player2";
         PlayerMovement pm2 = player2.GetComponent<PlayerMovement>();
@@ -88,6 +96,7 @@ public class MultiplayerManager : MonoBehaviour
         pm2.leftKey = KeyCode.LeftArrow;
         pm2.rightKey = KeyCode.RightArrow;
         pm2.playerID = 2;
+        player2.AddComponent<PlayerNameDisplay>();
         StartCoroutine(ApplyCharacterDelayed(player2, player2CharIndex));
         
         Debug.Log($"Spawned 2 players with character indices: P1={player1CharIndex}, P2={player2CharIndex}");
@@ -110,23 +119,16 @@ public class MultiplayerManager : MonoBehaviour
             Character character = characterCollection.GetCharacter(characterIndex);
             Debug.Log($"Got character: {character.characterName} with sprite: {character.characterSprite?.name}");
             
-            // Apply sprite
             SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
             if (spriteRenderer != null && character.characterSprite != null)
             {
-                // First, set the basic character sprite to ensure player is visible
                 spriteRenderer.sprite = character.characterSprite;
-                Debug.Log($"Set basic character sprite: {character.characterSprite.name}");
-                
-                // Then add the CharacterAnimationController for character-specific animations
                 if (characterAnimationCollection != null)
                 {
-                    // Remove any old PlayerAnimationController to avoid conflicts
                     PlayerAnimationController oldAnimController = player.GetComponent<PlayerAnimationController>();
                     if (oldAnimController != null)
                     {
                         DestroyImmediate(oldAnimController);
-                        Debug.Log($"Removed old PlayerAnimationController from {player.name}");
                     }
                     
                     CharacterAnimationController animController = player.GetComponent<CharacterAnimationController>();
@@ -147,7 +149,6 @@ public class MultiplayerManager : MonoBehaviour
                 if (playerAnimator != null)
                 {
                     playerAnimator.runtimeAnimatorController = null;
-                    Debug.Log($"Removed default animator controller from {player.name}");
                 }
             }
             else
@@ -165,7 +166,7 @@ public class MultiplayerManager : MonoBehaviour
     System.Collections.IEnumerator ApplyCharacterDelayed(GameObject player, int characterIndex)
     {
         yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame(); // Wait an extra frame
+        yield return new WaitForEndOfFrame();
         ApplyCharacterToPlayer(player, characterIndex);
         
         yield return new WaitForSeconds(0.1f);

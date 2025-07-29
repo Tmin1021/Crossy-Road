@@ -21,7 +21,6 @@ public class PlayerAnimationController : MonoBehaviour
     
     void Update()
     {
-        // Simple bobbing animation when moving
         if (playerMovement != null && playerMovement.isMoving)
         {
             if (!isAnimating)
@@ -41,7 +40,6 @@ public class PlayerAnimationController : MonoBehaviour
     void StartBobAnimation()
     {
         isAnimating = true;
-        // Simple up-down bobbing motion
         StartCoroutine(BobAnimation());
     }
     
@@ -49,7 +47,6 @@ public class PlayerAnimationController : MonoBehaviour
     {
         isAnimating = false;
         StopAllCoroutines();
-        // Return to original position
         transform.position = new Vector3(transform.position.x, Mathf.Round(transform.position.y), transform.position.z);
     }
     

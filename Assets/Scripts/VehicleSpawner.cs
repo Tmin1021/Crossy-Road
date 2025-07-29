@@ -4,13 +4,19 @@ using UnityEngine;
 public class VehicleSpawner : MonoBehaviour
 {
     public GameObject[] vehiclePrefabs;
-    private float spawnInterval;
+    private float baseSpawnInterval;
+    private float currentDelayMultiplier = 1.0f;
     public bool spawnRight = false;
     private float vehicleSpeed;
     private float timer;
     public bool ifRailWay = false;
     // private bool hasTrainSpawned = false; // futher update for traffic ligh
     private bool isRiver = false;
+    
+    private float spawnInterval 
+    { 
+        get { return baseSpawnInterval * currentDelayMultiplier; } 
+    }
 
     void Awake()
     {
@@ -24,7 +30,7 @@ public class VehicleSpawner : MonoBehaviour
     {
         if (!ifRailWay)
         {
-            spawnInterval = Random.Range(0f, 2f) + 1.5f;
+            baseSpawnInterval = Random.Range(0f, 2f) + 1.5f;
             vehicleSpeed = Random.Range(0f, 2f) + 1f;
             spawnRight = Random.Range(0, 2) == 0;
 
@@ -32,10 +38,15 @@ public class VehicleSpawner : MonoBehaviour
         }
         else
         {
-            spawnInterval = 3f;
+            baseSpawnInterval = 3f;
             vehicleSpeed = 100f; 
             spawnRight = Random.Range(0, 2) == 0;
-        }  
+        }
+        
+        if (GameModeManager.Instance != null)
+        {
+            GameModeManager.Instance.RegisterNewSpawner(this);
+        }
     }
 
     void Update()
@@ -52,7 +63,7 @@ public class VehicleSpawner : MonoBehaviour
                 {
                     Debug.Log("OK");
                     timer = 0f;
-                    return; // Red light: don't spawn
+                    return; 
                 }
             }
         }
@@ -100,12 +111,9 @@ public class VehicleSpawner : MonoBehaviour
             vehicle.transform.position = pos;
         }
         vehicle.transform.SetParent(transform);
-
-        // Update later -> Direction 
         VehicleMover mover = vehicle.GetComponent<VehicleMover>();
         if (mover != null)
         {
-            // mover.speed = vehicleSpeed;
             mover.direction = direction;
         }
 
@@ -125,7 +133,13 @@ public class VehicleSpawner : MonoBehaviour
         SpriteRenderer sr = vehicle.GetComponent<SpriteRenderer>();
         if (sr != null)
         {
-            sr.sortingOrder = baseOrder + 10; // 12 maybe false in the future when interval set to random
+            sr.sortingOrder = baseOrder + 10; 
         }
+    }
+    
+    public void ApplyDelayMultiplier(float multiplier)
+    {
+        currentDelayMultiplier = multiplier;
+        Debug.Log($"Vehicle spawner delay multiplier set to: {multiplier}");
     }
 }
