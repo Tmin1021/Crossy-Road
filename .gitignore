@@ -7,6 +7,9 @@
 [Ll]ogs/
 UserSettings/
 
+# Prevent committing empty files
+**/*empty*
+**/*duplicate*
 # Visual Studio/MonoDevelop generated files
 *.csproj
 *.unityproj
