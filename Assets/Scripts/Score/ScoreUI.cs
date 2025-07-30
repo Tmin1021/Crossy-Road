@@ -1,163 +1,119 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class PlayerMovement : MonoBehaviour
+public class ScoreUI : MonoBehaviour
 {
-    public float moveDistance = 1f;
-    private bool isMoving = false;
-    private Animator animator;
-    public LayerMask obstacleLayer;
-    private Vector3 logVelocity = Vector3.zero;
-    private bool onLog = false;
-    public KeyCode upKey, downKey, leftKey, rightKey;
-    // s
+    [Header("UI References")]
+    public TextMeshProUGUI player1ScoreText;
+    public TextMeshProUGUI player2ScoreText;
+    
+    [Header("UI Settings")]
+    public Color player1Color = Color.white;
+    public Color player2Color = Color.white;
+    
     void Start()
     {
-        animator = GetComponent<Animator>();
-    }
-
-    void Update()
-    {
-        if (!isMoving)
+        if (ScoreManager.Instance != null)
         {
-            if (Input.GetKeyDown(upKey))
-            {
-                StartCoroutine(Move(Vector3.up, "Up"));
-                // laneManager.SpawnLane();
-            }
-            else if (Input.GetKeyDown(downKey))
-            {
-                StartCoroutine(Move(Vector3.down, "Down"));
-            }
-            else if (Input.GetKeyDown(leftKey))
-            {
-                StartCoroutine(Move(Vector3.left, "Left"));
-            }
-            else if (Input.GetKeyDown(rightKey))
-            {
-                StartCoroutine(Move(Vector3.right, "Right"));
-            }
+            InitializeScoreUI();
         }
-
-        // if (transform.position.y >= 7 && currentLane < 7)
-        // {
-        //     currentLane = 7;
-        //     cameraAutoScroll.StartCameraScroll(); 
-        // }
-
-        float cameraBottomY = Camera.main.transform.position.y - Camera.main.orthographicSize;
-
-        if (transform.position.y < cameraBottomY)
+        else
         {
-            Debug.Log("Player has fallen off the screen!");
-        }
-
-        if (onLog)
-        {
-            transform.position += logVelocity * Time.deltaTime;
+            StartCoroutine(WaitForScoreManager());
         }
     }
-
-    IEnumerator Move(Vector3 direction, string trigger)
+    
+    System.Collections.IEnumerator WaitForScoreManager()
     {
-        isMoving = true;
-
-        resetTriggers();
-
-        animator.SetTrigger(trigger);
-        Vector3 startPos = transform.position;
-        Vector3 endPos = startPos + direction * moveDistance;
-        float elapsed = 0f;
-        float duration = 0.1f;
-
-        Collider2D hit = Physics2D.OverlapCircle(endPos, 0.05f, obstacleLayer);
-        if (hit != null)
+        while (ScoreManager.Instance == null)
         {
-            // Debug.Log("Blocked by obstacle: " + hit.gameObject.name);
-            isMoving = false;
-            yield break; // Stop the coroutine early
+            yield return new WaitForSeconds(0.1f);
         }
-
-        while (elapsed < duration)
-        {
-            transform.position = Vector3.Lerp(startPos, endPos, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = endPos;
-        transform.position = new Vector3(
-            Mathf.Round(transform.position.x),
-            transform.position.y,
-            transform.position.z
-        );
-        isMoving = false;
+        
+        InitializeScoreUI();
     }
-
-    void resetTriggers()
+    
+    void InitializeScoreUI()
     {
-        animator.ResetTrigger("Up");
-        animator.ResetTrigger("Down");
-        animator.ResetTrigger("Left");
-        animator.ResetTrigger("Right");
+        ScoreManager.Instance.OnScoreChanged += UpdateScoreDisplay;
+        
+        bool isMultiplayer = IsMultiplayerMode();
+        SetMultiplayerMode(isMultiplayer);
+        
+        UpdateAllScores();
+        SetupColors();
+        
+        Debug.Log($"ScoreUI initialized. Multiplayer mode: {isMultiplayer}");
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
+    
+    bool IsMultiplayerMode()
     {
-        if (collision.gameObject.CompareTag("Vehicle"))
+        int gameMode = PlayerPrefs.GetInt("SelectedGameMode", 1);
+        bool isTwoPlayer = PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1;
+        
+        return (gameMode == 2 || isTwoPlayer);
+    }
+    
+    void OnDestroy()
+    {
+        if (ScoreManager.Instance != null)
         {
-            Debug.Log("Player hit by vehicle!");
+            ScoreManager.Instance.OnScoreChanged -= UpdateScoreDisplay;
         }
     }
-
-    void OnTriggerEnter2D(Collider2D collision)
+    
+    void SetupColors()
     {
-        if (collision.CompareTag("River"))
+        if (player1ScoreText != null)
+            player1ScoreText.color = player1Color;
+        if (player2ScoreText != null)
+            player2ScoreText.color = player2Color;
+    }
+    
+    void UpdateScoreDisplay(int playerID, int newScore)
+    {
+        if (playerID == 1 && player1ScoreText != null)
         {
-            Collider2D lilyPad = Physics2D.OverlapCircle(transform.position, 0.1f, LayerMask.GetMask("LilyPad"));
-
-            if (lilyPad != null)
-            {
-                Debug.Log("Player landed on a lily pad. Safe!");
-            }
-            else
-            {
-                // resetTriggers();
-                // animator.SetTrigger("Die");
-                // gameObject.GetComponent<PlayerMovement>().enabled = false;
-                Debug.Log("Player fell into the river and died!");
-            }
+            player1ScoreText.text = $"P1: {newScore:N0}";
         }
-        // if (collision.CompareTag("LilyPad"))
-        // {
-        //     Debug.Log("Player landed on a lily pad. Safe!");
-        // }
-        if (collision.CompareTag("Vehicle"))
+        else if (playerID == 2 && player2ScoreText != null)
         {
-            // resetTriggers();
-            // animator.SetTrigger("Die");
-            // gameObject.GetComponent<PlayerMovement>().enabled = false;
-            Debug.Log("Hit by vehicle");
-        }
-        if (collision.CompareTag("Log"))
-        {
-            VehicleMover logMover = collision.GetComponent<VehicleMover>();
-            if (logMover != null)
-            {
-                logVelocity = logMover.direction * logMover.speed;
-                onLog = true;
-            }
-
-            Debug.Log("Player on a log");
+            player2ScoreText.text = $"P2: {newScore:N0}";
+            Debug.Log($"Updated P2 score display to: {newScore}");
         }
     }
-
-    void OnTriggerExit2D(Collider2D collision)
+    
+    void UpdateAllScores()
     {
-        if (collision.CompareTag("Log"))
+        if (ScoreManager.Instance == null) 
         {
-            onLog = false;
-            logVelocity = Vector3.zero;
+            Debug.LogWarning("ScoreManager.Instance is null in UpdateAllScores");
+            return;
+        }
+        
+        UpdateScoreDisplay(1, ScoreManager.Instance.GetScore(1));
+        UpdateScoreDisplay(2, ScoreManager.Instance.GetScore(2));
+    }
+    
+    public void SetMultiplayerMode(bool isMultiplayer)
+    {
+        if (player2ScoreText != null)
+        {
+            player2ScoreText.gameObject.SetActive(isMultiplayer);
+        }
+        else
+        {
+            Debug.LogWarning("player2ScoreText is null!");
+        }
+        
+        if (player1ScoreText != null)
+        {
+            player1ScoreText.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("player1ScoreText is null!");
         }
     }
 }
