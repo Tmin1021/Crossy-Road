@@ -14,6 +14,10 @@ public class PlayerMovement : MonoBehaviour
     public LaneManager laneManager;
     public CameraAutoScroll cameraAutoScroll;
     private float lastLaneY;
+
+    public AudioSource audioSource;
+    public AudioClip dieSound;    // dead_chicken sound
+    public AudioClip jumpSound;
     // s
     void Start()
     {
@@ -30,19 +34,23 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(upKey))
             {
+                PlayJumpSound();
                 StartCoroutine(Move(Vector3.up, "Up"));
                 // laneManager.SpawnLane();
             }
             else if (Input.GetKeyDown(downKey))
             {
+                PlayJumpSound();
                 StartCoroutine(Move(Vector3.down, "Down"));
             }
             else if (Input.GetKeyDown(leftKey))
             {
+                PlayJumpSound();
                 StartCoroutine(Move(Vector3.left, "Left"));
             }
             else if (Input.GetKeyDown(rightKey))
             {
+                PlayJumpSound();
                 StartCoroutine(Move(Vector3.right, "Right"));
             }
         }
@@ -149,6 +157,7 @@ public class PlayerMovement : MonoBehaviour
                 // resetTriggers();
                 // animator.SetTrigger("Die");
                 // gameObject.GetComponent<PlayerMovement>().enabled = false;
+                PlayDeathSound();
                 Debug.Log("Player fell into the river and died!");
             }
         }
@@ -158,14 +167,15 @@ public class PlayerMovement : MonoBehaviour
         // }
         if (collision.CompareTag("Vehicle"))
         {
-            resetTriggers();
-            animator.SetTrigger("Die");
-            gameObject.GetComponent<PlayerMovement>().enabled = false;
+            // resetTriggers();
+            // animator.SetTrigger("Die");
+            // gameObject.GetComponent<PlayerMovement>().enabled = false;
+            PlayDeathSound();
             Debug.Log("Hit by vehicle");
         }
         if (collision.CompareTag("Log"))
         {
-            VehicleMover logMover = collision.GetComponent<VehicleMover>();
+            LogMover logMover = collision.GetComponent<LogMover>();
             if (logMover != null)
             {
                 logVelocity = logMover.direction * logMover.speed;
@@ -182,6 +192,22 @@ public class PlayerMovement : MonoBehaviour
         {
             onLog = false;
             logVelocity = Vector3.zero;
+        }
+    }
+
+    void PlayJumpSound()
+    {
+        if (audioSource != null && jumpSound != null)
+        {
+            audioSource.PlayOneShot(jumpSound);
+        }
+    }
+
+    void PlayDeathSound()
+    {
+        if (audioSource != null && dieSound != null)
+        {
+            audioSource.PlayOneShot(dieSound);
         }
     }
 }

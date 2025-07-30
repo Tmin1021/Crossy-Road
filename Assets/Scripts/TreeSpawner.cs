@@ -36,8 +36,9 @@ public class TreeSpawner : MonoBehaviour
             float rawX = Mathf.Round(Random.Range(-11f, 11f));
             float treeY = transform.position.y;
             float treeX = rawX;
-            if ((randomIndex == 1 || randomIndex == 2) && rawX == 1f)
+            if ((randomIndex == 1 || randomIndex == 2) && (rawX == 1f || rawX == 0f))
             {
+                Debug.Log("Spawn Big or Med tree. Replace by small tree");
                 randomIndex = 0;
             }
 

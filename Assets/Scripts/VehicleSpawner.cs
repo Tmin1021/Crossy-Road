@@ -30,8 +30,11 @@ public class VehicleSpawner : MonoBehaviour
 
             SpawnRandomVehicle();
         }
-        else
+        else if (isRiver)
         {
+            spawnInterval = 1f;
+        }
+        else {
             spawnInterval = 3f;
             vehicleSpeed = 100f;
             spawnRight = Random.Range(0, 2) == 0;
@@ -50,7 +53,7 @@ public class VehicleSpawner : MonoBehaviour
                 TrafficLightController light = lightSpawner.lightSpawned.GetComponent<TrafficLightController>();
                 if (light != null && !light.IsGreen)
                 {
-                    Debug.Log("OK");
+                    // Debug.Log("OK");
                     timer = 0f;
                     return; // Red light: don't spawn
                 }

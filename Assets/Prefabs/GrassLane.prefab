@@ -102,4 +102,7 @@ MonoBehaviour:
   - {fileID: 8991729626420911584, guid: d9a28006ac0cfaa438acfc95c86a0369, type: 3}
   - {fileID: 7835221306554553735, guid: 118b373b8d98e044da4fc529a98e96d9, type: 3}
   - {fileID: 261763989493321674, guid: 5b836996ef3d0334693b3cc46c3c638a, type: 3}
+  - {fileID: 508154301965513508, guid: 9b676e35ef903f94d8225ae6140e585e, type: 3}
   numberOfTrees: 5
+  isRiver: 0
+  startLanes: 0
