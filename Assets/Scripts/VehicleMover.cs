@@ -5,13 +5,20 @@ using UnityEngine;
 
 public class VehicleMover : MonoBehaviour
 {
-    public float speed = 2.0f;
+    public float baseSpeed = 2.0f;
     public Vector3 direction;
     private float stopX;
     private bool isBlockedByVehicle = false;
     private bool hasPassedStopLine = false;
 
 
+    
+    private float currentSpeedMultiplier = 1.0f;
+    
+    public float speed 
+    { 
+        get { return baseSpeed * currentSpeedMultiplier; } 
+    }
     void Start()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -21,6 +28,12 @@ public class VehicleMover : MonoBehaviour
         }
 
         stopX = direction == Vector3.right ? -1f : 1f;
+        
+        // Register with GameModeManager if it exists
+        if (GameModeManager.Instance != null)
+        {
+            GameModeManager.Instance.RegisterNewVehicle(this);
+        }
     }
     void Update()
     {
@@ -142,4 +155,10 @@ public class VehicleMover : MonoBehaviour
     //     Debug.DrawLine(bottomRight, bottomRightEnd, Color.cyan);
     // }
 
+    
+    public void ApplySpeedMultiplier(float multiplier)
+    {
+        currentSpeedMultiplier = multiplier;
+        Debug.Log($"Vehicle speed multiplier set to: {multiplier}");
+    }
 }

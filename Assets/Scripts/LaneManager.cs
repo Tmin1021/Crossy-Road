@@ -9,12 +9,41 @@ public class LaneManager : MonoBehaviour
     public GameObject[] lanePrefabs;
     public int numberOfLanes = 15;
     public float laneWidth = 1.0f;
-    // public float laneLength = 20.0f;
     private List<GameObject> activeLanes = new List<GameObject>();
     public float lastSpawnY;
     public Transform player;
     public int numberOfGrassLanes = 7;
     void Start()
+    {
+        StartCoroutine(FindPlayer());
+    }
+    
+    IEnumerator FindPlayer()
+    {
+        yield return null;
+        
+        GameObject playerObj = GameObject.Find("Player1");
+        if (playerObj == null)
+        {
+            PlayerMovement pm = FindObjectOfType<PlayerMovement>();
+            if (pm != null)
+            {
+                playerObj = pm.gameObject;
+            }
+        }
+        
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            InitializeLanes();
+        }
+        else
+        {
+            Debug.LogError("No player found! Make sure MultiplayerManager spawns players.");
+        }
+    }
+    
+    void InitializeLanes()
     {
         lastSpawnY = player.position.y - 2 * laneWidth;
         for (int i = 0; i < numberOfLanes; i++)
@@ -33,9 +62,10 @@ public class LaneManager : MonoBehaviour
     
     void Update()
     {
+        if (player == null) return; 
+        
         float cameraTopY = Camera.main.transform.position.y + Camera.main.orthographicSize;
 
-        // When player moves forward, spawn more
         if (cameraTopY > lastSpawnY)
         {
             SpawnLane();
