@@ -10,101 +10,18 @@ public class LaneManager : MonoBehaviour
     public GameObject[] lanePrefabs;
     public int numberOfLanes = 15;
     public float laneWidth = 1.0f;
-    // public float laneLength = 20.0f;
     private List<GameObject> activeLanes = new List<GameObject>();
     public float lastSpawnY;
     public Transform player;
     public int numberOfGrassLanes = 7;
+
     void Start()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        Debug.Log($"LaneManager: Current scene is '{currentSceneName}'");
-        
-        if (currentSceneName == "SoloScene")
-        {
-            Debug.Log("LaneManager: Solo scene detected, initializing lanes immediately");
-            // In solo scene, player already exists, so initialize lanes directly
-            GameObject playerObj = GameObject.FindWithTag("Player");
-            if (playerObj == null)
-            {
-                playerObj = GameObject.Find("Player");
-            }
-            if (playerObj == null)
-            {
-                PlayerMovement pm = FindObjectOfType<PlayerMovement>();
-                if (pm != null)
-                {
-                    playerObj = pm.gameObject;
-                }
-            }
-            
-            if (playerObj != null)
-            {
-                player = playerObj.transform;
-                InitializeLanes();
-                Debug.Log("LaneManager: Successfully initialized lanes for solo scene");
-            }
-            else
-            {
-                Debug.LogError("LaneManager: No player found in solo scene!");
-            }
-        }
-        else
-        {
-            Debug.Log("LaneManager: Multiplayer scene detected, waiting for player spawn");
-            StartCoroutine(FindPlayer());
-        }
-    }
-    
-    IEnumerator FindPlayer()
-    {
-        Debug.Log("LaneManager: Starting player search coroutine");
-        yield return new WaitForSeconds(0.5f); // Wait a bit longer for multiplayer spawning
-        
+        InitializeLanes();  
         GameObject playerObj = GameObject.Find("Player1");
-        if (playerObj == null)
-        {
-            PlayerMovement pm = FindObjectOfType<PlayerMovement>();
-            if (pm != null)
-            {
-                playerObj = pm.gameObject;
-                Debug.Log($"LaneManager: Found player via PlayerMovement: {playerObj.name}");
-            }
-        }
-        else
-        {
-            Debug.Log("LaneManager: Found Player1");
-        }
-        
-        if (playerObj != null)
-        {
-            player = playerObj.transform;
-            InitializeLanes();
-            Debug.Log($"LaneManager: Successfully assigned player and initialized lanes for {playerObj.name}");
-        }
-        else
-        {
-            Debug.LogError("LaneManager: No player found! Make sure MultiplayerSceneSetup spawns players.");
-        }
+        player = playerObj?.transform;
     }
 
-    void InitializeLanes()
-    {
-        lastSpawnY = player.position.y - 2 * laneWidth;
-        for (int i = 0; i < numberOfLanes; i++)
-        {
-            if (i < 3)
-            {
-                SpawnGrassLane();
-            }
-            else
-            {
-                SpawnLane();
-            }
-        }
-        UpdateLaneSorting();
-    }
-    
     void Update()
     {
         float cameraTopY = Camera.main.transform.position.y + Camera.main.orthographicSize;
@@ -165,8 +82,6 @@ public class LaneManager : MonoBehaviour
         GameObject newLane = Instantiate(lanePrefab, spawnPosition, Quaternion.identity);
         newLane.transform.SetParent(transform);
         activeLanes.Add(newLane);
-        // Debug.Log("Spawned lane: " + newLane.name);
-        // Debug.Log("Last lane: " + activeLanes[activeLanes.Count - 1].name);
         lastSpawnY += laneWidth;
     }
 
@@ -179,7 +94,7 @@ public class LaneManager : MonoBehaviour
             Destroy(oldestLane);
         }
     }
-    
+
     private void UpdateLaneSorting()
     {
         for (int i = 0; i < activeLanes.Count; i++)
@@ -190,5 +105,17 @@ public class LaneManager : MonoBehaviour
                 sr.sortingOrder = activeLanes.Count - i;
             }
         }
+    }
+    
+    void InitializeLanes()
+    {
+        float cameraBottomY = Camera.main.transform.position.y - Camera.main.orthographicSize;
+        lastSpawnY = cameraBottomY - laneWidth; // a bit below screen
+
+        for (int i = 0; i < numberOfLanes; i++)
+        {
+            SpawnGrassLane();
+        }
+        UpdateLaneSorting();
     }
 }

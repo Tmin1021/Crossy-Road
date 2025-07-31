@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
             // resetTriggers();
             // animator.SetTrigger("Die");
             // gameObject.GetComponent<PlayerMovement>().enabled = false;
-            Debug.Log("Player has fallen off the screen!");
+            // Debug.Log("Player has fallen off the screen!");
         }
     }
 
@@ -251,7 +251,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isOnSafePlatform)
         {
-            Debug.Log("DEATH CAUSE: DROWNING - Player stepped into river water without safe platform!");
+            // Debug.Log("DEATH CAUSE: DROWNING - Player stepped into river water without safe platform!");
             PlayDeathSound(); // Play death sound
             
             // Pause the game when player dies
@@ -277,7 +277,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Vehicle"))
         {
-            Debug.Log($"DEATH CAUSE: VEHICLE COLLISION - Player hit by {collision.gameObject.name}!");
+            // Debug.Log($"DEATH CAUSE: VEHICLE COLLISION - Player hit by {collision.gameObject.name}!");
             PlayDeathSound(); // Play death sound
             
             // Pause the game when player dies
@@ -301,7 +301,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (collision.CompareTag("Vehicle"))
         {
-            Debug.Log($"DEATH CAUSE: VEHICLE TRIGGER - Player hit by {collision.gameObject.name} (trigger)!");
+            // Debug.Log($"DEATH CAUSE: VEHICLE TRIGGER - Player hit by {collision.gameObject.name} (trigger)!");
             PlayDeathSound(); // Play death sound
             
             // Pause the game when player dies

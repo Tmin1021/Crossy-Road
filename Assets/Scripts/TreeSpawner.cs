@@ -6,7 +6,6 @@ public class TreeSpawner : MonoBehaviour
 {
     public GameObject[] treePrefabs;
     public int numberOfTrees = 5;
-    private int baseOrder = 0;
     public bool isRiver = false;
     public bool startLanes = false;
     void Start()
