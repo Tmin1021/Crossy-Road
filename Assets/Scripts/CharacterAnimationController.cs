@@ -34,10 +34,10 @@ public class CharacterAnimationController : MonoBehaviour
         if (currentAnimationSet == null || playerMovement == null) return;
         
         bool isMoving = playerMovement.isMoving;
-        if (isMoving != wasMoving)
-        {
-            Debug.Log($"Movement state changed: {wasMoving} -> {isMoving}");
-        } 
+        // if (isMoving != wasMoving)
+        // {
+        //     Debug.Log($"Movement state changed: {wasMoving} -> {isMoving}");
+        // } 
         wasMoving = isMoving;
     }
     
@@ -50,18 +50,18 @@ public class CharacterAnimationController : MonoBehaviour
             {
                 // Set initial idle sprite
                 SetSprite(currentAnimationSet.idleSprite);
-                Debug.Log($"Set animation set for character: {currentAnimationSet.characterName}");
-                Debug.Log($"Available sprites - Idle: {currentAnimationSet.idleSprite?.name}, Back: {currentAnimationSet.backSprite?.name}, Front: {currentAnimationSet.frontSprite?.name}, Left: {currentAnimationSet.leftSprite?.name}, Right: {currentAnimationSet.rightSprite?.name}, Die: {currentAnimationSet.dieSprite?.name}");
+                // Debug.Log($"Set animation set for character: {currentAnimationSet.characterName}");
+                // Debug.Log($"Available sprites - Idle: {currentAnimationSet.idleSprite?.name}, Back: {currentAnimationSet.backSprite?.name}, Front: {currentAnimationSet.frontSprite?.name}, Left: {currentAnimationSet.leftSprite?.name}, Right: {currentAnimationSet.rightSprite?.name}, Die: {currentAnimationSet.dieSprite?.name}");
             }
-            else
-            {
-                Debug.LogWarning($"No animation set found for character index: {characterIndex}");
-            }
+            // else
+            // {
+            //     Debug.LogWarning($"No animation set found for character index: {characterIndex}");
+            // }
         }
-        else
-        {
-            Debug.LogWarning("CharacterAnimationCollection is null - cannot set character animation set");
-        }
+        // else
+        // {
+        //     Debug.LogWarning("CharacterAnimationCollection is null - cannot set character animation set");
+        // }
     }
     
     public void SetCharacterAnimationSet(string characterName)
@@ -73,11 +73,11 @@ public class CharacterAnimationController : MonoBehaviour
             {
                 // Set initial idle sprite
                 SetSprite(currentAnimationSet.idleSprite);
-                Debug.Log($"Set animation set for character: {currentAnimationSet.characterName}");
+                // Debug.Log($"Set animation set for character: {currentAnimationSet.characterName}");
             }
             else
             {
-                Debug.LogWarning($"No animation set found for character: {characterName}");
+                // Debug.LogWarning($"No animation set found for character: {characterName}");
             }
         }
     }
@@ -87,33 +87,33 @@ public class CharacterAnimationController : MonoBehaviour
     {
         if (currentAnimationSet == null) 
         {
-            Debug.LogWarning("OnPlayerMove called but currentAnimationSet is null!");
+            // Debug.LogWarning("OnPlayerMove called but currentAnimationSet is null!");
             return;
         }
         
         lastDirection = direction;
-        Debug.Log($"OnPlayerMove called with direction: {direction}");
+        // Debug.Log($"OnPlayerMove called with direction: {direction}");
         
         switch (direction.ToLower())
         {
             case "up":
-                Debug.Log("Setting back sprite");
+                // Debug.Log("Setting back sprite");
                 SetSprite(currentAnimationSet.backSprite);
                 break;
             case "down":
-                Debug.Log("Setting front sprite");
+                // Debug.Log("Setting front sprite");
                 SetSprite(currentAnimationSet.frontSprite);
                 break;
             case "left":
-                Debug.Log("Setting left sprite");
+                // Debug.Log("Setting left sprite");
                 SetSprite(currentAnimationSet.leftSprite);
                 break;
             case "right":
-                Debug.Log("Setting right sprite");
+                // Debug.Log("Setting right sprite");
                 SetSprite(currentAnimationSet.rightSprite);
                 break;
             default:
-                Debug.Log("Setting idle sprite (default case)");
+                // Debug.Log("Setting idle sprite (default case)");
                 SetSprite(currentAnimationSet.idleSprite);
                 break;
         }

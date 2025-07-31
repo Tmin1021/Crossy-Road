@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveDistance = 1f;
+    private float moveDistance = 1f;
     private bool _isMoving = false;
     public bool isMoving { get { return _isMoving; } }
     private Animator animator;
@@ -35,17 +35,18 @@ public class PlayerMovement : MonoBehaviour
         laneManager = FindObjectOfType<LaneManager>();
         lastLaneY = transform.position.y;
         characterAnimController = GetComponent<CharacterAnimationController>();
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z);
         LoadKeyBindings();
         
         // Debug obstacle layer settings
-        Debug.Log($"Player {playerID} Obstacle Detection Setup:");
-        Debug.Log($"  ObstacleLayer mask value: {obstacleLayer.value}");
-        Debug.Log($"  ObstacleLayer includes layers: {GetLayerNames(obstacleLayer)}");
+        // Debug.Log($"Player {playerID} Obstacle Detection Setup:");
+        // Debug.Log($"  ObstacleLayer mask value: {obstacleLayer.value}");
+        // Debug.Log($"  ObstacleLayer includes layers: {GetLayerNames(obstacleLayer)}");
         
-        Debug.Log($"Player {playerID} Audio Setup:");
-        Debug.Log($"  AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
-        Debug.Log($"  JumpSound: {(jumpSound != null ? jumpSound.name : "NULL")}");
-        Debug.Log($"  DieSound: {(dieSound != null ? dieSound.name : "NULL")}");
+        // Debug.Log($"Player {playerID} Audio Setup:");
+        // Debug.Log($"  AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
+        // Debug.Log($"  JumpSound: {(jumpSound != null ? jumpSound.name : "NULL")}");
+        // Debug.Log($"  DieSound: {(dieSound != null ? dieSound.name : "NULL")}");
     }
     
     string GetLayerNames(LayerMask layerMask)
@@ -129,22 +130,22 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(upKey))
             {
-                Debug.Log($"Player {playerID}: UP key pressed ({upKey})");
+                // Debug.Log($"Player {playerID}: UP key pressed ({upKey})");
                 StartCoroutine(Move(Vector3.up, "Up"));
             }
             else if (Input.GetKeyDown(downKey))
             {
-                Debug.Log($"Player {playerID}: DOWN key pressed ({downKey})");
+                // Debug.Log($"Player {playerID}: DOWN key pressed ({downKey})");
                 StartCoroutine(Move(Vector3.down, "Down"));
             }
             else if (Input.GetKeyDown(leftKey))
             {
-                Debug.Log($"Player {playerID}: LEFT key pressed ({leftKey})");
+                // Debug.Log($"Player {playerID}: LEFT key pressed ({leftKey})");
                 StartCoroutine(Move(Vector3.left, "Left"));
             }
             else if (Input.GetKeyDown(rightKey))
             {
-                Debug.Log($"Player {playerID}: RIGHT key pressed ({rightKey})");
+                // Debug.Log($"Player {playerID}: RIGHT key pressed ({rightKey})");
                 StartCoroutine(Move(Vector3.right, "Right"));
             }
         }
@@ -155,13 +156,13 @@ public class PlayerMovement : MonoBehaviour
         //     cameraAutoScroll.StartCameraScroll(); 
         // }
 
-        float cameraBottomY = Camera.main.transform.position.y - Camera.main.orthographicSize;
-
         if (onLog)
         {
             transform.position += logVelocity * Time.deltaTime;
+            Debug.Log("Move cmm di" + logVelocity);
         }
 
+        float cameraBottomY = Camera.main.transform.position.y - Camera.main.orthographicSize;
         if (transform.position.y < cameraBottomY)
         {
             // resetTriggers();
@@ -198,24 +199,28 @@ public class PlayerMovement : MonoBehaviour
         float elapsed = 0f;
         float duration = 0.1f;
 
-        Debug.Log($"Player {playerID}: Checking obstacle at position {endPos}");
-        Debug.Log($"Player {playerID}: ObstacleLayer mask = {obstacleLayer.value}");
+        // Debug.Log($"Player {playerID}: Checking obstacle at position {endPos}");
+        // Debug.Log($"Player {playerID}: ObstacleLayer mask = {obstacleLayer.value}");
         
         Collider2D hit = Physics2D.OverlapCircle(endPos, 0.05f, obstacleLayer);
         if (hit != null)
         {
-            Debug.Log($"Player {playerID}: OBSTACLE DETECTED! Hit: {hit.name} (Tag: {hit.tag}, Layer: {LayerMask.LayerToName(hit.gameObject.layer)})");
+            // Debug.Log($"Player {playerID}: OBSTACLE DETECTED! Hit: {hit.name} (Tag: {hit.tag}, Layer: {LayerMask.LayerToName(hit.gameObject.layer)})");
             _isMoving = false;
             yield break;
         }
-        else
-        {
-            Debug.Log($"Player {playerID}: No obstacle detected, moving to {endPos}");
-        }
+        // else
+        // {
+        //     Debug.Log($"Player {playerID}: No obstacle detected, moving to {endPos}");
+        // }
 
         while (elapsed < duration)
         {
             transform.position = Vector3.Lerp(startPos, endPos, elapsed / duration);
+            if (onLog)
+            {
+                transform.position += logVelocity * Time.deltaTime;
+            }
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -345,11 +350,13 @@ public class PlayerMovement : MonoBehaviour
         }
         if (collision.CompareTag("Log"))
         {
-            VehicleMover logMover = collision.GetComponent<VehicleMover>();
+            LogMover logMover = collision.GetComponent<LogMover>();
             if (logMover != null)
             {
                 logVelocity = logMover.direction * logMover.speed;
                 onLog = true;
+                Debug.Log("Player is on log. Log Speed: " + logVelocity );
+
             }
             CheckWaterSafety();
         }
@@ -370,8 +377,30 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Log"))
         {
-            onLog = false;
-            logVelocity = Vector3.zero;
+            // Only reset if not immediately entering another log
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.05f);
+            bool stillOnLog = false;
+            foreach (Collider2D col in colliders)
+            {
+                if (col.CompareTag("Log") && col != collision)
+                {
+                    stillOnLog = true;
+                    LogMover logMover = col.GetComponent<LogMover>();
+                    if (logMover != null)
+                    {
+                        logVelocity = logMover.direction * logMover.speed;
+                        Debug.Log($"Player {playerID} transitioned to another log. New Log Speed: {logVelocity}");
+                    }
+                    break;
+                }
+            }
+
+            if (!stillOnLog)
+            {
+                onLog = false;
+                logVelocity = Vector3.zero;
+                Debug.Log($"Player {playerID} exited log. Log Speed reset to: {logVelocity}");
+            }
         }
     }
     
@@ -384,11 +413,11 @@ public class PlayerMovement : MonoBehaviour
         if (audioSource != null && jumpSound != null)
         {
             audioSource.PlayOneShot(jumpSound);
-            Debug.Log($"Playing jump sound for Player {playerID}");
+            // Debug.Log($"Playing jump sound for Player {playerID}");
         }
         else
         {
-            Debug.LogWarning($"Cannot play jump sound - AudioSource: {audioSource}, JumpSound: {jumpSound}");
+            // Debug.LogWarning($"Cannot play jump sound - AudioSource: {audioSource}, JumpSound: {jumpSound}");
         }
     }
 
@@ -401,11 +430,11 @@ public class PlayerMovement : MonoBehaviour
         if (audioSource != null && dieSound != null)
         {
             audioSource.PlayOneShot(dieSound);
-            Debug.Log($"Playing death sound for Player {playerID}");
+            // Debug.Log($"Playing death sound for Player {playerID}");
         }
         else
         {
-            Debug.LogWarning($"Cannot play death sound - AudioSource: {audioSource}, DieSound: {dieSound}");
+            // Debug.LogWarning($"Cannot play death sound - AudioSource: {audioSource}, DieSound: {dieSound}");
         }
     }
 }

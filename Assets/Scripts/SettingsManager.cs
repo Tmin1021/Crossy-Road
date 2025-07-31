@@ -226,14 +226,14 @@ public class SettingsManager : MonoBehaviour
 
     void UpdateKeyDisplays()
     {
-        Debug.Log("UpdateKeyDisplays called");
+        // Debug.Log("UpdateKeyDisplays called");
         
         if (player1LeftText != null) 
         {
             player1LeftText.text = FormatKeyName(player1Left);
-            Debug.Log($"Updated P1 Left: {player1Left}");
+            // Debug.Log($"Updated P1 Left: {player1Left}");
         }
-        else Debug.Log("player1LeftText is null!");
+        // else Debug.Log("player1LeftText is null!");
         
         if (player1RightText != null) player1RightText.text = FormatKeyName(player1Right);
         if (player1UpText != null) player1UpText.text = FormatKeyName(player1Up);
