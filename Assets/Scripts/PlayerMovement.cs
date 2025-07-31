@@ -36,6 +36,12 @@ public class PlayerMovement : MonoBehaviour
         lastLaneY = transform.position.y;
         characterAnimController = GetComponent<CharacterAnimationController>();
         LoadKeyBindings();
+        
+        // Debug audio setup
+        Debug.Log($"Player {playerID} Audio Setup:");
+        Debug.Log($"  AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
+        Debug.Log($"  JumpSound: {(jumpSound != null ? jumpSound.name : "NULL")}");
+        Debug.Log($"  DieSound: {(dieSound != null ? dieSound.name : "NULL")}");
     }
 
     void LoadKeyBindings()
@@ -90,6 +96,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Don't process input if game is paused or over
+        if (GameManager.Instance != null && GameManager.Instance.IsGamePaused())
+        {
+            return;
+        }
+        
         if (characterAnimController == null)
         {
             characterAnimController = GetComponent<CharacterAnimationController>();
@@ -99,22 +111,18 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(upKey))
             {
-                Debug.Log($"Player {playerID} pressed UP key ({upKey})");
                 StartCoroutine(Move(Vector3.up, "Up"));
             }
             else if (Input.GetKeyDown(downKey))
             {
-                Debug.Log($"Player {playerID} pressed DOWN key ({downKey})");
                 StartCoroutine(Move(Vector3.down, "Down"));
             }
             else if (Input.GetKeyDown(leftKey))
             {
-                Debug.Log($"Player {playerID} pressed LEFT key ({leftKey})");
                 StartCoroutine(Move(Vector3.left, "Left"));
             }
             else if (Input.GetKeyDown(rightKey))
             {
-                Debug.Log($"Player {playerID} pressed RIGHT key ({rightKey})");
                 StartCoroutine(Move(Vector3.right, "Right"));
             }
         }
@@ -144,6 +152,16 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Move(Vector3 direction, string trigger)
     {
         _isMoving = true;
+        
+        // Check if game is paused before playing sound and moving
+        if (GameManager.Instance != null && GameManager.Instance.IsGamePaused())
+        {
+            _isMoving = false;
+            yield break;
+        }
+        
+        // Play jump sound when moving
+        PlayJumpSound();
 
         if (characterAnimController != null)
         {
@@ -234,6 +252,14 @@ public class PlayerMovement : MonoBehaviour
         if (!isOnSafePlatform)
         {
             Debug.Log("DEATH CAUSE: DROWNING - Player stepped into river water without safe platform!");
+            PlayDeathSound(); // Play death sound
+            
+            // Pause the game when player dies
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.GameOver();
+            }
+            
             if (characterAnimController != null)
             {
                 characterAnimController.OnPlayerDie();
@@ -252,6 +278,14 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Vehicle"))
         {
             Debug.Log($"DEATH CAUSE: VEHICLE COLLISION - Player hit by {collision.gameObject.name}!");
+            PlayDeathSound(); // Play death sound
+            
+            // Pause the game when player dies
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.GameOver();
+            }
+            
             if (characterAnimController != null)
             {
                 characterAnimController.OnPlayerDie();
@@ -268,6 +302,14 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Vehicle"))
         {
             Debug.Log($"DEATH CAUSE: VEHICLE TRIGGER - Player hit by {collision.gameObject.name} (trigger)!");
+            PlayDeathSound(); // Play death sound
+            
+            // Pause the game when player dies
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.GameOver();
+            }
+            
             if (characterAnimController != null)
             {
                 characterAnimController.OnPlayerDie();
@@ -313,17 +355,35 @@ public class PlayerMovement : MonoBehaviour
     
         void PlayJumpSound()
     {
+        Debug.Log($"PlayJumpSound called for Player {playerID}");
+        Debug.Log($"AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
+        Debug.Log($"JumpSound: {(jumpSound != null ? "EXISTS" : "NULL")}");
+        
         if (audioSource != null && jumpSound != null)
         {
             audioSource.PlayOneShot(jumpSound);
+            Debug.Log($"Playing jump sound for Player {playerID}");
+        }
+        else
+        {
+            Debug.LogWarning($"Cannot play jump sound - AudioSource: {audioSource}, JumpSound: {jumpSound}");
         }
     }
 
     void PlayDeathSound()
     {
+        Debug.Log($"PlayDeathSound called for Player {playerID}");
+        Debug.Log($"AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
+        Debug.Log($"DieSound: {(dieSound != null ? "EXISTS" : "NULL")}");
+        
         if (audioSource != null && dieSound != null)
         {
             audioSource.PlayOneShot(dieSound);
+            Debug.Log($"Playing death sound for Player {playerID}");
+        }
+        else
+        {
+            Debug.LogWarning($"Cannot play death sound - AudioSource: {audioSource}, DieSound: {dieSound}");
         }
     }
 }

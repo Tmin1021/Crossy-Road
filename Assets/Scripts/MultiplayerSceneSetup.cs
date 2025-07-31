@@ -7,6 +7,10 @@ public class MultiplayerSceneSetup : MonoBehaviour
     public GameObject playerPrefab;
     public CharacterCollection characterCollection;
     public CharacterAnimationCollection characterAnimationCollection;
+    
+    [Header("Audio Clips")]
+    public AudioClip jumpSound;
+    public AudioClip dieSound;
 
     [Header("Spawn Settings")]
     public Vector3 player1SpawnPos = new Vector3(-2, -4, 0);
@@ -15,21 +19,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
     void Start()
     {
         Debug.Log("MultiplayerSceneSetup: Initializing multiplayer scene...");
-
-        // Initialize managers first (comment out if not available)
-        // if (GameModeManager.Instance == null)
-        // {
-        //     GameObject gameModeManagerObj = new GameObject("GameModeManager");
-        //     gameModeManagerObj.AddComponent<GameModeManager>();
-        // }
-        
-        // if (ScoreManager.Instance == null)
-        // {
-        //     GameObject scoreManagerObj = new GameObject("ScoreManager");
-        //     scoreManagerObj.AddComponent<ScoreManager>();
-        // }
-
-        // Load saved settings
         int gameMode = PlayerPrefs.GetInt("SelectedGameMode", 2);
         bool isTwoPlayer = PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1;
         int player1CharIndex = PlayerPrefs.GetInt("Player1Character", 0);
@@ -55,30 +44,39 @@ public class MultiplayerSceneSetup : MonoBehaviour
     
     System.Collections.IEnumerator SetupLaneManagerDelayed()
     {
-        // Wait for players to be fully spawned
-        yield return new WaitForEndOfFrame();
+        Debug.Log("MultiplayerSceneSetup: Starting LaneManager setup...");
+        
+        yield return new WaitForSeconds(0.5f);
         
         LaneManager laneManager = FindObjectOfType<LaneManager>();
+        Debug.Log($"LaneManager found: {laneManager != null}");
+        
         if (laneManager != null)
         {
-            // Find any player for lane spawning reference
             GameObject player1 = GameObject.Find("Player1");
             GameObject player2 = GameObject.Find("Player2");
+            
+            Debug.Log($"Player1 found: {player1 != null}");
+            Debug.Log($"Player2 found: {player2 != null}");
             
             if (player1 != null)
             {
                 laneManager.player = player1.transform;
-                Debug.Log("Assigned Player1 to LaneManager");
+                Debug.Log($"MultiplayerSceneSetup: Assigned Player1 to LaneManager at position {player1.transform.position}");
             }
             else if (player2 != null)
             {
                 laneManager.player = player2.transform;
-                Debug.Log("Assigned Player2 to LaneManager");
+                Debug.Log($"MultiplayerSceneSetup: Assigned Player2 to LaneManager at position {player2.transform.position}");
             }
             else
             {
-                Debug.LogWarning("No players found to assign to LaneManager!");
+                Debug.LogError("MultiplayerSceneSetup: No players found to assign to LaneManager!");
             }
+        }
+        else
+        {
+            Debug.LogError("MultiplayerSceneSetup: LaneManager not found in scene!");
         }
     }
 
@@ -95,7 +93,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
         GameObject player1 = Instantiate(playerPrefab, player1SpawnPos, Quaternion.identity);
         player1.name = "Player1";
         
-        // Setup PlayerMovement with default keys (will be overridden by LoadKeyBindings)
         PlayerMovement pm1 = player1.GetComponent<PlayerMovement>();
         if (pm1 != null)
         {
@@ -104,15 +101,26 @@ public class MultiplayerSceneSetup : MonoBehaviour
             pm1.downKey = KeyCode.S;
             pm1.leftKey = KeyCode.A;
             pm1.rightKey = KeyCode.D;
+            
+            AudioSource audioSource = player1.GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = player1.AddComponent<AudioSource>();
+                audioSource.playOnAwake = false;
+                audioSource.volume = 0.7f;
+                Debug.Log("Added AudioSource to Player1");
+            }
+            pm1.audioSource = audioSource;
+            
+            if (jumpSound != null) pm1.jumpSound = jumpSound;
+            if (dieSound != null) pm1.dieSound = dieSound;
         }
         
-        // Add name display
         if (player1.GetComponent<PlayerNameDisplay>() == null)
         {
             player1.AddComponent<PlayerNameDisplay>();
         }
         
-        // Apply character with delay for better reliability
         StartCoroutine(ApplyCharacterDelayed(player1, characterIndex));
         
         Debug.Log($"Spawned Player 1 with character index: {characterIndex}");
@@ -129,7 +137,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
         int player1CharIndex = PlayerPrefs.GetInt("Player1Character", 0);
         int player2CharIndex = PlayerPrefs.GetInt("Player2Character", 0);
         
-        // Spawn Player 1
         GameObject player1 = Instantiate(playerPrefab, player1SpawnPos, Quaternion.identity);
         player1.name = "Player1";
         PlayerMovement pm1 = player1.GetComponent<PlayerMovement>();
@@ -140,6 +147,20 @@ public class MultiplayerSceneSetup : MonoBehaviour
             pm1.downKey = KeyCode.S;
             pm1.leftKey = KeyCode.A;
             pm1.rightKey = KeyCode.D;
+            
+            AudioSource audioSource1 = player1.GetComponent<AudioSource>();
+            if (audioSource1 == null)
+            {
+                audioSource1 = player1.AddComponent<AudioSource>();
+                audioSource1.playOnAwake = false;
+                audioSource1.volume = 0.7f;
+                Debug.Log("Added AudioSource to Player1");
+            }
+            pm1.audioSource = audioSource1;
+            
+            // Assign audio clips if available
+            if (jumpSound != null) pm1.jumpSound = jumpSound;
+            if (dieSound != null) pm1.dieSound = dieSound;
         }
         if (player1.GetComponent<PlayerNameDisplay>() == null)
         {
@@ -147,7 +168,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
         }
         StartCoroutine(ApplyCharacterDelayed(player1, player1CharIndex));
 
-        // Spawn Player 2
         GameObject player2 = Instantiate(playerPrefab, player2SpawnPos, Quaternion.identity);
         player2.name = "Player2";
         PlayerMovement pm2 = player2.GetComponent<PlayerMovement>();
@@ -158,6 +178,19 @@ public class MultiplayerSceneSetup : MonoBehaviour
             pm2.downKey = KeyCode.DownArrow;
             pm2.leftKey = KeyCode.LeftArrow;
             pm2.rightKey = KeyCode.RightArrow;
+            
+            AudioSource audioSource2 = player2.GetComponent<AudioSource>();
+            if (audioSource2 == null)
+            {
+                audioSource2 = player2.AddComponent<AudioSource>();
+                audioSource2.playOnAwake = false;
+                audioSource2.volume = 0.7f;
+                Debug.Log("Added AudioSource to Player2");
+            }
+            pm2.audioSource = audioSource2;
+            
+            if (jumpSound != null) pm2.jumpSound = jumpSound;
+            if (dieSound != null) pm2.dieSound = dieSound;
         }
         if (player2.GetComponent<PlayerNameDisplay>() == null)
         {
@@ -185,7 +218,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
             Character character = characterCollection.GetCharacter(characterIndex);
             Debug.Log($"Got character: {character.characterName} with sprite: {character.characterSprite?.name}");
 
-            // Apply sprite to player
             SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
             Debug.Log($"SpriteRenderer found: {spriteRenderer != null}");
             Debug.Log($"Character sprite exists: {character.characterSprite != null}");
@@ -221,7 +253,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
                     Debug.LogWarning("CharacterAnimationCollection not assigned - using basic sprite only");
                 }
                 
-                // Disable default animator if using character animations
                 Animator playerAnimator = player.GetComponent<Animator>();
                 if (playerAnimator != null)
                 {

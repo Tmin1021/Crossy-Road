@@ -36,12 +36,11 @@ public class SettingsManager : MonoBehaviour
     public TextMeshProUGUI player2DownText;
     
     [Header("Scene Navigation")]
-    public string gameSceneName = "SampleScene"; // Name of your game scene
+    public string gameSceneName = "SampleScene"; 
     
     private bool isWaitingForKey = false;
     private string currentKeyToChange = "";
     
-    // Default key bindings
     private KeyCode player1Left = KeyCode.A;
     private KeyCode player1Right = KeyCode.D;
     private KeyCode player1Up = KeyCode.W;
@@ -115,6 +114,18 @@ public class SettingsManager : MonoBehaviour
         {
             HandleKeyInput();
         }
+        
+        #if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TestVolumeSliderSetup();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Debug.Log($"Quick Volume Check - AudioListener: {AudioListener.volume:F2}, Slider: {(volumeSlider != null ? volumeSlider.value.ToString("F2") : "NULL")}");
+        }
+        #endif
     }
 
     void StartKeyBinding(string keyToChange)
@@ -259,6 +270,38 @@ public class SettingsManager : MonoBehaviour
         
         AudioListener.volume = value;
         SaveSettings();
+        
+        // Debug output to verify slider is working
+        Debug.Log($"Volume slider changed to: {value:F2} | AudioListener.volume: {AudioListener.volume:F2}");
+    }
+    
+    // Call this method to test your volume slider setup
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    public void TestVolumeSliderSetup()
+    {
+        Debug.Log("=== VOLUME SLIDER TEST ===");
+        Debug.Log($"SettingsManager found: {this != null}");
+        Debug.Log($"Volume Slider assigned: {volumeSlider != null}");
+        
+        if (volumeSlider != null)
+        {
+            Debug.Log($"Slider Value: {volumeSlider.value:F2}");
+            Debug.Log($"Slider Min/Max: {volumeSlider.minValue:F1} to {volumeSlider.maxValue:F1}");
+            Debug.Log($"Slider Interactable: {volumeSlider.interactable}");
+        }
+        
+        Debug.Log($"Current AudioListener.volume: {AudioListener.volume:F2}");
+        Debug.Log($"Saved Volume in PlayerPrefs: {PlayerPrefs.GetFloat("Volume", -1):F2}");
+        
+        // Test volume change
+        float testVolume = 0.5f;
+        if (volumeSlider != null)
+        {
+            volumeSlider.value = testVolume;
+            Debug.Log($"Set slider to test volume: {testVolume}");
+        }
+        
+        Debug.Log("=== END TEST ===");
     }
 
     public void OpenSettings()

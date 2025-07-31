@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LaneManager : MonoBehaviour
 {
@@ -16,10 +17,83 @@ public class LaneManager : MonoBehaviour
     public int numberOfGrassLanes = 7;
     void Start()
     {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log($"LaneManager: Current scene is '{currentSceneName}'");
+        
+        if (currentSceneName == "SoloScene")
+        {
+            Debug.Log("LaneManager: Solo scene detected, initializing lanes immediately");
+            // In solo scene, player already exists, so initialize lanes directly
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj == null)
+            {
+                playerObj = GameObject.Find("Player");
+            }
+            if (playerObj == null)
+            {
+                PlayerMovement pm = FindObjectOfType<PlayerMovement>();
+                if (pm != null)
+                {
+                    playerObj = pm.gameObject;
+                }
+            }
+            
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+                InitializeLanes();
+                Debug.Log("LaneManager: Successfully initialized lanes for solo scene");
+            }
+            else
+            {
+                Debug.LogError("LaneManager: No player found in solo scene!");
+            }
+        }
+        else
+        {
+            Debug.Log("LaneManager: Multiplayer scene detected, waiting for player spawn");
+            StartCoroutine(FindPlayer());
+        }
+    }
+    
+    IEnumerator FindPlayer()
+    {
+        Debug.Log("LaneManager: Starting player search coroutine");
+        yield return new WaitForSeconds(0.5f); // Wait a bit longer for multiplayer spawning
+        
+        GameObject playerObj = GameObject.Find("Player1");
+        if (playerObj == null)
+        {
+            PlayerMovement pm = FindObjectOfType<PlayerMovement>();
+            if (pm != null)
+            {
+                playerObj = pm.gameObject;
+                Debug.Log($"LaneManager: Found player via PlayerMovement: {playerObj.name}");
+            }
+        }
+        else
+        {
+            Debug.Log("LaneManager: Found Player1");
+        }
+        
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            InitializeLanes();
+            Debug.Log($"LaneManager: Successfully assigned player and initialized lanes for {playerObj.name}");
+        }
+        else
+        {
+            Debug.LogError("LaneManager: No player found! Make sure MultiplayerSceneSetup spawns players.");
+        }
+    }
+
+    void InitializeLanes()
+    {
         lastSpawnY = player.position.y - 2 * laneWidth;
         for (int i = 0; i < numberOfLanes; i++)
         {
-            if (i < numberOfGrassLanes)
+            if (i < 3)
             {
                 SpawnGrassLane();
             }

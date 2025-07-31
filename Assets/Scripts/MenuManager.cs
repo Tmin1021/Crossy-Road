@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
     public CharacterManager characterManager;
         
     [Header("Scene Settings")]
-    public string playSceneName = "SampleScene";
+    public string playSceneName = "SelectCharacterScene";
     
     private int selectedMode = 1; 
     private int selectedCharacterIndex = 0;
