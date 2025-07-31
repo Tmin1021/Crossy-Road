@@ -40,8 +40,15 @@ public class PlayerMovement : MonoBehaviour
 
     void LoadKeyBindings()
     {
+        Debug.Log($"LoadKeyBindings called for Player {playerID}");
+        
         if (playerID == 1)
         {
+            Debug.Log($"Player1Left key exists: {PlayerPrefs.HasKey("Player1Left")}, Value: {PlayerPrefs.GetString("Player1Left", "NOT_SET")}");
+            Debug.Log($"Player1Right key exists: {PlayerPrefs.HasKey("Player1Right")}, Value: {PlayerPrefs.GetString("Player1Right", "NOT_SET")}");
+            Debug.Log($"Player1Up key exists: {PlayerPrefs.HasKey("Player1Up")}, Value: {PlayerPrefs.GetString("Player1Up", "NOT_SET")}");
+            Debug.Log($"Player1Down key exists: {PlayerPrefs.HasKey("Player1Down")}, Value: {PlayerPrefs.GetString("Player1Down", "NOT_SET")}");
+            
             if (PlayerPrefs.HasKey("Player1Left"))
                 System.Enum.TryParse(PlayerPrefs.GetString("Player1Left"), out leftKey);
             if (PlayerPrefs.HasKey("Player1Right"))
@@ -53,6 +60,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (playerID == 2)
         {
+            Debug.Log($"Player2Left key exists: {PlayerPrefs.HasKey("Player2Left")}, Value: {PlayerPrefs.GetString("Player2Left", "NOT_SET")}");
+            Debug.Log($"Player2Right key exists: {PlayerPrefs.HasKey("Player2Right")}, Value: {PlayerPrefs.GetString("Player2Right", "NOT_SET")}");
+            Debug.Log($"Player2Up key exists: {PlayerPrefs.HasKey("Player2Up")}, Value: {PlayerPrefs.GetString("Player2Up", "NOT_SET")}");
+            Debug.Log($"Player2Down key exists: {PlayerPrefs.HasKey("Player2Down")}, Value: {PlayerPrefs.GetString("Player2Down", "NOT_SET")}");
+            
             if (PlayerPrefs.HasKey("Player2Left"))
                 System.Enum.TryParse(PlayerPrefs.GetString("Player2Left"), out leftKey);
             if (PlayerPrefs.HasKey("Player2Right"))
@@ -63,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
                 System.Enum.TryParse(PlayerPrefs.GetString("Player2Down"), out downKey);
         }
 
-        Debug.Log($"Player {playerID} loaded keys: Up={upKey}, Down={downKey}, Left={leftKey}, Right={rightKey}");
+        Debug.Log($"Player {playerID} final keys: Up={upKey}, Down={downKey}, Left={leftKey}, Right={rightKey}");
     }
 
     public string GetPlayerDisplayName()
@@ -87,18 +99,22 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(upKey))
             {
+                Debug.Log($"Player {playerID} pressed UP key ({upKey})");
                 StartCoroutine(Move(Vector3.up, "Up"));
             }
             else if (Input.GetKeyDown(downKey))
             {
+                Debug.Log($"Player {playerID} pressed DOWN key ({downKey})");
                 StartCoroutine(Move(Vector3.down, "Down"));
             }
             else if (Input.GetKeyDown(leftKey))
             {
+                Debug.Log($"Player {playerID} pressed LEFT key ({leftKey})");
                 StartCoroutine(Move(Vector3.left, "Left"));
             }
             else if (Input.GetKeyDown(rightKey))
             {
+                Debug.Log($"Player {playerID} pressed RIGHT key ({rightKey})");
                 StartCoroutine(Move(Vector3.right, "Right"));
             }
         }

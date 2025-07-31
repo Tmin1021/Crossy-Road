@@ -170,11 +170,11 @@ public class MultiplayerSceneSetup : MonoBehaviour
 
     void ApplyCharacterToPlayer(GameObject player, int characterIndex)
     {
-        Debug.Log($"Applying character index {characterIndex} to {player.name}");
+        Debug.Log($"=== Applying character index {characterIndex} to {player.name} ===");
         
         if (characterCollection == null)
         {
-            Debug.LogWarning("CharacterCollection not assigned to MultiplayerSceneSetup!");
+            Debug.LogError("CharacterCollection not assigned to MultiplayerSceneSetup!");
             return;
         }
         
@@ -187,10 +187,14 @@ public class MultiplayerSceneSetup : MonoBehaviour
 
             // Apply sprite to player
             SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
+            Debug.Log($"SpriteRenderer found: {spriteRenderer != null}");
+            Debug.Log($"Character sprite exists: {character.characterSprite != null}");
+            
             if (spriteRenderer != null && character.characterSprite != null)
             {
+                Sprite oldSprite = spriteRenderer.sprite;
                 spriteRenderer.sprite = character.characterSprite;
-                Debug.Log($"Applied character sprite '{character.characterName}' to {player.name}");
+                Debug.Log($"SUCCESS: Changed sprite from '{oldSprite?.name}' to '{character.characterSprite.name}' on {player.name}");
                 
                 // Setup character animations if available
                 if (characterAnimationCollection != null)

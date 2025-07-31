@@ -1,9 +1,19 @@
 using UnityEngine;
+using System.Collections;
 
 public class MultiplayerLaneManagerSetup : MonoBehaviour
 {
     void Start()
     {
+        // Wait a frame to ensure players are spawned first
+        StartCoroutine(SetupLaneManagerDelayed());
+    }
+    
+    System.Collections.IEnumerator SetupLaneManagerDelayed()
+    {
+        // Wait longer for players to be spawned (both scripts might be running)
+        yield return new WaitForSeconds(0.5f);
+        
         // Find LaneManager and set up player reference
         LaneManager laneManager = FindObjectOfType<LaneManager>();
         if (laneManager != null)
