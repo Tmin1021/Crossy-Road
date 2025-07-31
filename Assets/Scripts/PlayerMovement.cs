@@ -159,7 +159,6 @@ public class PlayerMovement : MonoBehaviour
         if (onLog)
         {
             transform.position += logVelocity * Time.deltaTime;
-            Debug.Log("Move cmm di" + logVelocity);
         }
 
         float cameraBottomY = Camera.main.transform.position.y - Camera.main.orthographicSize;
