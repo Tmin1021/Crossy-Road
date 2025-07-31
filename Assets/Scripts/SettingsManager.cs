@@ -36,7 +36,7 @@ public class SettingsManager : MonoBehaviour
     public TextMeshProUGUI player2DownText;
     
     [Header("Scene Navigation")]
-    public string gameSceneName = "SampleScene"; 
+    public string gameSceneName = "SelectCharacterScene"; 
     
     private bool isWaitingForKey = false;
     private string currentKeyToChange = "";
@@ -53,7 +53,6 @@ public class SettingsManager : MonoBehaviour
 
     void Start()
     {
-        // Only initialize if we're in play mode and have a settings panel
         if (Application.isPlaying && settingsPanel != null)
         {
             LoadSettings();
@@ -182,13 +181,11 @@ public class SettingsManager : MonoBehaviour
                 break;
         }
         
-        // Update PlayerMovement scripts with new key bindings
         UpdatePlayerMovementKeys();
     }
 
     void UpdatePlayerMovementKeys()
     {
-        // Only update in play mode
         if (!Application.isPlaying) return;
         
         PlayerMovement[] players = FindObjectsOfType<PlayerMovement>();
@@ -211,25 +208,41 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
+    string FormatKeyName(KeyCode key)
+    {
+        string keyName = key.ToString();
+        if (keyName.EndsWith("Arrow"))
+        {
+            return keyName.Replace("Arrow", "");
+        }
+        int spaceIndex = keyName.IndexOf(' ');
+        if (spaceIndex > 0)
+        {
+            return keyName.Substring(0, spaceIndex);
+        }
+        
+        return keyName;
+    }
+
     void UpdateKeyDisplays()
     {
         Debug.Log("UpdateKeyDisplays called");
         
         if (player1LeftText != null) 
         {
-            player1LeftText.text = player1Left.ToString();
+            player1LeftText.text = FormatKeyName(player1Left);
             Debug.Log($"Updated P1 Left: {player1Left}");
         }
         else Debug.Log("player1LeftText is null!");
         
-        if (player1RightText != null) player1RightText.text = player1Right.ToString();
-        if (player1UpText != null) player1UpText.text = player1Up.ToString();
-        if (player1DownText != null) player1DownText.text = player1Down.ToString();
+        if (player1RightText != null) player1RightText.text = FormatKeyName(player1Right);
+        if (player1UpText != null) player1UpText.text = FormatKeyName(player1Up);
+        if (player1DownText != null) player1DownText.text = FormatKeyName(player1Down);
         
-        if (player2LeftText != null) player2LeftText.text = player2Left.ToString();
-        if (player2RightText != null) player2RightText.text = player2Right.ToString();
-        if (player2UpText != null) player2UpText.text = player2Up.ToString();
-        if (player2DownText != null) player2DownText.text = player2Down.ToString();
+        if (player2LeftText != null) player2LeftText.text = FormatKeyName(player2Left);
+        if (player2RightText != null) player2RightText.text = FormatKeyName(player2Right);
+        if (player2UpText != null) player2UpText.text = FormatKeyName(player2Up);
+        if (player2DownText != null) player2DownText.text = FormatKeyName(player2Down);
     }
 
     void UpdateButtonText(string keyName, string text)
@@ -323,7 +336,7 @@ public class SettingsManager : MonoBehaviour
         
         if (!string.IsNullOrEmpty(gameSceneName))
         {
-            Time.timeScale = 1f; // Make sure time scale is normal
+            Time.timeScale = 1f; 
             SceneManager.LoadScene(gameSceneName);
         }
         else
@@ -331,7 +344,7 @@ public class SettingsManager : MonoBehaviour
             if (settingsPanel != null)
             {
                 settingsPanel.SetActive(false);
-                Time.timeScale = 1f; // Resume the game
+                Time.timeScale = 1f; 
             }
         }
     }
@@ -348,7 +361,6 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetString("Player2Up", player2Up.ToString());
         PlayerPrefs.SetString("Player2Down", player2Down.ToString());
         
-        // Save volume
         PlayerPrefs.SetFloat("Volume", AudioListener.volume);
         
         PlayerPrefs.Save();

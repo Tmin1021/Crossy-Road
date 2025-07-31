@@ -37,11 +37,29 @@ public class PlayerMovement : MonoBehaviour
         characterAnimController = GetComponent<CharacterAnimationController>();
         LoadKeyBindings();
         
-        // Debug audio setup
+        // Debug obstacle layer settings
+        Debug.Log($"Player {playerID} Obstacle Detection Setup:");
+        Debug.Log($"  ObstacleLayer mask value: {obstacleLayer.value}");
+        Debug.Log($"  ObstacleLayer includes layers: {GetLayerNames(obstacleLayer)}");
+        
         Debug.Log($"Player {playerID} Audio Setup:");
         Debug.Log($"  AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
         Debug.Log($"  JumpSound: {(jumpSound != null ? jumpSound.name : "NULL")}");
         Debug.Log($"  DieSound: {(dieSound != null ? dieSound.name : "NULL")}");
+    }
+    
+    string GetLayerNames(LayerMask layerMask)
+    {
+        string layerNames = "";
+        for (int i = 0; i < 32; i++)
+        {
+            if ((layerMask.value & (1 << i)) != 0)
+            {
+                if (layerNames.Length > 0) layerNames += ", ";
+                layerNames += LayerMask.LayerToName(i);
+            }
+        }
+        return string.IsNullOrEmpty(layerNames) ? "None" : layerNames;
     }
 
     void LoadKeyBindings()
@@ -111,18 +129,22 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(upKey))
             {
+                Debug.Log($"Player {playerID}: UP key pressed ({upKey})");
                 StartCoroutine(Move(Vector3.up, "Up"));
             }
             else if (Input.GetKeyDown(downKey))
             {
+                Debug.Log($"Player {playerID}: DOWN key pressed ({downKey})");
                 StartCoroutine(Move(Vector3.down, "Down"));
             }
             else if (Input.GetKeyDown(leftKey))
             {
+                Debug.Log($"Player {playerID}: LEFT key pressed ({leftKey})");
                 StartCoroutine(Move(Vector3.left, "Left"));
             }
             else if (Input.GetKeyDown(rightKey))
             {
+                Debug.Log($"Player {playerID}: RIGHT key pressed ({rightKey})");
                 StartCoroutine(Move(Vector3.right, "Right"));
             }
         }
@@ -153,14 +175,12 @@ public class PlayerMovement : MonoBehaviour
     {
         _isMoving = true;
         
-        // Check if game is paused before playing sound and moving
         if (GameManager.Instance != null && GameManager.Instance.IsGamePaused())
         {
             _isMoving = false;
             yield break;
         }
         
-        // Play jump sound when moving
         PlayJumpSound();
 
         if (characterAnimController != null)
@@ -178,11 +198,19 @@ public class PlayerMovement : MonoBehaviour
         float elapsed = 0f;
         float duration = 0.1f;
 
+        Debug.Log($"Player {playerID}: Checking obstacle at position {endPos}");
+        Debug.Log($"Player {playerID}: ObstacleLayer mask = {obstacleLayer.value}");
+        
         Collider2D hit = Physics2D.OverlapCircle(endPos, 0.05f, obstacleLayer);
         if (hit != null)
         {
+            Debug.Log($"Player {playerID}: OBSTACLE DETECTED! Hit: {hit.name} (Tag: {hit.tag}, Layer: {LayerMask.LayerToName(hit.gameObject.layer)})");
             _isMoving = false;
             yield break;
+        }
+        else
+        {
+            Debug.Log($"Player {playerID}: No obstacle detected, moving to {endPos}");
         }
 
         while (elapsed < duration)
@@ -251,10 +279,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isOnSafePlatform)
         {
-            // Debug.Log("DEATH CAUSE: DROWNING - Player stepped into river water without safe platform!");
-            PlayDeathSound(); // Play death sound
+            PlayDeathSound(); 
             
-            // Pause the game when player dies
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.GameOver();
@@ -277,10 +303,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Vehicle"))
         {
-            // Debug.Log($"DEATH CAUSE: VEHICLE COLLISION - Player hit by {collision.gameObject.name}!");
-            PlayDeathSound(); // Play death sound
+            PlayDeathSound(); 
             
-            // Pause the game when player dies
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.GameOver();
@@ -301,10 +325,8 @@ public class PlayerMovement : MonoBehaviour
         }
         if (collision.CompareTag("Vehicle"))
         {
-            // Debug.Log($"DEATH CAUSE: VEHICLE TRIGGER - Player hit by {collision.gameObject.name} (trigger)!");
-            PlayDeathSound(); // Play death sound
+            PlayDeathSound(); 
             
-            // Pause the game when player dies
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.GameOver();
@@ -353,11 +375,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
-        void PlayJumpSound()
+    void PlayJumpSound()
     {
-        Debug.Log($"PlayJumpSound called for Player {playerID}");
-        Debug.Log($"AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
-        Debug.Log($"JumpSound: {(jumpSound != null ? "EXISTS" : "NULL")}");
+        // Debug.Log($"PlayJumpSound called for Player {playerID}");
+        // Debug.Log($"AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
+        // Debug.Log($"JumpSound: {(jumpSound != null ? "EXISTS" : "NULL")}");
         
         if (audioSource != null && jumpSound != null)
         {
@@ -372,9 +394,9 @@ public class PlayerMovement : MonoBehaviour
 
     void PlayDeathSound()
     {
-        Debug.Log($"PlayDeathSound called for Player {playerID}");
-        Debug.Log($"AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
-        Debug.Log($"DieSound: {(dieSound != null ? "EXISTS" : "NULL")}");
+        // Debug.Log($"PlayDeathSound called for Player {playerID}");
+        // Debug.Log($"AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
+        // Debug.Log($"DieSound: {(dieSound != null ? "EXISTS" : "NULL")}");
         
         if (audioSource != null && dieSound != null)
         {
