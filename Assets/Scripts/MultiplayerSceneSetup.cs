@@ -42,27 +42,27 @@ public class MultiplayerSceneSetup : MonoBehaviour
         StartCoroutine(SetupLaneManagerDelayed());
     }
     
-    System.Collections.IEnumerator SetupLaneManagerDelayed()
+    IEnumerator SetupLaneManagerDelayed()
     {
-        Debug.Log("MultiplayerSceneSetup: Starting LaneManager setup...");
+        // Debug.Log("MultiplayerSceneSetup: Starting LaneManager setup...");
         
         yield return new WaitForSeconds(0.5f);
         
         LaneManager laneManager = FindObjectOfType<LaneManager>();
-        Debug.Log($"LaneManager found: {laneManager != null}");
+        // Debug.Log($"LaneManager found: {laneManager != null}");
         
         if (laneManager != null)
         {
             GameObject player1 = GameObject.Find("Player1");
             GameObject player2 = GameObject.Find("Player2");
             
-            Debug.Log($"Player1 found: {player1 != null}");
-            Debug.Log($"Player2 found: {player2 != null}");
+            // Debug.Log($"Player1 found: {player1 != null}");
+            // Debug.Log($"Player2 found: {player2 != null}");
             
             if (player1 != null)
             {
                 laneManager.player = player1.transform;
-                Debug.Log($"MultiplayerSceneSetup: Assigned Player1 to LaneManager at position {player1.transform.position}");
+                // Debug.Log($"MultiplayerSceneSetup: Assigned Player1 to LaneManager at position {player1.transform.position}");
             }
             else if (player2 != null)
             {
@@ -123,14 +123,14 @@ public class MultiplayerSceneSetup : MonoBehaviour
         
         StartCoroutine(ApplyCharacterDelayed(player1, characterIndex));
         
-        Debug.Log($"Spawned Player 1 with character index: {characterIndex}");
+        // Debug.Log($"Spawned Player 1 with character index: {characterIndex}");
     }
 
     void SpawnTwoPlayers()
     {
         if (playerPrefab == null)
         {
-            Debug.LogError("Player Prefab not assigned!");
+            // Debug.LogError("Player Prefab not assigned!");
             return;
         }
         
@@ -154,7 +154,7 @@ public class MultiplayerSceneSetup : MonoBehaviour
                 audioSource1 = player1.AddComponent<AudioSource>();
                 audioSource1.playOnAwake = false;
                 audioSource1.volume = 0.7f;
-                Debug.Log("Added AudioSource to Player1");
+                // ebug.Log("Added AudioSource to Player1");
             }
             pm1.audioSource = audioSource1;
             
@@ -185,7 +185,7 @@ public class MultiplayerSceneSetup : MonoBehaviour
                 audioSource2 = player2.AddComponent<AudioSource>();
                 audioSource2.playOnAwake = false;
                 audioSource2.volume = 0.7f;
-                Debug.Log("Added AudioSource to Player2");
+                // Debug.Log("Added AudioSource to Player2");
             }
             pm2.audioSource = audioSource2;
             
@@ -198,12 +198,12 @@ public class MultiplayerSceneSetup : MonoBehaviour
         }
         StartCoroutine(ApplyCharacterDelayed(player2, player2CharIndex));
         
-        Debug.Log($"Spawned 2 players with character indices: P1={player1CharIndex}, P2={player2CharIndex}");
+        // Debug.Log($"Spawned 2 players with character indices: P1={player1CharIndex}, P2={player2CharIndex}");
     }
 
     void ApplyCharacterToPlayer(GameObject player, int characterIndex)
     {
-        Debug.Log($"=== Applying character index {characterIndex} to {player.name} ===");
+        // Debug.Log($"=== Applying character index {characterIndex} to {player.name} ===");
         
         if (characterCollection == null)
         {
@@ -211,22 +211,22 @@ public class MultiplayerSceneSetup : MonoBehaviour
             return;
         }
         
-        Debug.Log($"CharacterCollection has {characterCollection.countCharacter} characters");
+        // Debug.Log($"CharacterCollection has {characterCollection.countCharacter} characters");
 
         if (characterIndex >= 0 && characterIndex < characterCollection.countCharacter)
         {
             Character character = characterCollection.GetCharacter(characterIndex);
-            Debug.Log($"Got character: {character.characterName} with sprite: {character.characterSprite?.name}");
+            // Debug.Log($"Got character: {character.characterName} with sprite: {character.characterSprite?.name}");
 
             SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
-            Debug.Log($"SpriteRenderer found: {spriteRenderer != null}");
-            Debug.Log($"Character sprite exists: {character.characterSprite != null}");
+            // Debug.Log($"SpriteRenderer found: {spriteRenderer != null}");
+            // Debug.Log($"Character sprite exists: {character.characterSprite != null}");
             
             if (spriteRenderer != null && character.characterSprite != null)
             {
                 Sprite oldSprite = spriteRenderer.sprite;
                 spriteRenderer.sprite = character.characterSprite;
-                Debug.Log($"SUCCESS: Changed sprite from '{oldSprite?.name}' to '{character.characterSprite.name}' on {player.name}");
+                // Debug.Log($"SUCCESS: Changed sprite from '{oldSprite?.name}' to '{character.characterSprite.name}' on {player.name}");
                 
                 // Setup character animations if available
                 if (characterAnimationCollection != null)

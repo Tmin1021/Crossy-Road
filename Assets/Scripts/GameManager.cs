@@ -107,8 +107,8 @@ public class GameManager : MonoBehaviour
             pausePanel.SetActive(false);
         }
         
-        Debug.Log("Game Over - Game Paused");
-        Debug.Log("Press R to restart or M to return to main menu");
+        // Debug.Log("Game Over - Game Paused");
+        // Debug.Log("Press R to restart or M to return to main menu");
     }
     
     public void RestartGame()
