@@ -15,7 +15,7 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Scene Navigation")]
     public string newGameSceneName = "SelectPlayerScene";
-    public string settingsSceneName = "SettingsScene";
+    public string settingsSceneName = "SettingScene";
     public string scoreboardSceneName = "ScoreboardScene";
     public string gameSceneName = "MultiplayerScene";
 

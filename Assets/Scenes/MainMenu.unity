@@ -161,8 +161,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -178.67, y: -101.3073}
-  m_SizeDelta: {x: 191.93, y: 82.5796}
+  m_AnchoredPosition: {x: -178.67, y: -86.472}
+  m_SizeDelta: {x: 191.93, y: 73.7153}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &80136316
 MonoBehaviour:
@@ -795,8 +795,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -186, y: 0}
-  m_SizeDelta: {x: 206.5851, y: 74.1281}
+  m_AnchoredPosition: {x: -186, y: 3.9608}
+  m_SizeDelta: {x: 206.5851, y: 66.1711}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931939441
 MonoBehaviour:
@@ -1138,8 +1138,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: 100, y: -1.8076}
-  m_SizeDelta: {x: 247.1806, y: 77.7432}
+  m_AnchoredPosition: {x: 100, y: 2.3472}
+  m_SizeDelta: {x: 247.1806, y: 69.3981}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1026687993
 MonoBehaviour:
@@ -1565,8 +1565,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -29.7, y: -170.58}
-  m_SizeDelta: {x: 205.9597, y: 73.1778}
+  m_AnchoredPosition: {x: -29.7, y: -148.30885}
+  m_SizeDelta: {x: 205.9597, y: 65.3228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669647411
 MonoBehaviour:
@@ -1909,8 +1909,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: 100, y: -101}
-  m_SizeDelta: {x: 287.7401, y: 71.4438}
+  m_AnchoredPosition: {x: 100, y: -86.197685}
+  m_SizeDelta: {x: 287.7401, y: 63.7749}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1713064242
 MonoBehaviour:
@@ -1955,31 +1955,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1713064243}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1713064247}
-        m_TargetAssemblyTypeName: ButtonHighlight, Assembly-CSharp
-        m_MethodName: OnButtonClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
-      - m_Target: {fileID: 1713064248}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
+      m_Calls: []
 --- !u!114 &1713064243
 MonoBehaviour:
   m_ObjectHideFlags: 0

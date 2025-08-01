@@ -44,7 +44,6 @@ public class GameStateLoader : MonoBehaviour
         ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
         if (scoreManager != null)
         {
-            //add score
         }
         
         AudioListener.volume = saveData.volume;

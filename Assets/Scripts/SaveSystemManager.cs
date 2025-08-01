@@ -13,8 +13,7 @@ public class SaveSystemManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-            
+            DontDestroyOnLoad(gameObject);    
             SetupSaveLocation();
         }
         else
@@ -25,10 +24,8 @@ public class SaveSystemManager : MonoBehaviour
     
     void SetupSaveLocation()
     {
-        // Use Assets/Files folder directly
         string assetsFilesFolder = Path.Combine(Application.dataPath, "Files");
         saveFilePath = Path.Combine(assetsFilesFolder, SAVE_FILE_NAME);
-        Debug.Log($"✓ Using save location: {saveFilePath}");
     }
     
     public void SaveGameState()
@@ -51,7 +48,7 @@ public class SaveSystemManager : MonoBehaviour
             PlayerMovement pm1 = player1.GetComponent<PlayerMovement>();
             if (pm1 != null)
             {
-                saveData.lastLaneY = pm1.transform.position.y; // Save progress
+                saveData.lastLaneY = pm1.transform.position.y; 
             }
         }
         
@@ -86,13 +83,11 @@ public class SaveSystemManager : MonoBehaviour
             File.WriteAllText(saveFilePath, json);
             Debug.Log("File write completed");
             
-            // Mark game as in progress
             PlayerPrefs.SetInt("GameInProgress", 1);
             PlayerPrefs.SetString("LastSaveTime", saveData.saveTimestamp);
             PlayerPrefs.Save();
             Debug.Log("PlayerPrefs saved");
             
-            // Verify the save immediately
             bool fileExists = File.Exists(saveFilePath);
             Debug.Log($"Immediate verification - File exists: {fileExists}");
             

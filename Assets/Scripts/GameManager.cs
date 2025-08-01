@@ -169,12 +169,24 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         Debug.Log("ReturnToMainMenu called");
+        bool wasGameOver = isGameOver;
+        
         Time.timeScale = originalTimeScale;
         isGamePaused = false;
-        isGameOver = false; 
-        if (!isGameOver)
+        isGameOver = false;
+        
+        if (!wasGameOver)
         {
             SaveGame();
+            Debug.Log("Game saved before returning to menu");
+        }
+        else
+        {
+            if (SaveSystemManager.Instance != null)
+            {
+                SaveSystemManager.Instance.ClearSaveData();
+            }
+            Debug.Log("Save data cleared - returning from game over");
         }
         
         Debug.Log("About to load MainMenu scene");
@@ -207,15 +219,12 @@ public class GameManager : MonoBehaviour
         
         Debug.Log("Save and Exit to Main Menu");
         isSavingAndExiting = true;
-        
-        // Save immediately without coroutine
         if (SaveSystemManager.Instance != null)
         {
             SaveSystemManager.Instance.SaveGameState();
             Debug.Log("Save completed, now returning to main menu");
         }
         
-        // Reset flag and go to main menu immediately
         isSavingAndExiting = false;
         ReturnToMainMenu();
     }
