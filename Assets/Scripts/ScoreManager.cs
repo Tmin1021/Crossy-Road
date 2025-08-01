@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;  // Make sure to include this if you're using UI Text
+using UnityEngine.UI; 
 
 public class ScoreManager : MonoBehaviour
 {
-    public Text scoreText;  // Reference to the UI Text element
+    public Text scoreText; 
     private int score;
-
     void Start()
     {
         score = 0;
@@ -15,9 +14,21 @@ public class ScoreManager : MonoBehaviour
     public void IncreaseScore(int amount)
     {
         score += amount;
+        
+    
+    }
+    
+    public void SetScore(int newScore)
+    {
+        score = newScore;
         UpdateScoreText();
     }
-
+    
+    public int GetCurrentScore()
+    {
+        return score;
+    }
+    
     void UpdateScoreText()
     {
         scoreText.text = "Score: " + score.ToString();

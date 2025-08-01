@@ -1558,7 +1558,7 @@ MonoBehaviour:
   player2RightText: {fileID: 1972126434}
   player2UpText: {fileID: 1583956462}
   player2DownText: {fileID: 1078504176}
-  gameSceneName: SelectPlayerScene
+  gameSceneName: MainMenu
 --- !u!1 &921997801
 GameObject:
   m_ObjectHideFlags: 0

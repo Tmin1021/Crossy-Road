@@ -28,7 +28,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
         Debug.Log($"Player 1 Character: {player1CharIndex}");
         Debug.Log($"Player 2 Character: {player2CharIndex}");
 
-        // Spawn players based on mode
         if (isTwoPlayer || gameMode == 2)
         {
             SpawnTwoPlayers();
@@ -38,7 +37,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
             SpawnOnePlayer();
         }
         
-        // Fix LaneManager player reference after spawning
         StartCoroutine(SetupLaneManagerDelayed());
     }
     
@@ -185,7 +183,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
                 audioSource2 = player2.AddComponent<AudioSource>();
                 audioSource2.playOnAwake = false;
                 audioSource2.volume = 0.7f;
-                // Debug.Log("Added AudioSource to Player2");
             }
             pm2.audioSource = audioSource2;
             
@@ -203,35 +200,23 @@ public class MultiplayerSceneSetup : MonoBehaviour
 
     void ApplyCharacterToPlayer(GameObject player, int characterIndex)
     {
-        // Debug.Log($"=== Applying character index {characterIndex} to {player.name} ===");
-        
         if (characterCollection == null)
         {
             Debug.LogError("CharacterCollection not assigned to MultiplayerSceneSetup!");
             return;
         }
         
-        // Debug.Log($"CharacterCollection has {characterCollection.countCharacter} characters");
 
         if (characterIndex >= 0 && characterIndex < characterCollection.countCharacter)
         {
             Character character = characterCollection.GetCharacter(characterIndex);
-            // Debug.Log($"Got character: {character.characterName} with sprite: {character.characterSprite?.name}");
-
             SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
-            // Debug.Log($"SpriteRenderer found: {spriteRenderer != null}");
-            // Debug.Log($"Character sprite exists: {character.characterSprite != null}");
-            
             if (spriteRenderer != null && character.characterSprite != null)
             {
                 Sprite oldSprite = spriteRenderer.sprite;
                 spriteRenderer.sprite = character.characterSprite;
-                // Debug.Log($"SUCCESS: Changed sprite from '{oldSprite?.name}' to '{character.characterSprite.name}' on {player.name}");
-                
-                // Setup character animations if available
                 if (characterAnimationCollection != null)
                 {
-                    // Remove old animation controller if exists
                     PlayerAnimationController oldAnimController = player.GetComponent<PlayerAnimationController>();
                     if (oldAnimController != null)
                     {

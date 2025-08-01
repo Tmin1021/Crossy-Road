@@ -161,8 +161,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -524, y: -223}
-  m_SizeDelta: {x: 351, y: 150}
+  m_AnchoredPosition: {x: -178.67, y: -101.3073}
+  m_SizeDelta: {x: 191.93, y: 82.5796}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &80136316
 MonoBehaviour:
@@ -795,8 +795,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -529, y: -16}
-  m_SizeDelta: {x: 351, y: 150}
+  m_AnchoredPosition: {x: -186, y: 0}
+  m_SizeDelta: {x: 206.5851, y: 74.1281}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931939441
 MonoBehaviour:
@@ -842,9 +842,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 931939446}
+      - m_Target: {fileID: 931939439}
         m_TargetAssemblyTypeName: ButtonHighlight, Assembly-CSharp
-        m_MethodName: OnButtonClick
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1138,8 +1138,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: 165, y: -15}
-  m_SizeDelta: {x: 351, y: 150}
+  m_AnchoredPosition: {x: 100, y: -1.8076}
+  m_SizeDelta: {x: 247.1806, y: 77.7432}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1026687993
 MonoBehaviour:
@@ -1565,8 +1565,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -173, y: -453}
-  m_SizeDelta: {x: 351, y: 150}
+  m_AnchoredPosition: {x: -29.7, y: -170.58}
+  m_SizeDelta: {x: 205.9597, y: 73.1778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669647411
 MonoBehaviour:
@@ -1909,8 +1909,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: 175.50012, y: -223}
-  m_SizeDelta: {x: 351, y: 150}
+  m_AnchoredPosition: {x: 100, y: -101}
+  m_SizeDelta: {x: 287.7401, y: 71.4438}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1713064242
 MonoBehaviour:
@@ -2239,6 +2239,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: Setting
+--- !u!1 &1931631683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1931631685}
+  - component: {fileID: 1931631684}
+  m_Layer: 0
+  m_Name: MainMenuNavigation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1931631684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931631683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee334a6f66241247b48e960086fed33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  continueButton: {fileID: 1026687993}
+  newGameButton: {fileID: 931939441}
+  settingButton: {fileID: 1713064242}
+  scoreBoard: {fileID: 80136316}
+  exit: {fileID: 1669647411}
+  newGameSceneName: SelectPlayerScene
+  settingsSceneName: SettingScene
+  scoreboardSceneName: ScoreboardScene
+  gameSceneName: MultiplayerScene
+--- !u!4 &1931631685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931631683}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 493.2412, y: 210.71242, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2247,3 +2300,4 @@ SceneRoots:
   - {fileID: 546388931}
   - {fileID: 1646292335}
   - {fileID: 927591904}
+  - {fileID: 1931631685}

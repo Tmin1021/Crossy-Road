@@ -10,14 +10,17 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     
     [Header("UI References")]
-    public GameObject gameOverPanel;  // Assign in inspector if you have a game over UI panel
-    public GameObject pausePanel;     // Assign in inspector if you have a pause UI panel
+    public GameObject gameOverPanel;  
+    public GameObject pausePanel;     
     
+    [Header("Save System")]
+    public float autoSaveInterval = 30f; 
+    private float lastSaveTime;
+    private bool isSavingAndExiting = false; 
     private float originalTimeScale = 1f;
     
     void Awake()
     {
-        // Singleton pattern
         if (Instance == null)
         {
             Instance = this;
@@ -32,27 +35,25 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         originalTimeScale = Time.timeScale;
-        ResumeGame(); // Ensure game starts unpaused
+        ResumeGame(); 
     }
     
     void Update()
     {
-        // Optional: Add pause toggle with Escape key
-        if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
+        if (!IsGamePaused() && !isGameOver)
         {
-            if (isGamePaused)
-                ResumeGame();
-            else
-                PauseGame();
+            if (Time.time - lastSaveTime > autoSaveInterval)
+            {
+                SaveGame();
+                lastSaveTime = Time.time;
+            }
         }
         
-        // Optional: Restart game with R key when game over
         if (isGameOver && Input.GetKeyDown(KeyCode.R))
         {
             RestartGame();
         }
-        
-        // Optional: Return to main menu with M key when game over
+    
         if (isGameOver && Input.GetKeyDown(KeyCode.M))
         {
             ReturnToMainMenu();
@@ -61,10 +62,20 @@ public class GameManager : MonoBehaviour
     
     public void PauseGame()
     {
-        if (isGameOver) return; // Don't pause if game is already over
+        if (isGameOver) return; 
         
         isGamePaused = true;
         Time.timeScale = 0f;
+        
+        // Find pause panel dynamically if not assigned
+        if (pausePanel == null)
+        {
+            pausePanel = GameObject.Find("PausePanel");
+            if (pausePanel == null)
+            {
+                pausePanel = GameObject.Find("Pause Panel");
+            }
+        }
         
         if (pausePanel != null)
         {
@@ -76,7 +87,7 @@ public class GameManager : MonoBehaviour
     
     public void ResumeGame()
     {
-        if (isGameOver) return; // Don't resume if game is over
+        if (isGameOver || isSavingAndExiting) return; 
         
         isGamePaused = false;
         Time.timeScale = originalTimeScale;
@@ -91,11 +102,36 @@ public class GameManager : MonoBehaviour
     
     public void GameOver()
     {
-        if (isGameOver) return; // Already game over
+        if (isGameOver) return;
         
         isGameOver = true;
         isGamePaused = true;
         Time.timeScale = 0f;
+        
+        if (SaveSystemManager.Instance != null)
+        {
+            SaveSystemManager.Instance.ClearSaveData();
+        }
+        if (gameOverPanel == null)
+        {
+            Canvas[] canvases = FindObjectsOfType<Canvas>(true); 
+            foreach (Canvas canvas in canvases)
+            {
+                Transform found = canvas.transform.Find("GameOverPanel");
+                if (found != null)
+                {
+                    gameOverPanel = found.gameObject;
+                    break;
+                }
+                
+                found = FindChildRecursive(canvas.transform, "GameOverPanel");
+                if (found != null)
+                {
+                    gameOverPanel = found.gameObject;
+                    break;
+                }
+            }
+        }
         
         if (gameOverPanel != null)
         {
@@ -107,8 +143,15 @@ public class GameManager : MonoBehaviour
             pausePanel.SetActive(false);
         }
         
-        // Debug.Log("Game Over - Game Paused");
-        // Debug.Log("Press R to restart or M to return to main menu");
+        Debug.Log("Game Over");
+    }
+    
+    public void SaveGame()
+    {
+        if (SaveSystemManager.Instance != null)
+        {
+            SaveSystemManager.Instance.SaveGameState();
+        }
     }
     
     public void RestartGame()
@@ -125,23 +168,63 @@ public class GameManager : MonoBehaviour
     
     public void ReturnToMainMenu()
     {
+        Debug.Log("ReturnToMainMenu called");
         Time.timeScale = originalTimeScale;
         isGamePaused = false;
-        isGameOver = false;
+        isGameOver = false; 
+        if (!isGameOver)
+        {
+            SaveGame();
+        }
         
-        // Load main menu scene (adjust scene name as needed)
-        SceneManager.LoadScene("MainMenu");
+        Debug.Log("About to load MainMenu scene");
+        try
+        {
+            SceneManager.LoadScene("MainMenu");
+            Debug.Log("Scene load initiated");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to load MainMenu scene by name: {e.Message}");
+            
+            try
+            {
+                Debug.Log("Trying to load scene by index 0");
+                SceneManager.LoadScene(0);
+            }
+            catch (System.Exception e2)
+            {
+                Debug.LogError($"Failed to load scene by index: {e2.Message}");
+            }
+        }
         
         Debug.Log("Returning to Main Menu");
     }
     
-    // Public method for external scripts to check if game is paused
+    public void SaveAndExit()
+    {
+        if (isSavingAndExiting) return;
+        
+        Debug.Log("Save and Exit to Main Menu");
+        isSavingAndExiting = true;
+        
+        // Save immediately without coroutine
+        if (SaveSystemManager.Instance != null)
+        {
+            SaveSystemManager.Instance.SaveGameState();
+            Debug.Log("Save completed, now returning to main menu");
+        }
+        
+        // Reset flag and go to main menu immediately
+        isSavingAndExiting = false;
+        ReturnToMainMenu();
+    }
+    
     public bool IsGamePaused()
     {
         return isGamePaused || isGameOver;
     }
     
-    // Public method for external scripts to check if game is over
     public bool IsGameOver()
     {
         return isGameOver;
@@ -149,10 +232,27 @@ public class GameManager : MonoBehaviour
     
     void OnDestroy()
     {
-        // Reset time scale when GameManager is destroyed
         if (Instance == this)
         {
             Time.timeScale = 1f;
         }
+    }
+    
+    private Transform FindChildRecursive(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+            {
+                return child;
+            }
+            
+            Transform found = FindChildRecursive(child, name);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+        return null;
     }
 }
