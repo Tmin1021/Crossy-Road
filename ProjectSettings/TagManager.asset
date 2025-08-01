@@ -10,6 +10,7 @@ TagManager:
   - LilyPad
   - Log
   - RailLight
+  - SupportItem
   layers:
   - Default
   - TransparentFX
