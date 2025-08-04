@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "674808696101",
+    "project_id": "tmin-crossy-road",
+    "storage_bucket": "tmin-crossy-road.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674808696101:android:84f91499105641bb4a5ecc",
+        "android_client_info": {
+          "package_name": "com.tmin.crossy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa4Nm9L3tC_iE9L0O44DyNaTdH5kNBsro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
