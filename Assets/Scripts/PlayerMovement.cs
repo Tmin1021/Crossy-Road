@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip dieSound;    // dead_chicken sound
     public AudioClip jumpSound;
-    public ScoreManager scoreManager;
+    public ScoreCoinManager scoreManager;
     public LaneManager laneManager;
     public CameraAutoScroll cameraAutoScroll;
     private float lastLaneY;
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        scoreManager = FindObjectOfType<ScoreManager>();
+        scoreManager = FindObjectOfType<ScoreCoinManager>();
         cameraAutoScroll = FindObjectOfType<CameraAutoScroll>();
         laneManager = FindObjectOfType<LaneManager>();
         lastLaneY = transform.position.y;
@@ -209,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Coin"))
         {
             // Handle coin collection logic here
-            
+            scoreManager.IncreaseCoin(1);
 
             Destroy(collision.gameObject);
         }

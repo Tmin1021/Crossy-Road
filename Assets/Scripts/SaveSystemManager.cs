@@ -57,10 +57,11 @@ public class SaveSystemManager : MonoBehaviour
             saveData.player2Position = player2.transform.position;
         }
         
-        ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+        ScoreCoinManager scoreManager = FindObjectOfType<ScoreCoinManager>();
         if (scoreManager != null)
         {
             saveData.currentScore = scoreManager.GetCurrentScore();
+            saveData.currentCoins = scoreManager.GetCurrentCoins();
         }
         
         if (Camera.main != null)
