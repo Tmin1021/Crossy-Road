@@ -41,7 +41,7 @@ public class GameStateLoader : MonoBehaviour
             Camera.main.transform.position = saveData.cameraPosition;
         }
         
-        ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+        ScoreCoinManager scoreManager = FindObjectOfType<ScoreCoinManager>();
         if (scoreManager != null)
         {
         }

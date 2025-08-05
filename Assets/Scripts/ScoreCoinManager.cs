@@ -27,14 +27,14 @@ public class ScoreCoinManager : MonoBehaviour
     public void IncreaseCoin(int amount)
     {
         coins += amount;
-        UpdateScoreText();
+        UpdateCoinText();
     }
 
-    public void SetScore(int newScore)
-    {
-        score = newScore;
-        UpdateScoreText();
-    }
+    // public void SetScore(int newScore)
+    // {
+    //     score = newScore;
+    //     UpdateScoreText();
+    // }
 
     public int GetCurrentScore()
     {
@@ -51,6 +51,6 @@ public class ScoreCoinManager : MonoBehaviour
     }
     void UpdateCoinText()
     {
-        scoreText.text = "Coins: " + coins.ToString();
+        coinText.text = " Coins: " + coins.ToString();
     }
 }

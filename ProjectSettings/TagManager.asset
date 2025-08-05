@@ -11,6 +11,7 @@ TagManager:
   - Log
   - RailLight
   - SupportItem
+  - Coin
   layers:
   - Default
   - TransparentFX
