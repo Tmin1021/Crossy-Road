@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -27,7 +28,9 @@ public class PlayerMovement : MonoBehaviour
     public CameraAutoScroll cameraAutoScroll;
     private float lastLaneY;
     private bool isInvincible = false;  // Track invincibility status
-    private float invincibilityEndTime = 10f;
+    private float invincibilityEndTime = 5f;
+    private bool isMagnetEffect = false;  // Track invincibility status
+    private float magnetEffectEndTime = 10f;
 
     void Start()
     {
@@ -105,16 +108,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"Player {playerID} final keys: Up={upKey}, Down={downKey}, Left={leftKey}, Right={rightKey}");
     }
 
-    public string GetPlayerDisplayName()
-    {
-        return gameObject.name;
-    }
-
-    public int GetPlayerNumber()
-    {
-        return playerID;
-    }
-
     void Update()
     {
         // Don't process input if game is paused or over
@@ -180,6 +173,14 @@ public class PlayerMovement : MonoBehaviour
                 DeactivateInvincibility();
             }
         }
+
+        if (isMagnetEffect)
+        {
+            if (Time.time > magnetEffectEndTime)
+            {
+                CoinMovement();
+            }
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -213,16 +214,26 @@ public class PlayerMovement : MonoBehaviour
 
             Destroy(collision.gameObject);
         }
+
+        if (collision.CompareTag("Magnet"))
+        {
+            isMagnetEffect = true;
+
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.CompareTag("Shield"))
+        {
+            ActivateInvincibility(5f);
+
+            Destroy(collision.gameObject);
+        } 
+
         if (isInvincible)
         {
             return;
         }
-        if (collision.CompareTag("SupportItem")) 
-        {
-            ActivateInvincibility(10f);
 
-            Destroy(collision.gameObject);
-        }
         if (collision.CompareTag("River"))
         {
             CheckWaterSafety();
@@ -383,6 +394,16 @@ public class PlayerMovement : MonoBehaviour
         _isMoving = false;
     }
 
+    public string GetPlayerDisplayName()
+    {
+        return gameObject.name;
+    }
+
+    public int GetPlayerNumber()
+    {
+        return playerID;
+    }
+
     void resetTriggers()
     {
         if (animator != null && animator.runtimeAnimatorController != null)
@@ -472,7 +493,7 @@ public class PlayerMovement : MonoBehaviour
             // Debug.LogWarning($"Cannot play death sound - AudioSource: {audioSource}, DieSound: {dieSound}");
         }
     }
-    
+
     public void ActivateInvincibility(float duration)
     {
         isInvincible = true;
@@ -486,5 +507,25 @@ public class PlayerMovement : MonoBehaviour
         isInvincible = false;
         // Reset any visual effects for invincibility
         Debug.Log("Invincibility Deactivated!");
+    }
+    
+    private void CoinMovement()
+    {
+        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
+
+        if (coins.Length == 0)
+            return;
+
+        foreach (GameObject coin in coins)
+        {
+            if (coin != null)
+            {
+                Vector3 coinPos = coin.transform.position;
+                Vector3 playerPos = transform.position;
+
+                // Move the coin toward the player
+                coin.transform.position = Vector3.MoveTowards(coinPos, playerPos, 5f * Time.deltaTime);
+            }
+        }
     }
 }

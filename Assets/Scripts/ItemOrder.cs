@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WingOrder : MonoBehaviour
+public class ItemOrder : MonoBehaviour
 {
     void Start()
     {
-        UpdateWingSortingOrder();
+        UpdateItemSortingOrder();
     }
 
     void Update()
     {
-        UpdateWingSortingOrder();
+        UpdateItemSortingOrder();
     }
 
-    void UpdateWingSortingOrder()
+    void UpdateItemSortingOrder()
     {
         GameObject parent = transform.parent.gameObject;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5652712815265902817}
   - component: {fileID: 2371128661754946684}
   - component: {fileID: 6769535774872538166}
+  - component: {fileID: -7186502680761937040}
   m_Layer: 0
   m_Name: HighwayStripe
   m_TagString: Untagged
@@ -104,3 +105,16 @@ MonoBehaviour:
   - {fileID: 5259298697460198240, guid: 281373f9b1cf8b240840ad7e841a1b07, type: 3}
   spawnRight: 1
   ifRailWay: 0
+--- !u!114 &-7186502680761937040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5015261365798476069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041fbfa214105f74d991093290abf1d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemPrefab: {fileID: 2509826899764321075, guid: b531cee0c3b109f438f0cc505832427c, type: 3}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3354140267112228946}
   - component: {fileID: 3192387476129030203}
   - component: {fileID: 6876205640187763274}
+  - component: {fileID: 3093318868611701978}
   m_Layer: 0
   m_Name: Highway
   m_TagString: Untagged
@@ -104,3 +105,16 @@ MonoBehaviour:
   - {fileID: 5259298697460198240, guid: 281373f9b1cf8b240840ad7e841a1b07, type: 3}
   spawnRight: 1
   ifRailWay: 0
+--- !u!114 &3093318868611701978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589129104573171812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041fbfa214105f74d991093290abf1d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemPrefab: {fileID: 2509826899764321075, guid: b531cee0c3b109f438f0cc505832427c, type: 3}

@@ -10,8 +10,9 @@ TagManager:
   - LilyPad
   - Log
   - RailLight
-  - SupportItem
   - Coin
+  - Shield
+  - Magnet
   layers:
   - Default
   - TransparentFX
