@@ -206,6 +206,13 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Coin"))
+        {
+            // Handle coin collection logic here
+            
+
+            Destroy(collision.gameObject);
+        }
         if (isInvincible)
         {
             return;

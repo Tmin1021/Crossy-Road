@@ -8,6 +8,10 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         score = 0;
+        if (PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1)
+        {
+            gameObject.SetActive(false);
+        }
         UpdateScoreText();
     }
 

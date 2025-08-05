@@ -9,7 +9,7 @@ public class FirebaseInit : MonoBehaviour
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             FirebaseApp app = FirebaseApp.DefaultInstance;
-            Debug.Log("Firebase is ready!");
+            // Debug.Log("Firebase is ready!");
         });
     }
 }
