@@ -19,6 +19,11 @@ public class LogSpawner : MonoBehaviour
         {
             spawnRight = Random.Range(0, 2) == 0;
         }
+
+        if (!spawnRight)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
         // logSpeed = Random.Range(3f, 5f);
 
         SpawnRandomlog();

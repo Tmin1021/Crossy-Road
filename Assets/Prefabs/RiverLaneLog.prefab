@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7624296360190406409}
   - component: {fileID: -8001621063231824640}
   - component: {fileID: 5729516123601767864}
+  - component: {fileID: 4412836413391194241}
   m_Layer: 0
   m_Name: RiverLaneLog
   m_TagString: River
@@ -147,3 +148,25 @@ MonoBehaviour:
   - {fileID: 1791108039982981658, guid: 8c0fa6d688c3137408e645366d048a29, type: 3}
   - {fileID: 1087933525972305827, guid: 9c6bb8557b6fd0a42b74b390b5e9918c, type: 3}
   spawnRight: 0
+  flag: 0
+--- !u!95 &4412836413391194241
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7698133053029626912}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4a399f924701bc740a7a0d913f478bad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
