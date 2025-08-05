@@ -19,6 +19,10 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode rightKey = KeyCode.D;
     [Header("Player ID")]
     public int playerID = 1;
+    [Header("Aura")]
+    public GameObject shieldAura;
+    public GameObject magnetAura;
+
 
     public AudioSource audioSource;
     public AudioClip dieSound;    // dead_chicken sound
@@ -26,11 +30,12 @@ public class PlayerMovement : MonoBehaviour
     public ScoreCoinManager scoreManager;
     public LaneManager laneManager;
     public CameraAutoScroll cameraAutoScroll;
+    private SpriteRenderer sr;
     private float lastLaneY;
-    private bool isInvincible = false;  // Track invincibility status
-    private float invincibilityEndTime = 5f;
-    private bool isMagnetEffect = false;  // Track invincibility status
-    private float magnetEffectEndTime = 10f;
+    private bool isInvincible = false;
+    private float invincibilityEndTime;
+    private bool isMagnetEffect = false;
+    private float magnetEffectEndTime;
 
     void Start()
     {
@@ -41,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
         lastLaneY = transform.position.y;
         characterAnimController = GetComponent<CharacterAnimationController>();
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z);
+        sr = GetComponent<SpriteRenderer>();
         LoadKeyBindings();
 
         // Debug obstacle layer settings
@@ -52,60 +58,6 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log($"  AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
         // Debug.Log($"  JumpSound: {(jumpSound != null ? jumpSound.name : "NULL")}");
         // Debug.Log($"  DieSound: {(dieSound != null ? dieSound.name : "NULL")}");
-    }
-
-    string GetLayerNames(LayerMask layerMask)
-    {
-        string layerNames = "";
-        for (int i = 0; i < 32; i++)
-        {
-            if ((layerMask.value & (1 << i)) != 0)
-            {
-                if (layerNames.Length > 0) layerNames += ", ";
-                layerNames += LayerMask.LayerToName(i);
-            }
-        }
-        return string.IsNullOrEmpty(layerNames) ? "None" : layerNames;
-    }
-
-    void LoadKeyBindings()
-    {
-        Debug.Log($"LoadKeyBindings called for Player {playerID}");
-
-        if (playerID == 1)
-        {
-            Debug.Log($"Player1Left key exists: {PlayerPrefs.HasKey("Player1Left")}, Value: {PlayerPrefs.GetString("Player1Left", "NOT_SET")}");
-            Debug.Log($"Player1Right key exists: {PlayerPrefs.HasKey("Player1Right")}, Value: {PlayerPrefs.GetString("Player1Right", "NOT_SET")}");
-            Debug.Log($"Player1Up key exists: {PlayerPrefs.HasKey("Player1Up")}, Value: {PlayerPrefs.GetString("Player1Up", "NOT_SET")}");
-            Debug.Log($"Player1Down key exists: {PlayerPrefs.HasKey("Player1Down")}, Value: {PlayerPrefs.GetString("Player1Down", "NOT_SET")}");
-
-            if (PlayerPrefs.HasKey("Player1Left"))
-                System.Enum.TryParse(PlayerPrefs.GetString("Player1Left"), out leftKey);
-            if (PlayerPrefs.HasKey("Player1Right"))
-                System.Enum.TryParse(PlayerPrefs.GetString("Player1Right"), out rightKey);
-            if (PlayerPrefs.HasKey("Player1Up"))
-                System.Enum.TryParse(PlayerPrefs.GetString("Player1Up"), out upKey);
-            if (PlayerPrefs.HasKey("Player1Down"))
-                System.Enum.TryParse(PlayerPrefs.GetString("Player1Down"), out downKey);
-        }
-        else if (playerID == 2)
-        {
-            Debug.Log($"Player2Left key exists: {PlayerPrefs.HasKey("Player2Left")}, Value: {PlayerPrefs.GetString("Player2Left", "NOT_SET")}");
-            Debug.Log($"Player2Right key exists: {PlayerPrefs.HasKey("Player2Right")}, Value: {PlayerPrefs.GetString("Player2Right", "NOT_SET")}");
-            Debug.Log($"Player2Up key exists: {PlayerPrefs.HasKey("Player2Up")}, Value: {PlayerPrefs.GetString("Player2Up", "NOT_SET")}");
-            Debug.Log($"Player2Down key exists: {PlayerPrefs.HasKey("Player2Down")}, Value: {PlayerPrefs.GetString("Player2Down", "NOT_SET")}");
-
-            if (PlayerPrefs.HasKey("Player2Left"))
-                System.Enum.TryParse(PlayerPrefs.GetString("Player2Left"), out leftKey);
-            if (PlayerPrefs.HasKey("Player2Right"))
-                System.Enum.TryParse(PlayerPrefs.GetString("Player2Right"), out rightKey);
-            if (PlayerPrefs.HasKey("Player2Up"))
-                System.Enum.TryParse(PlayerPrefs.GetString("Player2Up"), out upKey);
-            if (PlayerPrefs.HasKey("Player2Down"))
-                System.Enum.TryParse(PlayerPrefs.GetString("Player2Down"), out downKey);
-        }
-
-        Debug.Log($"Player {playerID} final keys: Up={upKey}, Down={downKey}, Left={leftKey}, Right={rightKey}");
     }
 
     void Update()
@@ -145,12 +97,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // if (transform.position.y >= 7 && currentLane < 7)
-        // {
-        //     currentLane = 7;
-        //     cameraAutoScroll.StartCameraScroll(); 
-        // }
-
         if (onLog)
         {
             transform.position += logVelocity * Time.deltaTime;
@@ -167,7 +113,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (isInvincible)
         {
-            // If invincibility duration has passed, disable invincibility
             if (Time.time > invincibilityEndTime)
             {
                 DeactivateInvincibility();
@@ -176,9 +121,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (isMagnetEffect)
         {
+            CoinMovement();
             if (Time.time > magnetEffectEndTime)
             {
-                CoinMovement();
+                isMagnetEffect = false;
+                magnetAura.SetActive(false);
             }
         }
     }
@@ -218,6 +165,13 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Magnet"))
         {
             isMagnetEffect = true;
+            magnetEffectEndTime = Time.time + 10f;
+
+            if (magnetAura != null)
+            {
+                magnetAura.SetActive(true);
+                Debug.Log("Magnet Aura On");
+            }
 
             Destroy(collision.gameObject);
         }
@@ -228,6 +182,17 @@ public class PlayerMovement : MonoBehaviour
 
             Destroy(collision.gameObject);
         } 
+
+        if (collision.CompareTag("Log"))
+        {
+            LogMover logMover = collision.GetComponent<LogMover>();
+            if (logMover != null)
+            {
+                logVelocity = logMover.direction * logMover.speed;
+                onLog = true;
+            }
+            CheckWaterSafety();
+        }
 
         if (isInvincible)
         {
@@ -258,18 +223,6 @@ public class PlayerMovement : MonoBehaviour
             }
             gameObject.GetComponent<PlayerMovement>().enabled = false;
         }
-        if (collision.CompareTag("Log"))
-        {
-            LogMover logMover = collision.GetComponent<LogMover>();
-            if (logMover != null)
-            {
-                logVelocity = logMover.direction * logMover.speed;
-                onLog = true;
-                Debug.Log("Player is on log. Log Speed: " + logVelocity);
-
-            }
-            CheckWaterSafety();
-        }
     }
 
     void OnTriggerStay2D(Collider2D collision)
@@ -291,7 +244,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Log"))
         {
-            // Only reset if not immediately entering another log
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.05f);
             bool stillOnLog = false;
             foreach (Collider2D col in colliders)
@@ -384,9 +336,10 @@ public class PlayerMovement : MonoBehaviour
             lastLaneY = transform.position.y;
         }
 
-        if (direction == Vector3.up && transform.position.y >= laneManager.lastSpawnY - 3)
+        if (direction == Vector3.up && transform.position.y >= laneManager.lastSpawnY - 5)
         {
             laneManager.SpawnLane();
+            // laneManager.SpawnLane();
             cameraAutoScroll.MoveUpOneLane();
             laneManager.DestroyOldestLane();
         }
@@ -413,6 +366,45 @@ public class PlayerMovement : MonoBehaviour
             animator.ResetTrigger("Left");
             animator.ResetTrigger("Right");
         }
+    }
+    void LoadKeyBindings()
+    {
+        Debug.Log($"LoadKeyBindings called for Player {playerID}");
+
+        if (playerID == 1)
+        {
+            Debug.Log($"Player1Left key exists: {PlayerPrefs.HasKey("Player1Left")}, Value: {PlayerPrefs.GetString("Player1Left", "NOT_SET")}");
+            Debug.Log($"Player1Right key exists: {PlayerPrefs.HasKey("Player1Right")}, Value: {PlayerPrefs.GetString("Player1Right", "NOT_SET")}");
+            Debug.Log($"Player1Up key exists: {PlayerPrefs.HasKey("Player1Up")}, Value: {PlayerPrefs.GetString("Player1Up", "NOT_SET")}");
+            Debug.Log($"Player1Down key exists: {PlayerPrefs.HasKey("Player1Down")}, Value: {PlayerPrefs.GetString("Player1Down", "NOT_SET")}");
+
+            if (PlayerPrefs.HasKey("Player1Left"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player1Left"), out leftKey);
+            if (PlayerPrefs.HasKey("Player1Right"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player1Right"), out rightKey);
+            if (PlayerPrefs.HasKey("Player1Up"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player1Up"), out upKey);
+            if (PlayerPrefs.HasKey("Player1Down"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player1Down"), out downKey);
+        }
+        else if (playerID == 2)
+        {
+            Debug.Log($"Player2Left key exists: {PlayerPrefs.HasKey("Player2Left")}, Value: {PlayerPrefs.GetString("Player2Left", "NOT_SET")}");
+            Debug.Log($"Player2Right key exists: {PlayerPrefs.HasKey("Player2Right")}, Value: {PlayerPrefs.GetString("Player2Right", "NOT_SET")}");
+            Debug.Log($"Player2Up key exists: {PlayerPrefs.HasKey("Player2Up")}, Value: {PlayerPrefs.GetString("Player2Up", "NOT_SET")}");
+            Debug.Log($"Player2Down key exists: {PlayerPrefs.HasKey("Player2Down")}, Value: {PlayerPrefs.GetString("Player2Down", "NOT_SET")}");
+
+            if (PlayerPrefs.HasKey("Player2Left"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player2Left"), out leftKey);
+            if (PlayerPrefs.HasKey("Player2Right"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player2Right"), out rightKey);
+            if (PlayerPrefs.HasKey("Player2Up"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player2Up"), out upKey);
+            if (PlayerPrefs.HasKey("Player2Down"))
+                System.Enum.TryParse(PlayerPrefs.GetString("Player2Down"), out downKey);
+        }
+
+        Debug.Log($"Player {playerID} final keys: Up={upKey}, Down={downKey}, Left={leftKey}, Right={rightKey}");
     }
 
     void CheckWaterSafety()
@@ -498,15 +490,21 @@ public class PlayerMovement : MonoBehaviour
     {
         isInvincible = true;
         invincibilityEndTime = Time.time + duration;
-        // Optionally, play an animation or visual effect here to indicate invincibility (e.g., a glowing effect)
-        Debug.Log("Invincibility Activated!");
+        
+        if (shieldAura != null)
+        {
+            shieldAura.SetActive(true);
+        }
     }
 
     private void DeactivateInvincibility()
     {
         isInvincible = false;
-        // Reset any visual effects for invincibility
-        Debug.Log("Invincibility Deactivated!");
+        
+        if (shieldAura != null)
+        {
+            shieldAura.SetActive(false);
+        }
     }
     
     private void CoinMovement()
@@ -523,8 +521,7 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 coinPos = coin.transform.position;
                 Vector3 playerPos = transform.position;
 
-                // Move the coin toward the player
-                coin.transform.position = Vector3.MoveTowards(coinPos, playerPos, 5f * Time.deltaTime);
+                coin.transform.position = Vector3.MoveTowards(coinPos, playerPos, 10f * Time.deltaTime);
             }
         }
     }

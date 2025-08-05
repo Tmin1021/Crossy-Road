@@ -11,11 +11,6 @@ public class LightSpawner : MonoBehaviour
 
     void Start()
     {
-        // if (Random.value > lightChance)
-        // {
-        //     return;
-        // }
-
         Vector3 spawnPos = new Vector3(0f, transform.position.y + 0.03f, 0f);
         lightSpawned = Instantiate(lightPrefab, spawnPos, Quaternion.identity);
         lightSpawned.transform.SetParent(transform);

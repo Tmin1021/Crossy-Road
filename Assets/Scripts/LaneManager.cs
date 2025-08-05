@@ -13,7 +13,7 @@ public class LaneManager : MonoBehaviour
     private List<GameObject> activeLanes = new List<GameObject>();
     public float lastSpawnY;
     public Transform player;
-    public int numberOfGrassLanes = 7;
+    public int numberOfGrassLanes = 4;
 
     void Start()
     {
@@ -38,16 +38,19 @@ public class LaneManager : MonoBehaviour
     private void SpawnGrassLane()
     {
         int randomIndex = Random.Range(0, 2);
+        int numLanes = activeLanes.Count;
         GameObject lanePrefab = lanePrefabs[randomIndex];
-        if (activeLanes.Count > 0)
+        if (numLanes> 0)
         {
-            if (activeLanes[activeLanes.Count - 1].name != "GrassLane(Clone)"
-                && activeLanes[activeLanes.Count - 1].name != "GrassLaneLight(Clone)"
+            if (activeLanes[numLanes- 1].name != "GrassLane(Clone)"
+                && activeLanes[numLanes- 1].name != "GrassLaneLight(Clone)"
                 && randomIndex == 1)
             {
                 lanePrefab = lanePrefabs[0];
             }
-            else if (randomIndex == 0 && (activeLanes[activeLanes.Count - 1].name == "GrassLaneLight(Clone)" || activeLanes[activeLanes.Count - 1].name == "GrassLane(Clone)"))
+            else if (randomIndex == 0
+            && (activeLanes[numLanes - 1].name == "GrassLaneLight(Clone)"
+            || activeLanes[numLanes - 1].name == "GrassLane(Clone)"))
             {
                 lanePrefab = lanePrefabs[1];
             }
@@ -65,17 +68,37 @@ public class LaneManager : MonoBehaviour
     {
         int randomIndex = Random.Range(0, lanePrefabs.Length);
         GameObject lanePrefab = lanePrefabs[randomIndex];
-        if (activeLanes.Count > 0)
+        int numLanes = activeLanes.Count;
+        if (numLanes > 0)
         {
-            if (activeLanes[activeLanes.Count - 1].name != "GrassLane(Clone)"
-                && activeLanes[activeLanes.Count - 1].name != "GrassLaneLight(Clone)"
+            if (activeLanes[numLanes - 1].name != "GrassLane(Clone)"
+                && activeLanes[numLanes - 1].name != "GrassLaneLight(Clone)"
                 && randomIndex == 1)
             {
                 lanePrefab = lanePrefabs[0];
             }
-            else if (randomIndex == 0 && (activeLanes[activeLanes.Count - 1].name == "GrassLaneLight(Clone)" || activeLanes[activeLanes.Count - 1].name == "GrassLane(Clone)"))
+            else if (randomIndex == 0
+            && (activeLanes[numLanes - 1].name == "GrassLaneLight(Clone)"
+            || activeLanes[numLanes - 1].name == "GrassLane(Clone)"))
             {
                 lanePrefab = lanePrefabs[1];
+            }
+            else if (activeLanes[numLanes - 1].name == "RiverLaneLog(Clone)"
+            && randomIndex == 3)
+            {
+                bool tmp = activeLanes[numLanes - 1].GetComponent<LogSpawner>().spawnRight;
+                bool tmp1 = false;
+                if (!tmp) tmp1 = true;
+                lanePrefab.GetComponent<LogSpawner>().flag = true;
+                lanePrefab.GetComponent<LogSpawner>().spawnRight = tmp1;
+            }
+            else if (activeLanes[numLanes - 1].name == "RiverLaneLog(Clone)"
+            && activeLanes[numLanes - 2].name == "RiverLaneLog(Clone)")
+            {
+                if (randomIndex == 3)
+                {
+                    lanePrefab = lanePrefabs[0];
+                }
             }
         }
         Vector3 spawnPosition = new Vector3(0, lastSpawnY + laneWidth, 0);
@@ -88,7 +111,7 @@ public class LaneManager : MonoBehaviour
     public void DestroyOldestLane()
     {
         GameObject oldestLane = activeLanes[0];
-        if (activeLanes.Count > 13)
+        if (activeLanes.Count> 13)
         {
             activeLanes.RemoveAt(0);
             Destroy(oldestLane);
@@ -102,7 +125,7 @@ public class LaneManager : MonoBehaviour
             SpriteRenderer sr = activeLanes[i].GetComponent<SpriteRenderer>();
             if (sr != null)
             {
-                sr.sortingOrder = activeLanes.Count - i;
+                sr.sortingOrder = activeLanes.Count- i;
             }
         }
     }
@@ -114,7 +137,12 @@ public class LaneManager : MonoBehaviour
 
         for (int i = 0; i < numberOfLanes; i++)
         {
-            SpawnGrassLane();
+            if (i < numberOfGrassLanes)
+            {
+                SpawnGrassLane();
+                continue;
+            }
+            SpawnLane();
         }
         UpdateLaneSorting();
     }

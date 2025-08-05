@@ -7,12 +7,12 @@ public class ItemSpawner : MonoBehaviour
     public GameObject ItemPrefab;
     void Start()
     {
-        int r = Random.Range(0, 4);
-        // if (r == 0)
-        // {
-        //     SpawnItem();
-        // }  
-        SpawnItem();
+        int r = Random.Range(0, 9);
+        if (r == 5)
+        {
+            SpawnItem();
+        }  
+        // SpawnItem();
     }
     void SpawnItem()
     {

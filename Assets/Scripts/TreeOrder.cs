@@ -16,11 +16,6 @@ public class TreeOrder : MonoBehaviour
 
     void UpdateTreeSortingOrder()
     {
-        if (CompareTag("Coin"))
-        {
-            GetComponent<SpriteRenderer>().sortingOrder = 100;
-            return;
-        }
         GameObject parent = transform.parent.gameObject;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 

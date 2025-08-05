@@ -30,13 +30,8 @@ public class VehicleSpawner : MonoBehaviour
 
             SpawnRandomVehicle();
         }
-        else if (isRiver)
-        {
-            spawnInterval = 1f;
-        }
         else {
             spawnInterval = 3f;
-            vehicleSpeed = 100f;
             spawnRight = Random.Range(0, 2) == 0;
         }  
     }

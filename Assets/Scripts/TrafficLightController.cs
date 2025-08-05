@@ -22,9 +22,9 @@ public class TrafficLightController : MonoBehaviour
         }
         else
         {
-            redDuration = Random.Range(4f, 6f);
+            redDuration = 1f;
             yellowDuration = 0f;
-            greenDuration = 4f;
+            greenDuration = 2f;
         }
 
 

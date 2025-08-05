@@ -22,48 +22,89 @@ public class TreeSpawner : MonoBehaviour
 
     private void SpawnTrees()
     {
-        HashSet<Vector2Int> usedPositions = new HashSet<Vector2Int>();
-
-        int attempts = 0; // prevent infinite loops
-        int maxAttempts = 20;
-
+        HashSet<Vector2Int> occupiedCells = new HashSet<Vector2Int>();
         int spawned = 0;
+        int maxAttempts = 100;
 
-        while (spawned < numberOfTrees && attempts < maxAttempts)
+        while (spawned < numberOfTrees && maxAttempts > 0)
         {
+            maxAttempts--;
+
             int randomIndex = Random.Range(0, treePrefabs.Length);
-            float rawX = Mathf.Round(Random.Range(-11f, 11f));
-            float treeY = transform.position.y;
-            float treeX = rawX;
-            if ((randomIndex == 1 || randomIndex == 2) && (rawX == 1f || rawX == 0f))
+            float baseX = Mathf.Round(Random.Range(-11f, 11f));
+            float baseY = transform.position.y;
+
+            // Force small tree if position is problematic
+            if ((randomIndex == 1 || randomIndex == 2) && (baseX == 0f || baseX == 1f))
             {
-                Debug.Log("Spawn Big or Med tree. Replace by small tree");
                 randomIndex = 0;
             }
 
+            // Tree offset & occupied size (in grid units)
+            Vector3 offset = Vector3.zero;
+            Vector2Int[] occupiedOffsets;
+
             switch (randomIndex)
             {
-                case 0: treeY += 0.25f; treeX += 0.25f; break; // small 
-                case 1: treeY += 0.6f; treeX += 0.5f; break; // medium
-                case 2: treeY += 0.9f; treeX -= 0.55f; break; // big
-                case 3: treeY += 0.25f; treeX -= 0.9f; break; // rock
+                case 0: // Small tree
+                    offset = new Vector3(0.25f, 0.25f, 0f);
+                    occupiedOffsets = new Vector2Int[] { new Vector2Int(0, 0) };
+                    break;
+                case 1: // Medium tree
+                    offset = new Vector3(0.5f, 0.6f, 0f);
+                    occupiedOffsets = new Vector2Int[] {
+                        new Vector2Int(0, 0), new Vector2Int(1, 0)
+                    };
+                    break;
+                case 2: // Big tree
+                    offset = new Vector3(-0.55f, 0.9f, 0f);
+                    occupiedOffsets = new Vector2Int[] {
+                        new Vector2Int(0, 0), new Vector2Int(-1, 0), new Vector2Int(0, 1)
+                    };
+                    break;
+                case 3: // Rock
+                    offset = new Vector3(-0.9f, 0.25f, 0f);
+                    occupiedOffsets = new Vector2Int[] {
+                        new Vector2Int(0, 0)
+                    };
+                    break;
+                default:
+                    occupiedOffsets = new Vector2Int[] { new Vector2Int(0, 0) };
+                    break;
             }
 
-            Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(treeX * 10), Mathf.RoundToInt(treeY * 10));
+            // Calculate base grid position
+            Vector2Int baseGrid = new Vector2Int(
+                Mathf.RoundToInt(baseX * 2), // using *2 to get more precise grid
+                Mathf.RoundToInt(baseY * 2)
+            );
 
-            if (usedPositions.Contains(gridPos))
+            // Check if any of the occupied tiles are already used
+            bool overlaps = false;
+            foreach (var offsetGrid in occupiedOffsets)
             {
-                attempts++;
-                continue; // position taken, try again
+                Vector2Int occupied = baseGrid + offsetGrid;
+                if (occupiedCells.Contains(occupied))
+                {
+                    overlaps = true;
+                    break;
+                }
             }
 
-            usedPositions.Add(gridPos);
-            attempts = 0; // reset attempts on successful spawn
-            spawned++;
+            if (overlaps) continue;
 
-            Vector3 spawnPos = new Vector3(treeX, treeY, 0f);
+            // Mark all occupied cells
+            foreach (var offsetGrid in occupiedOffsets)
+            {
+                occupiedCells.Add(baseGrid + offsetGrid);
+            }
+
+            // Calculate spawn position
+            Vector3 spawnPos = new Vector3(baseX, baseY, 0f) + offset;
+
             GameObject tree = Instantiate(treePrefabs[randomIndex], spawnPos, Quaternion.identity);
             tree.transform.SetParent(transform);
+            spawned++;
         }
     }
 
