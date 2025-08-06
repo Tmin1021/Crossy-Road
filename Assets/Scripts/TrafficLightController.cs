@@ -23,7 +23,7 @@ public class TrafficLightController : MonoBehaviour
         else
         {
             redDuration = 1.5f;
-            yellowDuration = 0.5f;
+            yellowDuration = 1f;
             greenDuration = 2f;
         }
 
