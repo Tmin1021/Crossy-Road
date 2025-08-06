@@ -103,12 +103,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float cameraBottomY = Camera.main.transform.position.y - Camera.main.orthographicSize;
-        if (transform.position.y < cameraBottomY)
+        if (transform.position.y < cameraBottomY
+        || transform.position.x < -9f
+        || transform.position.x > 9f)
         {
-            // resetTriggers();
-            // animator.SetTrigger("Die");
-            // gameObject.GetComponent<PlayerMovement>().enabled = false;
-            // Debug.Log("Player has fallen off the screen!");
+            PlayerDie();
         }
 
         if (isInvincible)
@@ -156,7 +155,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Coin"))
         {
-            // Handle coin collection logic here
             scoreManager.IncreaseCoin(1);
 
             Destroy(collision.gameObject);
@@ -205,23 +203,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (collision.CompareTag("Vehicle"))
         {
-            PlayDeathSound();
-
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.GameOver();
-            }
-
-            if (characterAnimController != null)
-            {
-                characterAnimController.OnPlayerDie();
-            }
-            if (animator != null && animator.runtimeAnimatorController != null)
-            {
-                resetTriggers();
-                animator.SetTrigger("Die");
-            }
-            gameObject.GetComponent<PlayerMovement>().enabled = false;
+            PlayerDie();
         }
     }
 
@@ -432,24 +414,29 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isOnSafePlatform)
         {
-            PlayDeathSound();
-
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.GameOver();
-            }
-
-            if (characterAnimController != null)
-            {
-                characterAnimController.OnPlayerDie();
-            }
-            if (animator != null && animator.runtimeAnimatorController != null)
-            {
-                resetTriggers();
-                animator.SetTrigger("Die");
-            }
-            gameObject.GetComponent<PlayerMovement>().enabled = false;
+            PlayerDie();
         }
+    }
+
+    void PlayerDie()
+    {
+        PlayDeathSound();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameOver();
+        }
+
+        if (characterAnimController != null)
+        {
+            characterAnimController.OnPlayerDie();
+        }
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            resetTriggers();
+            animator.SetTrigger("Die");
+        }
+        gameObject.GetComponent<PlayerMovement>().enabled = false;
     }
 
     void PlayJumpSound()

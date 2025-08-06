@@ -31,7 +31,7 @@ public class VehicleSpawner : MonoBehaviour
             SpawnRandomVehicle();
         }
         else {
-            spawnInterval = 3f;
+            spawnInterval = 1.5f;
             spawnRight = Random.Range(0, 2) == 0;
         }  
     }
