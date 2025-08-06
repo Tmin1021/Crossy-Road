@@ -20,10 +20,10 @@ public class LaneManager : MonoBehaviour
 
     void Start()
     {
+        playerId = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
         InitializeLanes();
         GameObject playerObj = GameObject.Find("Player1");
         player = playerObj?.transform;
-        playerId = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
     }
 
     void Update()
