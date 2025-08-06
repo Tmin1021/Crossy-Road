@@ -8,6 +8,7 @@ public class TreeSpawner : MonoBehaviour
     public int numberOfTrees = 5;
     public bool isRiver = false;
     public bool startLanes = false;
+    private int playerId;
     void Start()
     {
         if (!startLanes)
@@ -18,6 +19,8 @@ public class TreeSpawner : MonoBehaviour
             }
             else SpawnLilies();
         }
+
+        playerId = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
     }
 
     private void SpawnTrees()

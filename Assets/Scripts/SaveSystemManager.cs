@@ -72,7 +72,7 @@ public class SaveSystemManager : MonoBehaviour
         LaneManager laneManager = FindObjectOfType<LaneManager>();
         if (laneManager != null)
         {
-            saveData.lastSpawnY = laneManager.lastSpawnY;
+            saveData.lastSpawnY = laneManager.getLastSpawnY();
         }
         
         saveData.volume = AudioListener.volume;

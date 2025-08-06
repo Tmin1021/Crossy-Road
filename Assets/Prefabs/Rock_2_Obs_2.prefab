@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5015261365798476069
+--- !u!1 &4803371204498420961
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5652712815265902817}
-  - component: {fileID: 2371128661754946684}
-  - component: {fileID: 6769535774872538166}
-  - component: {fileID: 5933659688820992287}
-  m_Layer: 0
-  m_Name: RoadLaneStripe
-  m_TagString: Untagged
+  - component: {fileID: 1627672211545162600}
+  - component: {fileID: 2398856145409493696}
+  - component: {fileID: -4209764557850006240}
+  - component: {fileID: 47780971291643364}
+  m_Layer: 6
+  m_Name: Rock_2_Obs_2
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5652712815265902817
+--- !u!4 &1627672211545162600
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5015261365798476069}
+  m_GameObject: {fileID: 4803371204498420961}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.637115, y: -3.1083999, z: 1.6536}
-  m_LocalScale: {x: 1, y: 1, z: 1.1424727}
+  m_LocalPosition: {x: 2.270025, y: -25.068628, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2371128661754946684
+--- !u!212 &2398856145409493696
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5015261365798476069}
+  m_GameObject: {fileID: 4803371204498420961}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,50 +74,72 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 2298d094bbae36548b6cd8b286bb7afb, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 61be19a0c71c95f4691d45d7f4093e53, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 19.2, y: 1.07}
+  m_Size: {x: 1.36, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6769535774872538166
+--- !u!61 &-4209764557850006240
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4803371204498420961}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.36, y: 1}
+    newSize: {x: 1.36, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.36, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &47780971291643364
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5015261365798476069}
+  m_GameObject: {fileID: 4803371204498420961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c92353d58df90c478704c0d95db8212, type: 3}
+  m_Script: {fileID: 11500000, guid: 089df8df91452724e82760f963e5c8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vehiclePrefabs:
-  - {fileID: 6835659731415655438, guid: bd9299bc26145ea4884d61ac9a79d8a4, type: 3}
-  - {fileID: 8446564705133482223, guid: b54e681409a860545bd904772c0a6292, type: 3}
-  - {fileID: 4667880658721418588, guid: 95cf268f8e3c01c4d9f6f0776ec7bba1, type: 3}
-  - {fileID: 5259298697460198240, guid: 281373f9b1cf8b240840ad7e841a1b07, type: 3}
-  - {fileID: 4014348980076370916, guid: f452eed07b6d59846a66426972ebb018, type: 3}
-  spawnRight: 1
-  ifRailWay: 0
---- !u!114 &5933659688820992287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5015261365798476069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d8d563ec4948b40a235d3fb156c9d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightPrefab: {fileID: 5915133091144882318, guid: a45921a008954b84a96cf5a11f9b67fc, type: 3}
-  lightSpawned: {fileID: 0}
-  lightChance: 0.3

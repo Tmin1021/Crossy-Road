@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1173807325486105234}
   - component: {fileID: 660761319482455801}
+  - component: {fileID: -3375246617074334051}
   m_Layer: 0
   m_Name: SnowGrassLane
   m_TagString: Untagged
@@ -84,3 +85,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-3375246617074334051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2573414011647036380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe42781f26dbdaa43baa6e8a8398327b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treePrefabs:
+  - {fileID: 8290982051781563951, guid: ae9ba741b7041b54b80b4ea547dd56be, type: 3}
+  - {fileID: 335796620342690762, guid: dc72c5b375c501442a648da125c992a4, type: 3}
+  - {fileID: 4524340774268790160, guid: 00e634b4bbbd80b42a13ae751a4b733f, type: 3}
+  - {fileID: 6616928129213809433, guid: 5a5bc2ced7907e94bb7963924e388160, type: 3}
+  - {fileID: 4803371204498420961, guid: 4c450db634ea27642a9593522a6e08ff, type: 3}
+  - {fileID: 508154301965513508, guid: 9b676e35ef903f94d8225ae6140e585e, type: 3}
+  numberOfTrees: 5
+  isRiver: 0
+  startLanes: 0

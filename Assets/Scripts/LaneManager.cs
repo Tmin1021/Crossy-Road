@@ -8,18 +8,22 @@ using UnityEngine.SceneManagement;
 public class LaneManager : MonoBehaviour
 {
     public GameObject[] lanePrefabs;
+    public GameObject[] snowLanePrefabs;
     public int numberOfLanes = 15;
     public float laneWidth = 1.0f;
     private List<GameObject> activeLanes = new List<GameObject>();
-    public float lastSpawnY;
+    private float lastSpawnY;
     public Transform player;
-    public int numberOfGrassLanes = 4;
+    private int numberOfGrassLanes = 4;
+    CharacterManager characterManager;
+    public int playerId;
 
     void Start()
     {
-        InitializeLanes();  
+        InitializeLanes();
         GameObject playerObj = GameObject.Find("Player1");
         player = playerObj?.transform;
+        playerId = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
     }
 
     void Update()
@@ -35,26 +39,20 @@ public class LaneManager : MonoBehaviour
         }
     }
 
+    public float getLastSpawnY()
+    {
+        return lastSpawnY;
+    }
+
     private void SpawnGrassLane()
     {
-        int randomIndex = Random.Range(0, 2);
-        int numLanes = activeLanes.Count;
-        GameObject lanePrefab = lanePrefabs[randomIndex];
-        if (numLanes> 0)
+        GameObject lanePrefab;
+        if (playerId == 0)
         {
-            if (activeLanes[numLanes- 1].name != "GrassLane(Clone)"
-                && activeLanes[numLanes- 1].name != "GrassLaneLight(Clone)"
-                && randomIndex == 1)
-            {
-                lanePrefab = lanePrefabs[0];
-            }
-            else if (randomIndex == 0
-            && (activeLanes[numLanes - 1].name == "GrassLaneLight(Clone)"
-            || activeLanes[numLanes - 1].name == "GrassLane(Clone)"))
-            {
-                lanePrefab = lanePrefabs[1];
-            }
+            lanePrefab = snowLanePrefabs[1];
         }
+        else lanePrefab = lanePrefabs[1];
+        
         Vector3 spawnPosition = new Vector3(0, lastSpawnY + laneWidth, 0);
         GameObject newLane = Instantiate(lanePrefab, spawnPosition, Quaternion.identity);
         newLane.transform.SetParent(transform);
@@ -67,21 +65,56 @@ public class LaneManager : MonoBehaviour
     public void SpawnLane()
     {
         int randomIndex = Random.Range(0, lanePrefabs.Length);
-        GameObject lanePrefab = lanePrefabs[randomIndex];
+        GameObject lanePrefab;
+        if (playerId == 0)
+        {
+            lanePrefab = snowLanePrefabs[randomIndex];
+        }
+        else lanePrefab = lanePrefabs[randomIndex];
+
+        LanePrefabsCheckCondition(playerId, ref lanePrefab, randomIndex);
+
+        Vector3 spawnPosition = new Vector3(0, lastSpawnY + laneWidth, 0);
+        GameObject newLane = Instantiate(lanePrefab, spawnPosition, Quaternion.identity);
+        newLane.transform.SetParent(transform);
+        activeLanes.Add(newLane);
+        lastSpawnY += laneWidth;
+    }
+
+    public void LanePrefabsCheckCondition(int playerId, ref GameObject lanePrefab, int randomIndex)
+    {
         int numLanes = activeLanes.Count;
         if (numLanes > 0)
         {
-            if (activeLanes[numLanes - 1].name != "GrassLane(Clone)"
+            if (playerId == 0)
+            {
+                if (activeLanes[numLanes - 1].name != "SnowGrassLane(Clone)"
+                && activeLanes[numLanes - 1].name != "SnowGrassLaneLight(Clone)"
+                && randomIndex == 1)
+                {
+                    lanePrefab = snowLanePrefabs[0];
+                }
+                else if (randomIndex == 0
+                && (activeLanes[numLanes - 1].name == "SnowGrassLaneLight(Clone)"
+                || activeLanes[numLanes - 1].name == "SnowGrassLane(Clone)"))
+                {
+                    lanePrefab = snowLanePrefabs[1];
+                }
+            }
+            else if (playerId != 0)
+            {
+                if (activeLanes[numLanes - 1].name != "GrassLane(Clone)"
                 && activeLanes[numLanes - 1].name != "GrassLaneLight(Clone)"
                 && randomIndex == 1)
-            {
-                lanePrefab = lanePrefabs[0];
-            }
-            else if (randomIndex == 0
-            && (activeLanes[numLanes - 1].name == "GrassLaneLight(Clone)"
-            || activeLanes[numLanes - 1].name == "GrassLane(Clone)"))
-            {
-                lanePrefab = lanePrefabs[1];
+                {
+                    lanePrefab = lanePrefabs[0];
+                }
+                else if (randomIndex == 0
+                && (activeLanes[numLanes - 1].name == "GrassLaneLight(Clone)"
+                || activeLanes[numLanes - 1].name == "GrassLane(Clone)"))
+                {
+                    lanePrefab = lanePrefabs[1];
+                }
             }
             else if (activeLanes[numLanes - 1].name == "RiverLaneLog(Clone)"
             && randomIndex == 3)
@@ -101,17 +134,12 @@ public class LaneManager : MonoBehaviour
                 }
             }
         }
-        Vector3 spawnPosition = new Vector3(0, lastSpawnY + laneWidth, 0);
-        GameObject newLane = Instantiate(lanePrefab, spawnPosition, Quaternion.identity);
-        newLane.transform.SetParent(transform);
-        activeLanes.Add(newLane);
-        lastSpawnY += laneWidth;
-    }
+    } 
 
     public void DestroyOldestLane()
     {
         GameObject oldestLane = activeLanes[0];
-        if (activeLanes.Count> 13)
+        if (activeLanes.Count > 13)
         {
             activeLanes.RemoveAt(0);
             Destroy(oldestLane);
