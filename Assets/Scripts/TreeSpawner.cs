@@ -71,6 +71,12 @@ public class TreeSpawner : MonoBehaviour
                         new Vector2Int(0, 0)
                     };
                     break;
+                case 4: // Rock 2 snow lane
+                offset = new Vector3(0f, 0.22f, 0f);
+                occupiedOffsets = new Vector2Int[] {
+                    new Vector2Int(0, 0)
+                };
+                break;
                 default:
                     occupiedOffsets = new Vector2Int[] { new Vector2Int(0, 0) };
                     break;

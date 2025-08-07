@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5729516123601767864}
   - component: {fileID: 4412836413391194241}
   m_Layer: 0
-  m_Name: RiverLaneLog
+  m_Name: RiverLaneLogL
   m_TagString: River
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

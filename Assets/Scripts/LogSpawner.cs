@@ -6,8 +6,6 @@ public class LogSpawner : MonoBehaviour
     public GameObject[] logPrefabs;
     private float spawnInterval;
     public bool spawnRight = false;
-    public bool flag = false;
-    private float logSpeed;
     private float timer;
 
 
@@ -15,10 +13,6 @@ public class LogSpawner : MonoBehaviour
     {
 
         spawnInterval = 2f;
-        if (!flag)
-        {
-            spawnRight = Random.Range(0, 2) == 0;
-        }
 
         if (!spawnRight)
         {

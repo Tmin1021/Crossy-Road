@@ -15,7 +15,6 @@ public class LaneManager : MonoBehaviour
     private float lastSpawnY;
     public Transform player;
     private int numberOfGrassLanes = 4;
-    CharacterManager characterManager;
     public int playerId;
 
     void Start()
@@ -84,62 +83,54 @@ public class LaneManager : MonoBehaviour
     public void LanePrefabsCheckCondition(int playerId, ref GameObject lanePrefab, int randomIndex)
     {
         int numLanes = activeLanes.Count;
+
         if (numLanes > 0)
         {
-            if (playerId == 0)
+            string lastLaneName = activeLanes[numLanes - 1].name;
+
+            // First, handle the log alternation logic
+            if (lastLaneName == "RiverLaneLogL(Clone)" && randomIndex == 3)
             {
-                if (activeLanes[numLanes - 1].name != "SnowGrassLane(Clone)"
-                && activeLanes[numLanes - 1].name != "SnowGrassLaneLight(Clone)"
-                && randomIndex == 1)
+                lanePrefab = lanePrefabs[4]; // Switch to Right log
+                return;
+            }
+            else if (lastLaneName == "RiverLaneLogR(Clone)" && randomIndex == 4)
+            {
+                lanePrefab = lanePrefabs[3]; // Switch to Left log
+                return;
+            }
+
+            // Then handle the snow/grass lane conditions
+            if (playerId == 0) // Snow player
+            {
+                if (lastLaneName != "SnowGrassLane(Clone)" && lastLaneName != "SnowGrassLaneLight(Clone)" && randomIndex == 1)
                 {
                     lanePrefab = snowLanePrefabs[0];
                 }
-                else if (randomIndex == 0
-                && (activeLanes[numLanes - 1].name == "SnowGrassLaneLight(Clone)"
-                || activeLanes[numLanes - 1].name == "SnowGrassLane(Clone)"))
+                else if (randomIndex == 0 && (lastLaneName == "SnowGrassLaneLight(Clone)" || lastLaneName == "SnowGrassLane(Clone)"))
                 {
                     lanePrefab = snowLanePrefabs[1];
                 }
             }
-            else if (playerId != 0)
+            else // Regular player
             {
-                if (activeLanes[numLanes - 1].name != "GrassLane(Clone)"
-                && activeLanes[numLanes - 1].name != "GrassLaneLight(Clone)"
-                && randomIndex == 1)
+                if (lastLaneName != "GrassLane(Clone)" && lastLaneName != "GrassLaneLight(Clone)" && randomIndex == 1)
                 {
                     lanePrefab = lanePrefabs[0];
                 }
-                else if (randomIndex == 0
-                && (activeLanes[numLanes - 1].name == "GrassLaneLight(Clone)"
-                || activeLanes[numLanes - 1].name == "GrassLane(Clone)"))
+                else if (randomIndex == 0 && (lastLaneName == "GrassLaneLight(Clone)" || lastLaneName == "GrassLane(Clone)"))
                 {
                     lanePrefab = lanePrefabs[1];
                 }
             }
-            else if (activeLanes[numLanes - 1].name == "RiverLaneLog(Clone)"
-            && randomIndex == 3)
-            {
-                bool tmp = activeLanes[numLanes - 1].GetComponent<LogSpawner>().spawnRight;
-                bool tmp1 = false;
-                if (!tmp) tmp1 = true;
-                lanePrefab.GetComponent<LogSpawner>().flag = true;
-                lanePrefab.GetComponent<LogSpawner>().spawnRight = tmp1;
-            }
-            else if (activeLanes[numLanes - 1].name == "RiverLaneLog(Clone)"
-            && activeLanes[numLanes - 2].name == "RiverLaneLog(Clone)")
-            {
-                if (randomIndex == 3)
-                {
-                    lanePrefab = lanePrefabs[0];
-                }
-            }
         }
-    } 
+    }
+
 
     public void DestroyOldestLane()
     {
         GameObject oldestLane = activeLanes[0];
-        if (activeLanes.Count > 13)
+        if (activeLanes.Count > 15)
         {
             activeLanes.RemoveAt(0);
             Destroy(oldestLane);

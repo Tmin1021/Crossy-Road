@@ -19,6 +19,6 @@ public class TreeOrder : MonoBehaviour
         GameObject parent = transform.parent.gameObject;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        sr.sortingOrder = parent.GetComponent<SpriteRenderer>().sortingOrder + 2;
+        sr.sortingOrder = parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }
 }

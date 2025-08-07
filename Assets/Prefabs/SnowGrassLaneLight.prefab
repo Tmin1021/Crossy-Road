@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treePrefabs:
-  - {fileID: 8290982051781563951, guid: ae9ba741b7041b54b80b4ea547dd56be, type: 3}
+  - {fileID: 335796620342690762, guid: 5a34c8f9fd2954e4ca71f38668dbcf5b, type: 3}
   - {fileID: 335796620342690762, guid: dc72c5b375c501442a648da125c992a4, type: 3}
   - {fileID: 4524340774268790160, guid: 00e634b4bbbd80b42a13ae751a4b733f, type: 3}
   - {fileID: 6616928129213809433, guid: 5a5bc2ced7907e94bb7963924e388160, type: 3}
