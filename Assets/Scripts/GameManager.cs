@@ -67,7 +67,6 @@ public class GameManager : MonoBehaviour
         isGamePaused = true;
         Time.timeScale = 0f;
         
-        // Find pause panel dynamically if not assigned
         if (pausePanel == null)
         {
             pausePanel = GameObject.Find("PausePanel");

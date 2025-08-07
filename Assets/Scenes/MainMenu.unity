@@ -161,7 +161,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -178.67, y: -86.472}
+  m_AnchoredPosition: {x: -197, y: -86.472}
   m_SizeDelta: {x: 191.93, y: 73.7153}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &80136316
@@ -563,10 +563,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 0, y: 0}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -795,7 +795,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -186, y: 3.9608}
+  m_AnchoredPosition: {x: -204.32999, y: 3.9608002}
   m_SizeDelta: {x: 206.5851, y: 66.1711}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931939441
@@ -1138,7 +1138,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: 100, y: 2.3472}
+  m_AnchoredPosition: {x: 81.67001, y: 2.3472004}
   m_SizeDelta: {x: 247.1806, y: 69.3981}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1026687993
@@ -1565,7 +1565,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: -29.7, y: -148.30885}
+  m_AnchoredPosition: {x: -48.02999, y: -148.30885}
   m_SizeDelta: {x: 205.9597, y: 65.3228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669647411
@@ -1909,7 +1909,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57435423, y: 0.55200005}
   m_AnchorMax: {x: 0.57435423, y: 0.55200005}
-  m_AnchoredPosition: {x: 100, y: -86.197685}
+  m_AnchoredPosition: {x: 81.67001, y: -86.197685}
   m_SizeDelta: {x: 287.7401, y: 63.7749}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1713064242
@@ -2251,7 +2251,7 @@ MonoBehaviour:
   exit: {fileID: 1669647411}
   newGameSceneName: SelectPlayerScene
   settingsSceneName: SettingScene
-  scoreboardSceneName: ScoreboardScene
+  scoreboardSceneName: ScoreBoard2
   gameSceneName: MultiplayerScene
 --- !u!4 &1931631685
 Transform:
@@ -2268,6 +2268,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1937015630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1937015632}
+  - component: {fileID: 1937015631}
+  m_Layer: 0
+  m_Name: DatabaseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1937015631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937015630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38ee4cc7cee797449806794f43a92672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1937015632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937015630}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 29.16103, y: 8.229511, z: 17.806562}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2277,3 +2321,4 @@ SceneRoots:
   - {fileID: 1646292335}
   - {fileID: 927591904}
   - {fileID: 1931631685}
+  - {fileID: 1937015632}

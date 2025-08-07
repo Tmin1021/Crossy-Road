@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using System.IO;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("Scene Navigation")]
     public string newGameSceneName = "SelectPlayerScene";
     public string settingsSceneName = "SettingScene";
-    public string scoreboardSceneName = "ScoreboardScene";
+    public string scoreboardSceneName = "ScoreBoard2"; // Fixed - no longer crashes
     public string gameSceneName = "MultiplayerScene";
 
     void Start()
@@ -142,15 +143,33 @@ public class MainMenuManager : MonoBehaviour
 
     public void OpenScoreboard()
     {
-        Debug.Log("Scoreboard clicked");
+        Debug.Log("[MainMenuManager] Opening scoreboard");
 
+        // Find DatabaseManager to check authentication
+        DatabaseManager databaseManager = FindObjectOfType<DatabaseManager>();
+        
+        if (databaseManager == null)
+        {
+            Debug.LogError("[MainMenuManager] DatabaseManager not found! Cannot access scoreboard.");
+            return;
+        }
+
+        // Check if user is authenticated
+        if (!databaseManager.IsUserAuthenticated())
+        {
+            Debug.LogWarning("[MainMenuManager] User not authenticated. Cannot access scoreboard.");
+            return;
+        }
+
+        // User is authenticated, load scoreboard
         if (!string.IsNullOrEmpty(scoreboardSceneName))
         {
+            Debug.Log("[MainMenuManager] Loading scoreboard scene: " + scoreboardSceneName);
             SceneManager.LoadScene(scoreboardSceneName);
         }
         else
         {
-            Debug.LogWarning("Scoreboard scene name not set!");
+            Debug.LogError("[MainMenuManager] Scoreboard scene name not set!");
         }
     }
 
@@ -159,50 +178,4 @@ public class MainMenuManager : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit(0);
     }
-    // void Start()
-    // {
-    //     onePlayerButton.onClick.AddListener(() => SelectMode(1));
-    //     twoPlayerButton.onClick.AddListener(() => SelectMode(2));
-    //     nextScreenButton.onClick.AddListener(StartGame);
-
-    //     SelectMode(1);
-    // }
-
-    // public void SelectMode(int mode)
-    // {
-    //     selectedMode = mode;
-
-    //     onePlayerButton.interactable = (mode != 1);
-    //     twoPlayerButton.interactable = (mode != 2);
-    // }
-
-    // public void OnCharacterChanged(int characterIndex)
-    // {
-    //     selectedCharacterIndex = characterIndex;
-    //     Debug.Log($"Selected character index: {characterIndex}");
-    // }
-
-    // public void StartGame()
-    // {
-    //     PlayerPrefs.SetInt("SelectedGameMode", selectedMode);
-    //     PlayerPrefs.SetInt("IsTwoPlayerMode", selectedMode == 2 ? 1 : 0);
-
-    //     if (characterManager != null)
-    //     {
-    //         selectedCharacterIndex = characterManager.GetSelectedCharacterIndex();
-    //     }
-    //     PlayerPrefs.SetInt("SelectedCharacterIndex", selectedCharacterIndex);
-    //     PlayerPrefs.SetInt("Player1Character", selectedCharacterIndex);
-
-    //     if (selectedMode == 2)
-    //     {
-    //         PlayerPrefs.SetInt("Player2Character", selectedCharacterIndex); 
-    //     }
-
-
-    //     PlayerPrefs.Save();
-
-    //     Debug.Log($"Starting game: Mode={selectedMode}P, Character={selectedCharacterIndex}");
-    //     SceneManager.LoadScene(playSceneName);
-    // }
 }

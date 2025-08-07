@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     public AudioSource audioSource;
-    public AudioClip dieSound;    // dead_chicken sound
+    public AudioClip dieSound;    
     public AudioClip jumpSound;
     public ScoreCoinManager scoreManager;
     public LaneManager laneManager;
@@ -48,16 +48,6 @@ public class PlayerMovement : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z);
         sr = GetComponent<SpriteRenderer>();
         LoadKeyBindings();
-
-        // Debug obstacle layer settings
-        // Debug.Log($"Player {playerID} Obstacle Detection Setup:");
-        // Debug.Log($"  ObstacleLayer mask value: {obstacleLayer.value}");
-        // Debug.Log($"  ObstacleLayer includes layers: {GetLayerNames(obstacleLayer)}");
-
-        // Debug.Log($"Player {playerID} Audio Setup:");
-        // Debug.Log($"  AudioSource: {(audioSource != null ? "EXISTS" : "NULL")}");
-        // Debug.Log($"  JumpSound: {(jumpSound != null ? jumpSound.name : "NULL")}");
-        // Debug.Log($"  DieSound: {(dieSound != null ? dieSound.name : "NULL")}");
     }
 
     void Update()
@@ -77,22 +67,18 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(upKey))
             {
-                // Debug.Log($"Player {playerID}: UP key pressed ({upKey})");
                 StartCoroutine(Move(Vector3.up, "Up"));
             }
             else if (Input.GetKeyDown(downKey))
             {
-                // Debug.Log($"Player {playerID}: DOWN key pressed ({downKey})");
                 StartCoroutine(Move(Vector3.down, "Down"));
             }
             else if (Input.GetKeyDown(leftKey))
             {
-                // Debug.Log($"Player {playerID}: LEFT key pressed ({leftKey})");
                 StartCoroutine(Move(Vector3.left, "Left"));
             }
             else if (Input.GetKeyDown(rightKey))
             {
-                // Debug.Log($"Player {playerID}: RIGHT key pressed ({rightKey})");
                 StartCoroutine(Move(Vector3.right, "Right"));
             }
         }
@@ -279,20 +265,12 @@ public class PlayerMovement : MonoBehaviour
         float elapsed = 0f;
         float duration = 0.1f;
 
-        // Debug.Log($"Player {playerID}: Checking obstacle at position {endPos}");
-        // Debug.Log($"Player {playerID}: ObstacleLayer mask = {obstacleLayer.value}");
-
         Collider2D hit = Physics2D.OverlapCircle(endPos, 0.05f, obstacleLayer);
         if (hit != null)
         {
-            // Debug.Log($"Player {playerID}: OBSTACLE DETECTED! Hit: {hit.name} (Tag: {hit.tag}, Layer: {LayerMask.LayerToName(hit.gameObject.layer)})");
             _isMoving = false;
             yield break;
         }
-        // else
-        // {
-        //     Debug.Log($"Player {playerID}: No obstacle detected, moving to {endPos}");
-        // }
 
         while (elapsed < duration)
         {
@@ -321,7 +299,6 @@ public class PlayerMovement : MonoBehaviour
         if (direction == Vector3.up && transform.position.y >= laneManager.lastSpawnY - 5)
         {
             laneManager.SpawnLane();
-            // laneManager.SpawnLane();
             cameraAutoScroll.MoveUpOneLane();
             laneManager.DestroyOldestLane();
         }
@@ -351,15 +328,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void LoadKeyBindings()
     {
-        Debug.Log($"LoadKeyBindings called for Player {playerID}");
-
         if (playerID == 1)
         {
-            Debug.Log($"Player1Left key exists: {PlayerPrefs.HasKey("Player1Left")}, Value: {PlayerPrefs.GetString("Player1Left", "NOT_SET")}");
-            Debug.Log($"Player1Right key exists: {PlayerPrefs.HasKey("Player1Right")}, Value: {PlayerPrefs.GetString("Player1Right", "NOT_SET")}");
-            Debug.Log($"Player1Up key exists: {PlayerPrefs.HasKey("Player1Up")}, Value: {PlayerPrefs.GetString("Player1Up", "NOT_SET")}");
-            Debug.Log($"Player1Down key exists: {PlayerPrefs.HasKey("Player1Down")}, Value: {PlayerPrefs.GetString("Player1Down", "NOT_SET")}");
-
             if (PlayerPrefs.HasKey("Player1Left"))
                 System.Enum.TryParse(PlayerPrefs.GetString("Player1Left"), out leftKey);
             if (PlayerPrefs.HasKey("Player1Right"))
@@ -371,11 +341,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (playerID == 2)
         {
-            Debug.Log($"Player2Left key exists: {PlayerPrefs.HasKey("Player2Left")}, Value: {PlayerPrefs.GetString("Player2Left", "NOT_SET")}");
-            Debug.Log($"Player2Right key exists: {PlayerPrefs.HasKey("Player2Right")}, Value: {PlayerPrefs.GetString("Player2Right", "NOT_SET")}");
-            Debug.Log($"Player2Up key exists: {PlayerPrefs.HasKey("Player2Up")}, Value: {PlayerPrefs.GetString("Player2Up", "NOT_SET")}");
-            Debug.Log($"Player2Down key exists: {PlayerPrefs.HasKey("Player2Down")}, Value: {PlayerPrefs.GetString("Player2Down", "NOT_SET")}");
-
             if (PlayerPrefs.HasKey("Player2Left"))
                 System.Enum.TryParse(PlayerPrefs.GetString("Player2Left"), out leftKey);
             if (PlayerPrefs.HasKey("Player2Right"))
@@ -385,8 +350,6 @@ public class PlayerMovement : MonoBehaviour
             if (PlayerPrefs.HasKey("Player2Down"))
                 System.Enum.TryParse(PlayerPrefs.GetString("Player2Down"), out downKey);
         }
-
-        Debug.Log($"Player {playerID} final keys: Up={upKey}, Down={downKey}, Left={leftKey}, Right={rightKey}");
     }
 
     void CheckWaterSafety()

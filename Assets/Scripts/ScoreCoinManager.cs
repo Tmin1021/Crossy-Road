@@ -7,14 +7,24 @@ public class ScoreCoinManager : MonoBehaviour
     public Text coinText;
     private int score;
     private int coins;
+    private DatabaseManager databaseManager;
     void Start()
     {
         score = 0;
-        coins = 0; // Tmin: Connect the global variable here
+        coins = 0; 
+        
+        // Find DatabaseManager
+        databaseManager = FindObjectOfType<DatabaseManager>();
+        
         if (PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1)
         {
             gameObject.SetActive(false);
+            return;
         }
+        
+        // Load coins from Firebase
+        LoadCoinsFromDatabase();
+        
         UpdateScoreText();
         UpdateCoinText();
     }
@@ -47,10 +57,45 @@ public class ScoreCoinManager : MonoBehaviour
 
     void UpdateScoreText()
     {
-        scoreText.text = "Score: " + score.ToString();
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString();
+        }
     }
+    
     void UpdateCoinText()
     {
-        coinText.text = " Coins: " + coins.ToString();
+        if (coinText != null)
+        {
+            coinText.text = " Coins: " + coins.ToString();
+        }
+    }
+
+    void LoadCoinsFromDatabase()
+    {
+        if (databaseManager == null || !databaseManager.IsUserAuthenticated())
+        {
+            return;
+        }
+
+        databaseManager.ReadUserCoins(
+            onCoinsLoaded: (loadedCoins) => {
+                coins = loadedCoins;
+                UpdateCoinText();
+            },
+            onError: (error) => {
+                Debug.LogError($"Failed to load coins: {error}");
+            }
+        );
+    }
+
+    public void SaveCoinsToDatabase()
+    {
+        if (databaseManager == null || !databaseManager.IsUserAuthenticated())
+        {
+            return;
+        }
+
+        databaseManager.SaveUserData(coins, score);
     }
 }
