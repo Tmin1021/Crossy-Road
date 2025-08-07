@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 978289223547097548}
   - component: {fileID: 7895380130392417494}
+  - component: {fileID: -776106949417747435}
+  - component: {fileID: -684133477471723110}
+  - component: {fileID: -277206876171100923}
   m_Layer: 0
   m_Name: SnowRailWay
   m_TagString: Untagged
@@ -84,3 +87,47 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-776106949417747435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729527025515381056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c92353d58df90c478704c0d95db8212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehiclePrefabs:
+  - {fileID: 4912391266639707864, guid: e6251ef4a944c1345a6f7ea73fc97fd6, type: 3}
+  spawnRight: 0
+  ifRailWay: 1
+--- !u!114 &-684133477471723110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729527025515381056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95d8d563ec4948b40a235d3fb156c9d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightPrefab: {fileID: 5673285960492071909, guid: 70d973b7aaba53c4fbadb033efdb34a0, type: 3}
+  lightSpawned: {fileID: 0}
+  lightChance: 0.3
+--- !u!114 &-277206876171100923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729527025515381056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041fbfa214105f74d991093290abf1d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemPrefab: {fileID: 3476062300201036388, guid: 2d97e4b9bb1cab5418826f6ca03d0c7b, type: 3}

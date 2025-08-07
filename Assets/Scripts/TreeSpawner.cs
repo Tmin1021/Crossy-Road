@@ -8,6 +8,7 @@ public class TreeSpawner : MonoBehaviour
     public int numberOfTrees = 5;
     public bool isRiver = false;
     public bool startLanes = false;
+    private int playerId;
     void Start()
     {
         if (!startLanes)
@@ -18,6 +19,8 @@ public class TreeSpawner : MonoBehaviour
             }
             else SpawnLilies();
         }
+
+        playerId = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
     }
 
     private void SpawnTrees()
@@ -68,6 +71,12 @@ public class TreeSpawner : MonoBehaviour
                         new Vector2Int(0, 0)
                     };
                     break;
+                case 4: // Rock 2 snow lane
+                offset = new Vector3(0f, 0.22f, 0f);
+                occupiedOffsets = new Vector2Int[] {
+                    new Vector2Int(0, 0)
+                };
+                break;
                 default:
                     occupiedOffsets = new Vector2Int[] { new Vector2Int(0, 0) };
                     break;
