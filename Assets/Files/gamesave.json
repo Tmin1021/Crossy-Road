@@ -1,0 +1,29 @@
+{
+    "gameMode": 1,
+    "isTwoPlayerMode": false,
+    "player1CharacterIndex": 0,
+    "player2CharacterIndex": 1,
+    "currentScore": 0,
+    "currentCoins": 0,
+    "player1Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "player2Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "lastLaneY": 0.0,
+    "cameraPosition": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -10.0
+    },
+    "lastSpawnY": 0.0,
+    "currentLaneCount": 0,
+    "saveTimestamp": "-8584469347398776405",
+    "playTime": 0.0,
+    "volume": 1.0
+}
