@@ -11,6 +11,7 @@ public class MainMenuManager : MonoBehaviour
     public Button newGameButton;
     public Button settingButton;
     public Button scoreBoard;
+    public Button howToPlayButton;
 
     public Button exit;
 
@@ -19,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
     public string settingsSceneName = "SettingScene";
     public string scoreboardSceneName = "ScoreBoard2"; 
     public string gameSceneName = "MultiplayerScene";
+    public string howToPlaySceneName = "HowToPlay1";
 
     void Start()
     {
@@ -42,6 +44,9 @@ public class MainMenuManager : MonoBehaviour
 
         if (exit != null)
             exit.onClick.AddListener(CloseApplication);
+
+        if (howToPlayButton != null)
+            howToPlayButton.onClick.AddListener(OpenHowToPlay);
 
     }
 
@@ -171,6 +176,13 @@ public class MainMenuManager : MonoBehaviour
             Debug.LogError("[MainMenuManager] Scoreboard scene name not set!");
         }
     }
+
+    public void OpenHowToPlay()
+    {
+        if (!string.IsNullOrEmpty(howToPlaySceneName))
+            SceneManager.LoadScene(howToPlaySceneName);
+    }
+
 
     public void CloseApplication()
     {

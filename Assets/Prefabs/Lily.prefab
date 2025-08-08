@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2377549346297583768}
   - component: {fileID: 2940397016442038275}
   - component: {fileID: 761679957601388205}
+  - component: {fileID: -6741441333032789849}
   m_Layer: 0
   m_Name: Lily
   m_TagString: LilyPad
@@ -143,3 +144,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 089df8df91452724e82760f963e5c8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6741441333032789849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197353579436026756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cd61547640bae34bb07b6c536d1dece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xAngle: 0
+  yAngle: 0
+  zAngle: 0

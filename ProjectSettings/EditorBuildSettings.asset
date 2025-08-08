@@ -27,6 +27,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SettingScene.unity
     guid: 8e5db44075ad46647bd2475b01f536a9
   - enabled: 1
+    path: Assets/Scenes/HowToPlay1.unity
+    guid: 43cc4f309228151439214a1c84ba3906
+  - enabled: 1
+    path: Assets/Scenes/HowToPlay2.unity
+    guid: 2a13ca8a5f584284d91010986a75c770
+  - enabled: 1
     path: Assets/Scenes/ScoreBoard2.unity
     guid: fd6b92571fe2ef14cb30cad4ace0ebc9
   m_configObjects: {}

@@ -305,6 +305,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   dieSound: {fileID: 0}
   jumpSound: {fileID: 0}
+  backGroundSound: {fileID: 8300000, guid: 73e58ba8e346f9742a79636f46db259c, type: 3}
   scoreManager: {fileID: 0}
   laneManager: {fileID: 0}
   cameraAutoScroll: {fileID: 0}
