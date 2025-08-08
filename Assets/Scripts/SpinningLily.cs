@@ -39,10 +39,10 @@ public class SpinningLily : MonoBehaviour
                 angle = 0.3f;
                 break;
             case 1:
-                angle = 0.5f;
+                angle = 0.4f;
                 break;
             case 2:
-                angle = 0.7f;
+                angle = 0.5f;
                 break; 
         }
         transform.Rotate(0f, 0f, angle);
