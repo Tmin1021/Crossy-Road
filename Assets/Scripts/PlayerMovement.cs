@@ -47,6 +47,13 @@ public class PlayerMovement : MonoBehaviour
         characterAnimController = GetComponent<CharacterAnimationController>();
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z);
         sr = GetComponent<SpriteRenderer>();
+        bool isTwoPlayer = PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1;
+        if (!isTwoPlayer)
+        {
+            GameObject.Find("Canvas").transform.Find("Score")?.gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("Coins")?.gameObject.SetActive(true);
+        }
+
         LoadKeyBindings();
     }
 
@@ -290,7 +297,7 @@ public class PlayerMovement : MonoBehaviour
             transform.position.z
         );
 
-        if (direction == Vector3.up && transform.position.y > lastLaneY)
+        if (direction == Vector3.up && transform.position.y > lastLaneY && GameObject.Find("Player2") == null)
         {
             scoreManager.IncreaseScore(1);
             lastLaneY = transform.position.y;
