@@ -17,7 +17,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("Scene Navigation")]
     public string newGameSceneName = "SelectPlayerScene";
     public string settingsSceneName = "SettingScene";
-    public string scoreboardSceneName = "ScoreBoard2"; // Fixed - no longer crashes
+    public string scoreboardSceneName = "ScoreBoard2"; 
     public string gameSceneName = "MultiplayerScene";
 
     void Start()
@@ -161,7 +161,6 @@ public class MainMenuManager : MonoBehaviour
             return;
         }
 
-        // User is authenticated, load scoreboard
         if (!string.IsNullOrEmpty(scoreboardSceneName))
         {
             Debug.Log("[MainMenuManager] Loading scoreboard scene: " + scoreboardSceneName);

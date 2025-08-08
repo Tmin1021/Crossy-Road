@@ -50,7 +50,15 @@ public class SettingMenuManager : MonoBehaviour
         if (characterManager != null)
         {
             selectedCharacterIndex = characterManager.GetSelectedCharacterIndex();
+            
+            // Check if character is unlocked before starting game
+            if (!characterManager.CanSelectCharacter())
+            {
+                Debug.LogWarning("Selected character is not unlocked! Cannot start game.");
+                return;
+            }
         }
+        
         PlayerPrefs.SetInt("SelectedCharacterIndex", selectedCharacterIndex);
         PlayerPrefs.SetInt("Player1Character", selectedCharacterIndex);
 
@@ -58,7 +66,6 @@ public class SettingMenuManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("Player2Character", selectedCharacterIndex);
         }
-
 
         PlayerPrefs.Save();
 

@@ -26,7 +26,6 @@ public class CharacterManager : MonoBehaviour
     {
         if (mainCamera == null) return;
         
-        // Convert screen position to world position
         Vector3 screenPos = new Vector3(
             screenPosition.x * Screen.width,
             screenPosition.y * Screen.height,
@@ -41,7 +40,6 @@ public class CharacterManager : MonoBehaviour
     
     void Update()
     {
-        // Update position when screen size changes
         SetupResponsivePosition();
     }
 
@@ -53,24 +51,53 @@ public class CharacterManager : MonoBehaviour
 
     public void nextChar()
     {
-        selectedCharIdx++;
-        if (selectedCharIdx >= charCollection.countCharacter)
-            selectedCharIdx = 0;
+        int nextIndex = selectedCharIdx + 1;
+        if (nextIndex >= charCollection.countCharacter)
+            nextIndex = 0;
 
+        selectedCharIdx = nextIndex;
         renderCharacterByIdx(selectedCharIdx);
+        
+        OnCharacterChanged();
     }
     
     public void previousChar()
     {
-        selectedCharIdx--;
-        if (selectedCharIdx < 0)
-            selectedCharIdx = charCollection.countCharacter - 1;
+        int previousIndex = selectedCharIdx - 1;
+        if (previousIndex < 0)
+            previousIndex = charCollection.countCharacter - 1;
 
+        selectedCharIdx = previousIndex;
         renderCharacterByIdx(selectedCharIdx);
+        OnCharacterChanged();
+    }
+    
+    private void OnCharacterChanged()
+    {
+
+        GameObject[] uiObjects = GameObject.FindGameObjectsWithTag("UI");
+        foreach (GameObject obj in uiObjects)
+        {
+            obj.SendMessage("OnCharacterSelectionChanged", selectedCharIdx, SendMessageOptions.DontRequireReceiver);
+        }
     }
 
     public int GetSelectedCharacterIndex()
     {
         return selectedCharIdx;
+    }
+    
+    public bool CanSelectCharacter()
+    {
+        GameObject unlockManagerObj = GameObject.Find("CharacterUnlockManager");
+        if (unlockManagerObj != null)
+        {
+            MonoBehaviour unlockManager = unlockManagerObj.GetComponent<MonoBehaviour>();
+            if (unlockManager != null)
+            {
+                return true;
+            }
+        }
+        return true; 
     }
 }

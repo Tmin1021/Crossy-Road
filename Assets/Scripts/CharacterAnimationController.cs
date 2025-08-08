@@ -97,23 +97,18 @@ public class CharacterAnimationController : MonoBehaviour
         switch (direction.ToLower())
         {
             case "up":
-                // Debug.Log("Setting back sprite");
                 SetSprite(currentAnimationSet.backSprite);
                 break;
             case "down":
-                // Debug.Log("Setting front sprite");
                 SetSprite(currentAnimationSet.frontSprite);
                 break;
             case "left":
-                // Debug.Log("Setting left sprite");
                 SetSprite(currentAnimationSet.leftSprite);
                 break;
             case "right":
-                // Debug.Log("Setting right sprite");
                 SetSprite(currentAnimationSet.rightSprite);
                 break;
             default:
-                // Debug.Log("Setting idle sprite (default case)");
                 SetSprite(currentAnimationSet.idleSprite);
                 break;
         }

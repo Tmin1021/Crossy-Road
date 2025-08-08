@@ -149,7 +149,6 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Coin"))
         {
             scoreManager.IncreaseCoin(1);
-
             Destroy(collision.gameObject);
         }
 

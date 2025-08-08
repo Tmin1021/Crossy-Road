@@ -54,9 +54,6 @@ public class MultiplayerSceneSetup : MonoBehaviour
             GameObject player1 = GameObject.Find("Player1");
             GameObject player2 = GameObject.Find("Player2");
             
-            // Debug.Log($"Player1 found: {player1 != null}");
-            // Debug.Log($"Player2 found: {player2 != null}");
-            
             if (player1 != null)
             {
                 laneManager.player = player1.transform;
@@ -128,7 +125,7 @@ public class MultiplayerSceneSetup : MonoBehaviour
     {
         if (playerPrefab == null)
         {
-            // Debug.LogError("Player Prefab not assigned!");
+            Debug.LogError("Player Prefab not assigned!");
             return;
         }
         
@@ -152,11 +149,9 @@ public class MultiplayerSceneSetup : MonoBehaviour
                 audioSource1 = player1.AddComponent<AudioSource>();
                 audioSource1.playOnAwake = false;
                 audioSource1.volume = 0.7f;
-                // ebug.Log("Added AudioSource to Player1");
             }
             pm1.audioSource = audioSource1;
             
-            // Assign audio clips if available
             if (jumpSound != null) pm1.jumpSound = jumpSound;
             if (dieSound != null) pm1.dieSound = dieSound;
         }

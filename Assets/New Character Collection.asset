@@ -16,15 +16,40 @@ MonoBehaviour:
   - characterName: Cat
     characterSprite: {fileID: 21300000, guid: 8abe6d63b924aeb4c9cd1df3bb4efee4, type: 3}
     animatorController: {fileID: 0}
+    isUnlockedByDefault: 1
+    unlockCost: 0
   - characterName: Chicken
     characterSprite: {fileID: 21300000, guid: c182e3882c8cdfd40be0610a051955c9, type: 3}
     animatorController: {fileID: 0}
+    isUnlockedByDefault: 1
+    unlockCost: 0
   - characterName: Fox
     characterSprite: {fileID: 21300000, guid: 3783c78f6dea0a8488c2f18a5842af89, type: 3}
     animatorController: {fileID: 0}
+    isUnlockedByDefault: 1
+    unlockCost: 0
   - characterName: Pig
     characterSprite: {fileID: 21300000, guid: 2a9c7eb66e113ff4b81ad0fe9bf34d14, type: 3}
     animatorController: {fileID: 0}
+    isUnlockedByDefault: 1
+    unlockCost: 0
+  - characterName: Penguin
+    characterSprite: {fileID: -841648408, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    animatorController: {fileID: 0}
+    isUnlockedByDefault: 0
+    unlockCost: 99
+  - characterName: Chichi
+    characterSprite: {fileID: -1157582529, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    animatorController: {fileID: 0}
+    isUnlockedByDefault: 0
+    unlockCost: 9999
+  - characterName: Knight
+    characterSprite: {fileID: -1125238470, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    animatorController: {fileID: 0}
+    isUnlockedByDefault: 0
+    unlockCost: 10
   - characterName: Lion
     characterSprite: {fileID: 21300000, guid: 2f3dcc1e5af4d3f429e0ba7c64b6c8f0, type: 3}
     animatorController: {fileID: 0}
+    isUnlockedByDefault: 1
+    unlockCost: 0

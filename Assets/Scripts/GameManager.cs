@@ -32,10 +32,36 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "MainMenu" && scene.name != "Settings")
+        {
+            ResetGameState();
+        }
+    }
+    
     void Start()
     {
-        originalTimeScale = Time.timeScale;
-        ResumeGame(); 
+        originalTimeScale = 1f;
+        ResetGameState();
+    }
+    
+    public void ResetGameState()
+    {
+        isGamePaused = false;
+        isGameOver = false;
+        Time.timeScale = originalTimeScale;
+        isSavingAndExiting = false;
     }
     
     void Update()
@@ -80,8 +106,6 @@ public class GameManager : MonoBehaviour
         {
             pausePanel.SetActive(true);
         }
-        
-        Debug.Log("Game Paused");
     }
     
     public void ResumeGame()
@@ -95,8 +119,6 @@ public class GameManager : MonoBehaviour
         {
             pausePanel.SetActive(false);
         }
-        
-        Debug.Log("Game Resumed");
     }
     
     public void GameOver()
@@ -155,29 +177,30 @@ public class GameManager : MonoBehaviour
     
     public void RestartGame()
     {
-        Time.timeScale = originalTimeScale;
+        Time.timeScale = 1f; // Force normal time scale
+        originalTimeScale = 1f; // Reset this too
         isGamePaused = false;
         isGameOver = false;
+        isSavingAndExiting = false;
         
         // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
-        Debug.Log("Game Restarted");
     }
     
     public void ReturnToMainMenu()
     {
-        Debug.Log("ReturnToMainMenu called");
         bool wasGameOver = isGameOver;
         
-        Time.timeScale = originalTimeScale;
+        // Always reset to proper time scale and game state
+        Time.timeScale = 1f; // Force normal time scale
+        originalTimeScale = 1f; // Ensure this is reset too
         isGamePaused = false;
         isGameOver = false;
+        isSavingAndExiting = false;
         
         if (!wasGameOver)
         {
             SaveGame();
-            Debug.Log("Game saved before returning to menu");
         }
         else
         {
@@ -185,14 +208,11 @@ public class GameManager : MonoBehaviour
             {
                 SaveSystemManager.Instance.ClearSaveData();
             }
-            Debug.Log("Save data cleared - returning from game over");
         }
         
-        Debug.Log("About to load MainMenu scene");
         try
         {
             SceneManager.LoadScene("MainMenu");
-            Debug.Log("Scene load initiated");
         }
         catch (System.Exception e)
         {
@@ -200,7 +220,6 @@ public class GameManager : MonoBehaviour
             
             try
             {
-                Debug.Log("Trying to load scene by index 0");
                 SceneManager.LoadScene(0);
             }
             catch (System.Exception e2)
@@ -208,8 +227,6 @@ public class GameManager : MonoBehaviour
                 Debug.LogError($"Failed to load scene by index: {e2.Message}");
             }
         }
-        
-        Debug.Log("Returning to Main Menu");
     }
     
     public void SaveAndExit()

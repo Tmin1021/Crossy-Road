@@ -157,10 +157,6 @@ public class AuthManager : MonoBehaviour
     
     void GoToMainMenu()
     {
-        Debug.Log("[AuthManager] GoToMainMenu() called!");
-        Debug.Log("[AuthManager] Target scene name: '" + mainMenuSceneName + "'");
-        
-        // Check if the scene exists in build settings
         bool sceneFound = false;
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {

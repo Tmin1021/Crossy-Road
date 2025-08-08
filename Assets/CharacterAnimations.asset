@@ -20,7 +20,6 @@ MonoBehaviour:
     leftSprite: {fileID: 21300000, guid: d230ca8ea2bdad54e96e70f7c1a92b84, type: 3}
     rightSprite: {fileID: 21300000, guid: 386149a726a64ef459909e0b1e7b5072, type: 3}
     dieSprite: {fileID: 21300000, guid: f7b74123fed745c44b51c8874aa051af, type: 3}
-    animatorController: {fileID: 9100000, guid: 7e26f57adae412f449f4f9889a14bd61, type: 2}
   - characterName: Chicken
     idleSprite: {fileID: 21300000, guid: 0e8c9dd0df265604c9b150b98c797f8a, type: 3}
     backSprite: {fileID: 21300000, guid: 2cbab38e5e22ec84fa35d113c63c1522, type: 3}
@@ -28,7 +27,6 @@ MonoBehaviour:
     leftSprite: {fileID: 21300000, guid: e6fe1c1587e878042a63bf7128208b53, type: 3}
     rightSprite: {fileID: 21300000, guid: 3b12eb35cd055de4fb5db1ce47c8f00b, type: 3}
     dieSprite: {fileID: 21300000, guid: 98618f9d44af9944eb98330b65fe50f4, type: 3}
-    animatorController: {fileID: 9100000, guid: 7e26f57adae412f449f4f9889a14bd61, type: 2}
   - characterName: Fox
     idleSprite: {fileID: 21300000, guid: 19f87de4d4a146043ab80f6bb6cbf484, type: 3}
     backSprite: {fileID: 21300000, guid: 19f87de4d4a146043ab80f6bb6cbf484, type: 3}
@@ -36,7 +34,6 @@ MonoBehaviour:
     leftSprite: {fileID: 21300000, guid: 362b10e80c35445428bbb525e56c938c, type: 3}
     rightSprite: {fileID: 21300000, guid: 0a0f30e5a4bd25546b9f2637e5fce420, type: 3}
     dieSprite: {fileID: 21300000, guid: 4cc8f5fb65d99c7439504c21f94211ea, type: 3}
-    animatorController: {fileID: 9100000, guid: 7e26f57adae412f449f4f9889a14bd61, type: 2}
   - characterName: Pig
     idleSprite: {fileID: 21300000, guid: 5af5c9eca0ec89a4eae6a36dafb07821, type: 3}
     backSprite: {fileID: 21300000, guid: 5af5c9eca0ec89a4eae6a36dafb07821, type: 3}
@@ -44,12 +41,31 @@ MonoBehaviour:
     leftSprite: {fileID: 21300000, guid: caf19ef21dd742d4dacabf977fc15abb, type: 3}
     rightSprite: {fileID: 21300000, guid: 0f8b7571df6e0934fb45c74c5ca07e03, type: 3}
     dieSprite: {fileID: 21300000, guid: 58a8a961addd3e3428470a5db79a514d, type: 3}
-    animatorController: {fileID: 9100000, guid: 7e26f57adae412f449f4f9889a14bd61, type: 2}
+  - characterName: Penguin
+    idleSprite: {fileID: -1463702339, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    backSprite: {fileID: -1093852686, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    frontSprite: {fileID: -1463702339, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    leftSprite: {fileID: -1093852686, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    rightSprite: {fileID: -841648408, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    dieSprite: {fileID: 21300000, guid: caebd5e9722701f419eca96b9e1af67d, type: 3}
+  - characterName: Chichi
+    idleSprite: {fileID: 195140183, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    backSprite: {fileID: -1157582529, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    frontSprite: {fileID: 195140183, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    leftSprite: {fileID: 195140183, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    rightSprite: {fileID: 194307352, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    dieSprite: {fileID: 21300000, guid: caebd5e9722701f419eca96b9e1af67d, type: 3}
+  - characterName: Knight
+    idleSprite: {fileID: -1747715291, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    backSprite: {fileID: -1125238470, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    frontSprite: {fileID: -1747715291, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    leftSprite: {fileID: -1125238470, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    rightSprite: {fileID: -1014341969, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    dieSprite: {fileID: 21300000, guid: caebd5e9722701f419eca96b9e1af67d, type: 3}
   - characterName: Lion
     idleSprite: {fileID: 21300000, guid: 0ca263472466de34fa936c94da89fea0, type: 3}
     backSprite: {fileID: 21300000, guid: 0ca263472466de34fa936c94da89fea0, type: 3}
     frontSprite: {fileID: 21300000, guid: a75a924a2d45f7947a542998e014ccdf, type: 3}
-    leftSprite: {fileID: 21300000, guid: d91144764741a3949adb8e3702d6df89, type: 3}
-    rightSprite: {fileID: 21300000, guid: 7f915b972f0c97b4e860c1de4f02d3cf, type: 3}
+    leftSprite: {fileID: 21300000, guid: 52901090d2d10f14c87eaccb76ca8b14, type: 3}
+    rightSprite: {fileID: 21300000, guid: 61efe89f7f804324fab5576ce90d9198, type: 3}
     dieSprite: {fileID: 21300000, guid: caebd5e9722701f419eca96b9e1af67d, type: 3}
-    animatorController: {fileID: 9100000, guid: 7e26f57adae412f449f4f9889a14bd61, type: 2}

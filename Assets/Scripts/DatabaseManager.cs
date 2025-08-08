@@ -9,13 +9,27 @@ using System.IO;
 
 public class DatabaseManager : MonoBehaviour
 {
+    public static DatabaseManager Instance { get; private set; }
     
     private DatabaseReference dbRef;
     private FirebaseAuth auth;
 
     void Awake()
     {
-        InitializeFirebase();
+        // Singleton pattern with DontDestroyOnLoad
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            InitializeFirebase();
+            Debug.Log("[DatabaseManager] Instance created and set to persist across scenes");
+        }
+        else
+        {
+            Debug.Log("[DatabaseManager] Duplicate instance found, destroying...");
+            Destroy(gameObject);
+            return;
+        }
     }
 
     void Start()
@@ -205,6 +219,108 @@ public class DatabaseManager : MonoBehaviour
             Debug.Log($"Loaded {coins} coins for user: {userId}");
             onCoinsLoaded?.Invoke(coins);
         });
+    }
+
+    public void GetCoinsWithFallback(System.Action<int, string> onComplete)
+    {
+        if (IsUserAuthenticated())
+        {
+            ReadUserCoins(
+                onCoinsLoaded: (coins) =>
+                {
+                    onComplete?.Invoke(coins, "Firebase");
+                },
+                onError: (error) =>
+                {
+                    Debug.LogError($"[DatabaseManager] Firebase error: {error}");
+                    GetCoinsFromLocal(onComplete);
+                }
+            );
+        }
+        else
+        {
+            GetCoinsFromLocal(onComplete);
+        }
+    }
+    
+    private void GetCoinsFromLocal(System.Action<int, string> onComplete)
+    {
+        int localCoins = PlayerPrefs.GetInt("PlayerCoins", 80);
+        onComplete?.Invoke(localCoins, "Local");
+    }
+    
+    public void SaveCoinsOnly(int coins, System.Action<bool> onComplete = null)
+    {
+        PlayerPrefs.SetInt("PlayerCoins", coins);
+        PlayerPrefs.Save();
+        
+        if (IsUserAuthenticated())
+        {
+            string userId = GetCurrentUserId();
+            
+            if (!string.IsNullOrEmpty(userId))
+            {
+                DatabaseReference userRef = dbRef.Child("user").Child(userId);
+                
+                userRef.Child("coins").SetValueAsync(coins).ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted && !task.IsFaulted)
+                    {
+                        onComplete?.Invoke(true);
+                    }
+                    else
+                    {
+                        Debug.LogError($"[DatabaseManager] Failed to save coins to Firebase: {task.Exception?.GetBaseException().Message}");
+                        onComplete?.Invoke(false);
+                    }
+                });
+            }
+            else
+            {
+                Debug.LogError("[DatabaseManager] Cannot save to Firebase: No user ID");
+                onComplete?.Invoke(false);
+            }
+        }
+        else
+        {
+            onComplete?.Invoke(true);
+        }
+    }
+    
+    // New method: Sync coins when user signs in
+    public void SyncCoinsOnSignIn()
+    {
+        if (IsUserAuthenticated())
+        {
+            // Get coins from Firebase and sync with local
+            GetCoinsWithFallback((firebaseCoins, source) =>
+            {
+                int localCoins = PlayerPrefs.GetInt("PlayerCoins", 80);
+                
+                if (source == "Firebase")
+                {
+                    // Use the higher value (in case user earned coins offline)
+                    int syncedCoins = Mathf.Max(firebaseCoins, localCoins);
+                    
+                    if (syncedCoins != firebaseCoins)
+                    {
+                        SaveCoinsOnly(syncedCoins);
+                    }
+                    else if (syncedCoins != localCoins)
+                    {
+                        PlayerPrefs.SetInt("PlayerCoins", syncedCoins);
+                        PlayerPrefs.Save();
+                    }
+                    
+                    // Notify UI to refresh
+                    CharacterSelectionController selectionController = FindObjectOfType<CharacterSelectionController>();
+                    if (selectionController != null)
+                    {
+                        selectionController.RefreshCoinsDisplay();
+                    }
+                }
+            });
+        }
     }
 
 }
