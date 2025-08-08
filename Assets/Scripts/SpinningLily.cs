@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpinningLily : MonoBehaviour
 {
+
+    private int randomIndex;
     void Start()
     {
         float angle = 0f;
@@ -18,20 +20,20 @@ public class SpinningLily : MonoBehaviour
                 break;
             case 2:
                 angle = 10f;
-                break; 
+                break;
             case 3:
                 angle = 15f;
-                break; 
+                break;
 
         }
         transform.Rotate(0f, 0f, angle);
+        randomIndex = Random.Range(0, 3);
     }
 
     void Update()
     {
-        int random = Random.Range(0, 3);
         float angle = 0.3f;
-        switch (random)
+        switch (randomIndex)
         {
             case 0:
                 angle = 0.3f;

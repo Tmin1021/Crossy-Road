@@ -4,21 +4,21 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    
+
     [Header("Game State")]
     public bool isGamePaused = false;
     public bool isGameOver = false;
-    
+
     [Header("UI References")]
-    public GameObject gameOverPanel;  
-    public GameObject pausePanel;     
-    
+    public GameObject gameOverPanel;
+    public GameObject pausePanel;
+
     [Header("Save System")]
-    public float autoSaveInterval = 30f; 
+    public float autoSaveInterval = 30f;
     private float lastSaveTime;
-    private bool isSavingAndExiting = false; 
+    private bool isSavingAndExiting = false;
     private float originalTimeScale = 1f;
-    
+
     void Awake()
     {
         if (Instance == null)
@@ -31,13 +31,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     void Start()
     {
         originalTimeScale = Time.timeScale;
-        ResumeGame(); 
+        ResumeGame();
     }
-    
+
     void Update()
     {
         if (!IsGamePaused() && !isGameOver)
@@ -48,25 +48,25 @@ public class GameManager : MonoBehaviour
                 lastSaveTime = Time.time;
             }
         }
-        
+
         if (isGameOver && Input.GetKeyDown(KeyCode.R))
         {
             RestartGame();
         }
-    
+
         if (isGameOver && Input.GetKeyDown(KeyCode.M))
         {
             ReturnToMainMenu();
         }
     }
-    
+
     public void PauseGame()
     {
-        if (isGameOver) return; 
-        
+        if (isGameOver) return;
+
         isGamePaused = true;
         Time.timeScale = 0f;
-        
+
         // Find pause panel dynamically if not assigned
         if (pausePanel == null)
         {
@@ -76,45 +76,46 @@ public class GameManager : MonoBehaviour
                 pausePanel = GameObject.Find("Pause Panel");
             }
         }
-        
+
         if (pausePanel != null)
         {
             pausePanel.SetActive(true);
         }
-        
+
         Debug.Log("Game Paused");
     }
-    
+
     public void ResumeGame()
     {
-        if (isGameOver || isSavingAndExiting) return; 
-        
+        if (isGameOver || isSavingAndExiting) return;
+
         isGamePaused = false;
-        Time.timeScale = originalTimeScale;
-        
+        Time.timeScale = 1f;
+        // Time.timeScale = originalTimeScale;
+
         if (pausePanel != null)
         {
             pausePanel.SetActive(false);
         }
-        
+
         Debug.Log("Game Resumed");
     }
-    
+
     public void GameOver()
     {
         if (isGameOver) return;
-        
+
         isGameOver = true;
         isGamePaused = true;
         Time.timeScale = 0f;
-        
+
         if (SaveSystemManager.Instance != null)
         {
             SaveSystemManager.Instance.ClearSaveData();
         }
         if (gameOverPanel == null)
         {
-            Canvas[] canvases = FindObjectsOfType<Canvas>(true); 
+            Canvas[] canvases = FindObjectsOfType<Canvas>(true);
             foreach (Canvas canvas in canvases)
             {
                 Transform found = canvas.transform.Find("GameOverPanel");
@@ -123,7 +124,7 @@ public class GameManager : MonoBehaviour
                     gameOverPanel = found.gameObject;
                     break;
                 }
-                
+
                 found = FindChildRecursive(canvas.transform, "GameOverPanel");
                 if (found != null)
                 {
@@ -132,20 +133,20 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        
+
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
         }
-        
+
         if (pausePanel != null)
         {
             pausePanel.SetActive(false);
         }
-        
+
         Debug.Log("Game Over");
     }
-    
+
     public void SaveGame()
     {
         if (SaveSystemManager.Instance != null)
@@ -153,28 +154,28 @@ public class GameManager : MonoBehaviour
             SaveSystemManager.Instance.SaveGameState();
         }
     }
-    
+
     public void RestartGame()
     {
-        Time.timeScale = originalTimeScale;
+        Time.timeScale = 1f;
         isGamePaused = false;
         isGameOver = false;
-        
+
         // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
+
         Debug.Log("Game Restarted");
     }
-    
+
     public void ReturnToMainMenu()
     {
         Debug.Log("ReturnToMainMenu called");
         bool wasGameOver = isGameOver;
-        
-        Time.timeScale = originalTimeScale;
+
+        Time.timeScale = 1f;
         isGamePaused = false;
         isGameOver = false;
-        
+
         if (!wasGameOver)
         {
             SaveGame();
@@ -188,7 +189,7 @@ public class GameManager : MonoBehaviour
             }
             Debug.Log("Save data cleared - returning from game over");
         }
-        
+
         Debug.Log("About to load MainMenu scene");
         try
         {
@@ -198,7 +199,7 @@ public class GameManager : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError($"Failed to load MainMenu scene by name: {e.Message}");
-            
+
             try
             {
                 Debug.Log("Trying to load scene by index 0");
@@ -209,14 +210,14 @@ public class GameManager : MonoBehaviour
                 Debug.LogError($"Failed to load scene by index: {e2.Message}");
             }
         }
-        
+
         Debug.Log("Returning to Main Menu");
     }
-    
+
     public void SaveAndExit()
     {
         if (isSavingAndExiting) return;
-        
+
         Debug.Log("Save and Exit to Main Menu");
         isSavingAndExiting = true;
         if (SaveSystemManager.Instance != null)
@@ -224,21 +225,21 @@ public class GameManager : MonoBehaviour
             SaveSystemManager.Instance.SaveGameState();
             Debug.Log("Save completed, now returning to main menu");
         }
-        
+
         isSavingAndExiting = false;
         ReturnToMainMenu();
     }
-    
+
     public bool IsGamePaused()
     {
         return isGamePaused || isGameOver;
     }
-    
+
     public bool IsGameOver()
     {
         return isGameOver;
     }
-    
+
     void OnDestroy()
     {
         if (Instance == this)
@@ -246,7 +247,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
-    
+
     private Transform FindChildRecursive(Transform parent, string name)
     {
         foreach (Transform child in parent)
@@ -255,7 +256,7 @@ public class GameManager : MonoBehaviour
             {
                 return child;
             }
-            
+
             Transform found = FindChildRecursive(child, name);
             if (found != null)
             {
@@ -264,4 +265,27 @@ public class GameManager : MonoBehaviour
         }
         return null;
     }
+    
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Force sane defaults on every scene load
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+
+        isGamePaused = false;
+        isGameOver = false;
+
+        Debug.Log($"Scene '{scene.name}' loaded. Ensured timeScale=1, audio unpaused.");
+    }
+
 }
