@@ -7,6 +7,10 @@ public class ItemSpawner : MonoBehaviour
     public GameObject ItemPrefab;
     void Start()
     {
+        if (GameObject.Find("Player2"))
+        {
+            return;
+        }
         int r = Random.Range(0, 9);
         if (r == 5)
         {

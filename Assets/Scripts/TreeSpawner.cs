@@ -33,7 +33,13 @@ public class TreeSpawner : MonoBehaviour
         {
             maxAttempts--;
 
-            int randomIndex = Random.Range(0, treePrefabs.Length);
+            int randomIndex;
+            if (GameObject.Find("Player2"))
+            {
+                randomIndex = Random.Range(0, treePrefabs.Length - 1);
+            }
+            else randomIndex = Random.Range(0, treePrefabs.Length);
+            
             float baseX = Mathf.Round(Random.Range(-11f, 11f));
             float baseY = transform.position.y;
 

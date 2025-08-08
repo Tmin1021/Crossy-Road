@@ -9,12 +9,13 @@ public class ScoreCoinManager : MonoBehaviour
     private int coins;
     void Start()
     {
-        score = 0;
-        coins = 0; // Tmin: Connect the global variable here
         if (PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1)
         {
             gameObject.SetActive(false);
+            return;
         }
+        score = 0;
+        coins = 0; // Tmin: Connect the global variable here
         UpdateScoreText();
         UpdateCoinText();
     }
