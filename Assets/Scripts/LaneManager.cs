@@ -8,7 +8,7 @@ public class LaneManager : MonoBehaviour
 {
     public GameObject[] lanePrefabs;
     public GameObject[] snowLanePrefabs;
-    public int numberOfLanes = 15;
+    public int numberOfLanes = 18;
     public float laneWidth = 1.0f;
     private List<GameObject> activeLanes = new List<GameObject>();
     private float lastSpawnY;

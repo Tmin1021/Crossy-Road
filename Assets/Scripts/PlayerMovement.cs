@@ -302,7 +302,7 @@ public class PlayerMovement : MonoBehaviour
             lastLaneY = transform.position.y;
         }
 
-        if (direction == Vector3.up && transform.position.y >= laneManager.getLastSpawnY() - 3)
+        if (direction == Vector3.up && transform.position.y >= laneManager.getLastSpawnY() - 4)
         {
             laneManager.SpawnLane();
             cameraAutoScroll.MoveUpOneLane();

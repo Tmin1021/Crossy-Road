@@ -16,13 +16,13 @@ public class SpinningLily : MonoBehaviour
                 angle = 0f;
                 break;
             case 1:
-                angle = 5f;
-                break;
-            case 2:
                 angle = 10f;
                 break;
+            case 2:
+                angle = 20f;
+                break;
             case 3:
-                angle = 15f;
+                angle = 30f;
                 break;
 
         }
@@ -32,6 +32,6 @@ public class SpinningLily : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(0f, 0f, 0.3f);
+        transform.Rotate(0f, 0f, 0.2f);
     }
 }
