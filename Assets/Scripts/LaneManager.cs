@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -46,7 +45,7 @@ public class LaneManager : MonoBehaviour
     private void SpawnGrassLane()
     {
         GameObject lanePrefab;
-        if (playerId == 0)
+        if (playerId == 0 || playerId == 4)
         {
             lanePrefab = snowLanePrefabs[1];
         }
@@ -65,7 +64,7 @@ public class LaneManager : MonoBehaviour
     {
         int randomIndex = Random.Range(0, lanePrefabs.Length);
         GameObject lanePrefab;
-        if (playerId == 0)
+        if (playerId == 0 || playerId == 4)
         {
             lanePrefab = snowLanePrefabs[randomIndex];
         }
@@ -101,7 +100,7 @@ public class LaneManager : MonoBehaviour
             }
 
             // Then handle the snow/grass lane conditions
-            if (playerId == 0) // Snow player
+            if (playerId == 0 || playerId == 4) // Snow player
             {
                 if (lastLaneName != "SnowGrassLane(Clone)" && lastLaneName != "SnowGrassLaneLight(Clone)" && randomIndex == 1)
                 {

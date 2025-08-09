@@ -32,19 +32,6 @@ public class SpinningLily : MonoBehaviour
 
     void Update()
     {
-        float angle = 0.3f;
-        switch (randomIndex)
-        {
-            case 0:
-                angle = 0.3f;
-                break;
-            case 1:
-                angle = 0.4f;
-                break;
-            case 2:
-                angle = 0.5f;
-                break; 
-        }
-        transform.Rotate(0f, 0f, angle);
+        transform.Rotate(0f, 0f, 0.3f);
     }
 }

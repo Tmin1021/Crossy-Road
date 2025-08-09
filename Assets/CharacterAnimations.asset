@@ -42,12 +42,12 @@ MonoBehaviour:
     rightSprite: {fileID: 21300000, guid: 0f8b7571df6e0934fb45c74c5ca07e03, type: 3}
     dieSprite: {fileID: 21300000, guid: 58a8a961addd3e3428470a5db79a514d, type: 3}
   - characterName: Penguin
-    idleSprite: {fileID: -1463702339, guid: af5a566fb881e0444aac260b33620976, type: 3}
-    backSprite: {fileID: -1093852686, guid: af5a566fb881e0444aac260b33620976, type: 3}
-    frontSprite: {fileID: -1463702339, guid: af5a566fb881e0444aac260b33620976, type: 3}
-    leftSprite: {fileID: -1093852686, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    idleSprite: {fileID: 21300000, guid: cd8ece595e2f5204e92e83146a3f8b63, type: 3}
+    backSprite: {fileID: 21300000, guid: cd8ece595e2f5204e92e83146a3f8b63, type: 3}
+    frontSprite: {fileID: 21300000, guid: f7ab5dc723fcdb7409d65459b93446de, type: 3}
+    leftSprite: {fileID: 21300000, guid: 0ed5f3c5ebe468147ab24b7d77a09954, type: 3}
     rightSprite: {fileID: -841648408, guid: af5a566fb881e0444aac260b33620976, type: 3}
-    dieSprite: {fileID: 21300000, guid: caebd5e9722701f419eca96b9e1af67d, type: 3}
+    dieSprite: {fileID: 21300000, guid: 67fccdf68e0ae1346bee5267802e6602, type: 3}
   - characterName: Chichi
     idleSprite: {fileID: 195140183, guid: af5a566fb881e0444aac260b33620976, type: 3}
     backSprite: {fileID: -1157582529, guid: af5a566fb881e0444aac260b33620976, type: 3}
@@ -59,9 +59,9 @@ MonoBehaviour:
     idleSprite: {fileID: -1747715291, guid: af5a566fb881e0444aac260b33620976, type: 3}
     backSprite: {fileID: -1125238470, guid: af5a566fb881e0444aac260b33620976, type: 3}
     frontSprite: {fileID: -1747715291, guid: af5a566fb881e0444aac260b33620976, type: 3}
-    leftSprite: {fileID: -1125238470, guid: af5a566fb881e0444aac260b33620976, type: 3}
-    rightSprite: {fileID: -1014341969, guid: af5a566fb881e0444aac260b33620976, type: 3}
-    dieSprite: {fileID: 21300000, guid: caebd5e9722701f419eca96b9e1af67d, type: 3}
+    leftSprite: {fileID: -1014341969, guid: af5a566fb881e0444aac260b33620976, type: 3}
+    rightSprite: {fileID: 21300000, guid: ba9442ba0d3aaaa45a0d948ba3d6f57d, type: 3}
+    dieSprite: {fileID: 21300000, guid: 25c4168ebad7c35429172704828a2d0c, type: 3}
   - characterName: Lion
     idleSprite: {fileID: 21300000, guid: 0ca263472466de34fa936c94da89fea0, type: 3}
     backSprite: {fileID: 21300000, guid: 0ca263472466de34fa936c94da89fea0, type: 3}
