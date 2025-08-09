@@ -1,0 +1,35 @@
+# Crossy Road Style Game
+
+## Student Information
+- **22125090** - Nguyen Ngoc Duy Tan  
+- **22125112** - Duong Thanh Trieu  
+- **22125057** - Ngo Quang Minh  
+- **22125003** - Tran Cong Lam Anh  
+
+## Introduction
+This is a 2D game inspired by Crossy Road, developed in Unity.  
+The player controls a character to move forward while avoiding obstacles such as cars and collecting coins for points.  
+
+### Key Features
+- **Smooth Camera Follow** using Cinemachine 2D.
+- **Dynamic Sorting Order** for correct sprite layering.
+- **Optimized Spawning** with object pooling.
+- **Power-ups**:
+  - **Magnet**: Attracts nearby coins automatically.
+  - **Shield**: Grants temporary invincibility against obstacles.
+- **Coin System**: Coins collected can be used to purchase new skins.
+- **Skin System**: Each skin comes with its own unique theme.
+
+## Unity Version
+Unity **2022.3.31f1**
+
+## Resources
+All resource assets were created entirely by our team.
+
+## How to Play
+- **Move Forward**: W / Up Arrow  
+- **Move Left**: A / Left Arrow  
+- **Move Right**: D / Right Arrow  
+- **Move Backward**: S / Down Arrow  
+
+Avoid obstacles, collect coins, use power-ups, and aim for the highest score!
