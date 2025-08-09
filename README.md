@@ -8,7 +8,7 @@
 
 ## Introduction
 This is a 2D game inspired by Crossy Road, developed in Unity.  
-The player controls a character to move forward while avoiding obstacles such as cars and collecting coins for points.  
+The player controls a character to move forward while avoiding obstacles such as cars,collecting coins and getting points as high as possible.  
 
 ### Key Features
 - **Dynamic Sorting Order** for correct sprite layering.
