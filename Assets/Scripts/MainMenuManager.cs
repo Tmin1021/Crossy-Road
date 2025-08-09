@@ -150,7 +150,6 @@ public class MainMenuManager : MonoBehaviour
     {
         Debug.Log("[MainMenuManager] Opening scoreboard");
 
-        // Find DatabaseManager to check authentication
         DatabaseManager databaseManager = FindObjectOfType<DatabaseManager>();
         
         if (databaseManager == null)
@@ -159,7 +158,6 @@ public class MainMenuManager : MonoBehaviour
             return;
         }
 
-        // Check if user is authenticated
         if (!databaseManager.IsUserAuthenticated())
         {
             Debug.LogWarning("[MainMenuManager] User not authenticated. Cannot access scoreboard.");

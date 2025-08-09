@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -133,6 +134,7 @@ public class GameManager : MonoBehaviour
         {
             SaveSystemManager.Instance.ClearSaveData();
         }
+        
         if (gameOverPanel == null)
         {
             Canvas[] canvases = FindObjectsOfType<Canvas>(true); 
@@ -157,6 +159,36 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+            
+            bool isTwoPlayerMode = PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1;
+            if (!isTwoPlayerMode)
+            {
+                ScoreCoinManager scoreManager = FindObjectOfType<ScoreCoinManager>();
+                
+                if (scoreManager != null && scoreManager.enabled)
+                {
+                    int currentScore = scoreManager.GetCurrentScore();
+                    int currentCoins = scoreManager.GetCurrentCoins();
+                    
+                    if (scoreManager.scoreText != null)
+                    {
+                        scoreManager.scoreText.text = $"SCORE: {currentScore}";
+                    }
+                    
+                    if (scoreManager.coinText != null)
+                    {
+                        scoreManager.coinText.text = $"COINS: {currentCoins}";
+                    }
+                }
+                else
+                {
+                    Debug.Log("[GameManager] ScoreCoinManager not found or disabled - skipping score/coin update");
+                }
+            }
+            else
+            {
+                Debug.Log("[GameManager] Two-player mode - score/coin display remains disabled");
+            }
         }
         
         if (pausePanel != null)
@@ -212,8 +244,9 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("MainMenu");
         }
-        catch (System.Exception e)
+        catch (System.Exception ex)
         {   
+            Debug.LogError($"Failed to load MainMenu scene: {ex.Message}");
             try
             {
                 SceneManager.LoadScene(0);

@@ -9,11 +9,11 @@ public class ScoreCoinManager : MonoBehaviour
     
     [Header("Auto-Save Settings")]
     public bool autoSaveOnCoinChange = true;
-    public float saveDelay = 2f; // Delay before saving to avoid too frequent saves
+    public float saveDelay = 2f; 
     
     private int score;
     private int coins;
-    private int totalCoinsEarned; // Track total coins earned this session
+    private int totalCoinsEarned; 
     private DatabaseManager databaseManager;
     private float lastCoinChangeTime;
     private bool hasPendingSave;
@@ -24,11 +24,9 @@ public class ScoreCoinManager : MonoBehaviour
         coins = 0;
         totalCoinsEarned = 0;
         
-        // Try to get DatabaseManager instance (singleton)
         databaseManager = DatabaseManager.Instance;
         if (databaseManager == null)
         {
-            // Fallback to FindObjectOfType if singleton not available
             databaseManager = FindObjectOfType<DatabaseManager>();
         }
         
@@ -44,7 +42,19 @@ public class ScoreCoinManager : MonoBehaviour
         
         if (PlayerPrefs.GetInt("IsTwoPlayerMode", 0) == 1)
         {
-            gameObject.SetActive(false);
+            Debug.Log("[ScoreCoinManager] Two-player mode detected - disabling score/coin tracking and UI");
+            
+            if (scoreText != null)
+            {
+                scoreText.gameObject.SetActive(false);
+            }
+            
+            if (coinText != null)
+            {
+                coinText.gameObject.SetActive(false);
+            }
+            
+            this.enabled = false;
             return;
         }
 
@@ -54,6 +64,9 @@ public class ScoreCoinManager : MonoBehaviour
     
     void Update()
     {
+        if (!this.enabled)
+            return;
+            
         if (hasPendingSave && Time.time - lastCoinChangeTime >= saveDelay)
         {
             SaveProgressToDatabase();
@@ -63,11 +76,13 @@ public class ScoreCoinManager : MonoBehaviour
 
     public void IncreaseScore(int amount)
     {
+        if (!this.enabled)
+            return;
+            
         score += amount;
         Debug.Log($"[ScoreCoinManager] Score increased by {amount}, total score: {score}");
         UpdateScoreText();
         
-        // Save immediately when score increases (typically at game end)
         if (databaseManager != null)
         {
             Debug.Log("[ScoreCoinManager] Score increased - saving to database immediately");
@@ -81,6 +96,9 @@ public class ScoreCoinManager : MonoBehaviour
     
     public void IncreaseCoin(int amount)
     {
+        if (!this.enabled)
+            return;
+            
         coins += amount;
         totalCoinsEarned += amount;
         UpdateCoinText();
@@ -95,6 +113,9 @@ public class ScoreCoinManager : MonoBehaviour
 
     public void SetCoins(int newCoins)
     {
+        if (!this.enabled)
+            return;
+            
         coins = newCoins;
         UpdateCoinText();
     }
