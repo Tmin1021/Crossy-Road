@@ -629,6 +629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2008288518}
   - component: {fileID: 2008288519}
+  - component: {fileID: 2008288520}
   m_Layer: 5
   m_Name: SettingMenuManager
   m_TagString: Untagged
@@ -665,6 +666,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f89b1d08c1f50214bb06a1cc8db44c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextScreenButton: {fileID: 881710620}
+  returnButton: {fileID: 850336057}
+  htpSceneName: HowToPlay2
+  mainMenu: MainMenu
+--- !u!114 &2008288520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008288517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300516ff1dbeba340b938678d78c9a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nextScreenButton: {fileID: 881710620}
